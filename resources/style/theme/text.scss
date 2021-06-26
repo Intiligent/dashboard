@@ -1,0 +1,235 @@
+@import "common/var";
+
+// Name:            Text
+// Description:     Utilities for text
+//
+// Component:       `el-text-*`
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// $text-lead-font-size:                            $global-large-font-size !default;
+// $text-lead-line-height:                          1.5 !default;
+// $text-lead-color:                                $global-emphasis-color !default;
+
+// $text-meta-font-size:                            $global-small-font-size !default;
+// $text-meta-line-height:                          1.4 !default;
+// $text-meta-color:                                $color-muted !default;
+//
+$text-small-font-size:                           $global-small-font-size !default;
+// $text-small-line-height:                         1.5 !default;
+//
+// $text-large-font-size:                           $global-large-font-size !default;
+// $text-large-line-height:                         1.5 !default;
+
+$text-muted-color:                               $color-muted !default;
+$text-emphasis-color:                            $global-emphasis-color !default;
+$text-primary-color:                             $global-primary-background !default;
+$text-secondary-color:                           $global-secondary-background !default;
+$text-success-color:                             $global-success-background !default;
+$text-warning-color:                             $global-warning-background !default;
+$text-danger-color:                              $global-danger-background !default;
+
+$text-background-color:                          $global-primary-background !default;
+
+/* ========================================================================
+   Component: Text
+ ========================================================================== */
+
+
+/* Style modifiers
+ ========================================================================== */
+
+// .el-text-lead {
+//     font-size: $text-lead-font-size;
+//     line-height: $text-lead-line-height;
+//     color: $text-lead-color;
+// }
+//
+// .el-text-meta {
+//     font-size: $text-meta-font-size;
+//     line-height: $text-meta-line-height;
+//     color: $text-meta-color;
+// }
+
+/* Size modifiers
+ ========================================================================== */
+
+.el-text-small {
+    font-size: $text-small-font-size;
+    // line-height: $text-small-line-height;
+}
+
+// .el-text-large {
+//     font-size: $text-large-font-size;
+//     line-height: $text-large-line-height;
+// }
+
+.el-text-default {
+    font-size: $global-font-size;
+    line-height: $global-line-height;
+}
+
+/* Weight modifier
+ ========================================================================== */
+
+.el-text-light { font-weight: 300; }
+.el-text-normal { font-weight: 400; }
+.el-text-bold { font-weight: 700; }
+
+.el-text-lighter { font-weight: lighter; }
+.el-text-bolder { font-weight: bolder; }
+
+/* Style modifier
+ ========================================================================== */
+
+.el-text-italic { font-style: italic; }
+
+/* Transform modifier
+ ========================================================================== */
+
+.el-text-capitalize { text-transform: capitalize !important; }
+.el-text-uppercase { text-transform: uppercase !important; }
+.el-text-lowercase { text-transform: lowercase !important; }
+
+/* Color modifiers
+ ========================================================================== */
+
+.el-text-muted { color: $text-muted-color !important; }
+.el-text-emphasis { color: $text-emphasis-color !important; }
+.el-text-primary { color: $text-primary-color !important; }
+.el-text-secondary { color: $text-secondary-color !important; }
+.el-text-success { color: $text-success-color !important; }
+.el-text-warning { color: $text-warning-color !important; }
+.el-text-danger { color: $text-danger-color !important; }
+
+/* Background modifier
+ ========================================================================== */
+
+/*
+ * 1. The background clips to the foreground text. Works in Chrome, Firefox, Safari, Edge and Opera
+ *    Default color is set to transparent
+ * 2. Container fits the text
+ * 3. Fallback color for IE11
+ */
+
+.el-text-background {
+    /* 1 */
+    -webkit-background-clip: text;
+    /* 2 */
+    display: inline-block;
+    /* 3 */
+    color: $text-background-color !important;
+}
+
+@supports (-webkit-background-clip: text) {
+
+    .el-text-background {
+        background-color: $text-background-color;
+        color: transparent !important;
+    }
+
+}
+
+/* Alignment modifiers
+ ========================================================================== */
+
+.el-text-left { text-align: left !important; }
+.el-text-right { text-align: right !important; }
+.el-text-center { text-align: center !important; }
+.el-text-justify { text-align: justify !important; }
+
+/* Phone landscape and bigger */
+@media (min-width: $breakpoint-small) {
+
+    .el-text-left\@s { text-align: left !important; }
+    .el-text-right\@s { text-align: right !important; }
+    .el-text-center\@s { text-align: center !important; }
+
+}
+
+/* Tablet landscape and bigger */
+@media (min-width: $breakpoint-medium) {
+
+    .el-text-left\@md { text-align: left !important; }
+    .el-text-right\@md { text-align: right !important; }
+    .el-text-center\@md { text-align: center !important; }
+
+}
+
+/* Desktop and bigger */
+@media (min-width: $breakpoint-large) {
+
+    .el-text-left\@l { text-align: left !important; }
+    .el-text-right\@l { text-align: right !important; }
+    .el-text-center\@l { text-align: center !important; }
+
+}
+
+/* Large screen and bigger */
+@media (min-width: $breakpoint-xlarge) {
+
+    .el-text-left\@xl { text-align: left !important; }
+    .el-text-right\@xl { text-align: right !important; }
+    .el-text-center\@xl { text-align: center !important; }
+
+}
+
+/*
+ * Vertical
+ */
+
+.el-text-top { vertical-align: top !important; }
+.el-text-middle { vertical-align: middle !important; }
+.el-text-bottom { vertical-align: bottom !important; }
+.el-text-baseline { vertical-align: baseline !important; }
+
+/* Wrap modifiers
+ ========================================================================== */
+
+/*
+ * Prevent text from wrapping onto multiple lines
+ */
+
+.el-text-nowrap { white-space: nowrap; }
+
+/*
+ * 1. Make sure a max-width is set after which truncation can occur
+ * 2. Prevent text from wrapping onto multiple lines, and truncate with an ellipsis
+ * 3. Fix for table cells
+ */
+
+.el-text-truncate {
+    /* 1 */
+    max-width: 100%;
+    /* 2 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 2 */
+th.el-text-truncate,
+td.el-text-truncate { max-width: 0; }
+
+/*
+ * 1. Wrap long words onto the next line and break them if they are too long to fit
+ * 2. Legacy `word-wrap` as fallback for `overflow-wrap`
+ * 3. Fix `overflow-wrap` which doesn't work with table cells in Chrome, Opera, IE11 and Edge
+ *    Must use `break-all` to support IE11 and Edge
+ * Note: Not using `hyphens: auto;` because it hyphenates text even if not needed
+ */
+
+.el-text-break {
+    /* 1 */
+    overflow-wrap: break-word;
+    /* 2 */
+    word-wrap: break-word;
+}
+
+/* 3 */
+th.el-text-break,
+td.el-text-break { word-break: break-all; }

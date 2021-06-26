@@ -1,0 +1,151 @@
+@import "../theme/element";
+@import "../theme/fonts.scss";
+@import "~element-ui/packages/theme-chalk/src/reset.scss";
+@import "~element-ui/packages/theme-chalk/src/utility.scss";
+@import "~element-ui/packages/theme-chalk/src/common/transition.scss";
+@import "~element-ui/packages/theme-chalk/src/text.scss";
+@import "~element-ui/packages/theme-chalk/src/container.scss";
+@import "~element-ui/packages/theme-chalk/src/margin.scss";
+@import "~element-ui/packages/theme-chalk/src/width.scss";
+@import "~element-ui/packages/theme-chalk/src/height.scss";
+@import "~element-ui/packages/theme-chalk/src/grid.scss";
+@import "~element-ui/packages/theme-chalk/src/flex.scss";
+@import "../theme/icomoon.scss";
+// @import "~element-ui/packages/theme-chalk/src/icomoon.scss";
+@import "~element-ui/packages/theme-chalk/src/avatar.scss";
+@import "~element-ui/packages/theme-chalk/src/badge.scss";
+@import "~element-ui/packages/theme-chalk/src/button.scss";
+@import "~element-ui/packages/theme-chalk/src/input.scss";
+@import "~element-ui/packages/theme-chalk/src/breadcrumb.scss";
+@import "~element-ui/packages/theme-chalk/src/dropdown.scss";
+@import "~element-ui/packages/theme-chalk/src/menu.scss";
+@import "~element-ui/packages/theme-chalk/src/menu-item-group.scss";
+@import "~element-ui/packages/theme-chalk/src/tooltip.scss";
+
+// @import "../theme/common/var.scss";
+// @import "../theme/fonts.scss";
+// @import "../theme/reset.scss";
+// @import "../theme/base.scss";
+// @import "../theme/text.scss";
+// @import "../theme/container.scss";
+// @import "../theme/margin.scss";
+// @import "../theme/width.scss";
+// @import "../theme/height.scss";
+// @import "../theme/grid.scss";
+// @import "../theme/flex.scss";
+// @import "../theme/icomoon.scss";
+// @import "../theme/avatar.scss";
+// @import "../theme/badge.scss";
+// @import "../theme/button.scss";
+// @import "../theme/input.scss";
+// @import "../theme/breadcrumb.scss";
+// @import "../theme/dropdown.scss";
+// @import "../theme/menu.scss";
+// @import "../theme/menu-item-group.scss";
+// @import "../theme/tooltip.scss";
+
+$--header-container-height: 70px;
+$--sidebar-container-width: 280px;
+
+.container-expand-wide {
+    .header-container, .content-container {
+        padding-left: 0;
+        padding-right: 0;
+        max-width: none;
+    }
+}
+.container-expand-full {
+    .header-container, .content-container {
+        padding-left: 0;
+        padding-right: 0;
+        max-width: none;
+    }
+    .container-body {
+        max-width: none;
+    }
+}
+
+.header-container {
+    height: $--header-container-height;
+    position: relative;
+    & > nav {
+        height: inherit;
+        border-bottom: $--border-base;
+        margin: 0;
+    }
+}
+
+.header-logo-container {
+    width: 100%;
+    max-width: $--sidebar-container-width;
+    height: inherit;
+    padding: 0;
+    & > a {
+        height: inherit;
+        display: block;
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: $--color-light;
+        &:hover {
+            background-color: $--color-navigation-hover; // $--color-primary-light-9;
+        }
+    }
+    .el-avatar {
+        background-color: $--color-white;
+        img {
+            padding: 5px;
+        }
+    }
+    .logo-title {
+        font-weight: 600;
+        color: $--color-text-regular;
+        margin-bottom: 5px;
+    }
+    .logo-description {
+        font-size: $--font-size-small;
+        font-weight: 400;
+        color: $--color-text-secondary;
+    }
+}
+
+.account-dropdown-card {
+    padding-right: 15px;
+    padding-left: 15px;
+    display: block;
+    cursor: pointer;
+    transition: $--all-transition;
+    &:hover {
+        background-color: $--color-primary-light-9;
+        transition: $--all-transition;
+    }
+}
+
+.content-container {
+    & > .el-grid {
+        min-height: calc(100vh - #{$--header-container-height});
+    }
+}
+
+.sidebar-container {
+    width: 100%;
+    max-width: $--sidebar-container-width;
+    background-color: $--color-light;
+}
+
+.blank-result {
+    text-align: center;
+    padding-top: 200px;
+    color: #aaa;
+    position: relative;
+    &::before {
+        content: '';
+        position: absolute;
+        top: 25px;
+        left: calc(50% - 93px);
+        width: 185px;
+        height: 152px;
+        background-image: url("/img/dashboard/empty.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}

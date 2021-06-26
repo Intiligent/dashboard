@@ -1,0 +1,48 @@
+@import "common/var";
+
+// Name:            Height
+// Description:     Utilities for heights
+//
+// Component:       `el-height-*`
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+$height-small-height:                            150px !default;
+$height-medium-height:                           300px !default;
+$height-large-height:                            450px !default;
+
+/* ========================================================================
+   Component: Height
+ ========================================================================== */
+
+[class*='el-height'] { box-sizing: border-box; }
+
+/*
+ * Only works if parent element has a height set
+ */
+
+.el-height-1-1 { height: 100%; }
+.el-height-inherit { height: inherit; }
+
+/*
+ * Useful to create image teasers
+ */
+
+.el-height-viewport { min-height: 100vh; }
+
+/*
+ * Pixel
+ * Useful for `overflow: auto`
+ */
+
+.el-height-small { height: $height-small-height; }
+.el-height-medium { height: $height-medium-height; }
+.el-height-large { height: $height-large-height; }
+
+.el-height-max-small { max-height: $height-small-height; }
+.el-height-max-medium { max-height: $height-medium-height; }
+.el-height-max-large { max-height: $height-large-height; }

@@ -1,0 +1,253 @@
+@import "common/var";
+
+// Name:            Position
+// Description:     Utilities to position content
+//
+// Component:       `el-position-absolute`
+//                  `el-position-relative`
+//                  `el-position-z-index`
+//                  `el-position-top`
+//                  `el-position-bottom`
+//                  `el-position-left`
+//                  `el-position-right`
+//                  `el-position-top-left`
+//                  `el-position-top-center`
+//                  `el-position-top-right`
+//                  `el-position-bottom-left`
+//                  `el-position-bottom-center`
+//                  `el-position-bottom-right`
+//                  `el-position-center`
+//                  `el-position-center-left`
+//                  `el-position-center-right`
+//                  `el-position-cover`
+//
+// Modifiers:       `el-position-small`
+//                  `el-position-medium`
+//                  `el-position-large`
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+$position-small-margin:                                 $global-small-gutter !default;
+$position-medium-margin:                                $global-gutter !default;
+$position-large-margin:                                 $global-gutter !default;
+$position-large-margin-l:                               50px !default;
+
+/* ========================================================================
+   Component: Position
+ ========================================================================== */
+
+
+/* Directions
+ ========================================================================== */
+
+/*
+ * 1. Prevent content overflow if `max-width: 100%` is used inside position container.
+ */
+
+[class*='el-position-top'],
+[class*='el-position-bottom'],
+[class*='el-position-left'],
+[class*='el-position-right'],
+[class*='el-position-center'] {
+    position: absolute !important;
+    /* 1 */
+    max-width: 100%;
+}
+
+/* Edges
+ ========================================================================== */
+
+/* Don't use `width: 100%` because it is wrong if the parent has padding. */
+.el-position-top {
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.el-position-bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.el-position-left {
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.el-position-right {
+    top: 0;
+    bottom: 0;
+    right: 0;
+}
+
+/* Corners
+ ========================================================================== */
+
+.el-position-top-left {
+    top: 0;
+    left: 0;
+}
+
+.el-position-top-right {
+    top: 0;
+    right: 0;
+}
+
+.el-position-bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.el-position-bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+/*
+ * Center
+ * 1. Fix text wrapping if content is larger than 50% of the container.
+ */
+
+.el-position-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    /* 1 */
+    width: max-content;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Vertical */
+[class*='el-position-center-left'],
+[class*='el-position-center-right'] {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.el-position-center-left { left: 0; }
+.el-position-center-right { right: 0; }
+
+.el-position-center-left-out {
+    right: 100%;
+    width: max-content;
+}
+
+.el-position-center-right-out {
+    left: 100%;
+    width: max-content;
+}
+
+/* Horizontal */
+.el-position-top-center,
+.el-position-bottom-center {
+    left: 50%;
+    transform: translateX(-50%);
+    /* 1 */
+    width: max-content;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.el-position-top-center { top: 0; }
+.el-position-bottom-center { bottom: 0; }
+
+/* Cover
+ ========================================================================== */
+
+.el-position-cover {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/* Utility
+ ========================================================================== */
+
+.el-position-relative { position: relative !important; }
+
+.el-position-absolute { position: absolute !important; }
+
+.el-position-fixed { position: fixed !important; }
+
+.el-position-z-index { z-index: 1; }
+
+/* Margin modifier
+ ========================================================================== */
+
+/*
+ * Small
+ */
+
+.el-position-small {
+    max-width: unquote('calc(100% - (#{$position-small-margin} * 2))');
+    margin: $position-small-margin;
+}
+
+.el-position-small.el-position-center { transform: translate(-50%, -50%) translate(-$position-small-margin, (-$position-small-margin)); }
+
+.el-position-small[class*='el-position-center-left'],
+.el-position-small[class*='el-position-center-right'] { transform: translateY(-50%) translateY(-$position-small-margin); }
+
+.el-position-small.el-position-top-center,
+.el-position-small.el-position-bottom-center { transform: translateX(-50%) translateX(-$position-small-margin); }
+
+/*
+ * Medium
+ */
+
+.el-position-medium {
+    max-width: unquote('calc(100% - (#{$position-medium-margin} * 2))');
+    margin: $position-medium-margin;
+}
+
+.el-position-medium.el-position-center { transform: translate(-50%, -50%) translate(-$position-medium-margin, (-$position-medium-margin)); }
+
+.el-position-medium[class*='el-position-center-left'],
+.el-position-medium[class*='el-position-center-right'] { transform: translateY(-50%) translateY(-$position-medium-margin); }
+
+.el-position-medium.el-position-top-center,
+.el-position-medium.el-position-bottom-center { transform: translateX(-50%) translateX(-$position-medium-margin); }
+
+/*
+ * Large
+ */
+
+.el-position-large {
+    max-width: unquote('calc(100% - (#{$position-large-margin} * 2))');
+    margin: $position-large-margin;
+}
+
+.el-position-large.el-position-center { transform: translate(-50%, -50%) translate(-$position-large-margin, (-$position-large-margin)); }
+
+.el-position-large[class*='el-position-center-left'],
+.el-position-large[class*='el-position-center-right'] { transform: translateY(-50%) translateY(-$position-large-margin); }
+
+.el-position-large.el-position-top-center,
+.el-position-large.el-position-bottom-center { transform: translateX(-50%) translateX(-$position-large-margin); }
+
+/* Desktop and bigger */
+@media (min-width: $breakpoint-large) {
+
+    .el-position-large {
+        max-width: unquote('calc(100% - (#{$position-large-margin-l} * 2))');
+        margin: $position-large-margin-l;
+    }
+
+    .el-position-large.el-position-center { transform: translate(-50%, -50%) translate(-$position-large-margin-l, (-$position-large-margin-l)); }
+
+    .el-position-large[class*='el-position-center-left'],
+    .el-position-large[class*='el-position-center-right'] { transform: translateY(-50%) translateY(-$position-large-margin-l); }
+
+    .el-position-large.el-position-top-center,
+    .el-position-large.el-position-bottom-center { transform: translateX(-50%) translateX(-$position-large-margin-l); }
+
+}
