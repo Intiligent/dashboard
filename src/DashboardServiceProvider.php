@@ -16,20 +16,20 @@ class DashboardServiceProvider extends ServiceProvider
             // views, style, script, fonts, img
             $this->publishes([
                 __DIR__.'/../config/dashboard.php' => config_path('dashboard.php'),
-                __DIR__.'/../resources' => base_path('dashboard2/resources'),
-                __DIR__.'/../routes' => base_path('dashboard2/routes'),
-                __DIR__.'/Events' => base_path('dashboard2/Events'),
-                __DIR__.'/Http' => base_path('dashboard2/Http'),
-                __DIR__.'/Listeners' => base_path('dashboard2/Listeners'),
-                __DIR__.'/Models' => base_path('dashboard2/Models'),
-                __DIR__.'/Policies' => base_path('dashboard2/Policies'),
-                __DIR__.'/Providers' => base_path('dashboard2/Providers'),
-                __DIR__.'/Rules' => base_path('dashboard2/Rules'),
+                __DIR__.'/../resources' => base_path('dashboard/resources'),
+                __DIR__.'/../routes' => base_path('dashboard/routes'),
+                __DIR__.'/Events' => base_path('dashboard/Events'),
+                __DIR__.'/Http' => base_path('dashboard/Http'),
+                __DIR__.'/Listeners' => base_path('dashboard/Listeners'),
+                __DIR__.'/Models' => base_path('dashboard/Models'),
+                __DIR__.'/Policies' => base_path('dashboard/Policies'),
+                __DIR__.'/Providers' => base_path('dashboard/Providers'),
+                __DIR__.'/Rules' => base_path('dashboard/Rules'),
 
-                __DIR__.'/../tests' => base_path('dashboard2/tests'),
+                __DIR__.'/../tests' => base_path('dashboard/tests'),
 
-                __DIR__.'/../database/migrations' => database_path('migrations2'),
-                __DIR__.'/../database/seeders' => database_path('seeders2'),
+                __DIR__.'/../database/migrations' => database_path('migrations'),
+                __DIR__.'/../database/seeders' => database_path('seeders'),
 
                 __DIR__.'/../webpack.mix.js' => base_path('webpack.mix.js'),
             ]);
