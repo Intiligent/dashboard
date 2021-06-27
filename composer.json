@@ -9,7 +9,8 @@
         "laravel",
         "cms",
         "admin",
-        "admin-panel"
+        "admin-panel",
+        "panel"
     ],
     "homepage": "https://github.com/Intiligent/dashboard",
     "support": {
