@@ -24,7 +24,7 @@ php artisan dashboard:install
 },
 ```
 
-4. Register Service Provider in config/app.php in section `providers`:
+4. Register Service Provider in `config/app.php` in section `providers`:
 
 ```php
 'providers' => [
@@ -37,6 +37,41 @@ php artisan dashboard:install
     Dashboard\Providers\RouteServiceProvider::class,
     Dashboard\Providers\ViewServiceProvider::class,
 ],
+```
+
+5. Add guards to `config/auth.php`
+
+```php
+'guards' => [
+    // ...
+    'dashboard' => [
+        'driver' => 'session',
+        'provider' => 'users',
+    ],
+    'dashboardapi' => [
+        'driver' => 'token', // passport
+        'provider' => 'users',
+    ],
+],
+```
+
+6. Add `dashboard` log driver to `config/logging.php`
+
+```php
+'chanels' => [
+    //...
+    'dashboard' => [
+        'driver' => 'single',
+        'path' => storage_path('logs/dashboard.log'),
+        'level' => 'debug',
+    ],
+],
+```
+
+7. Require constants at the top of file `bootstrap/app.php`
+
+```php
+require_once __DIR__ . '/constants.php';
 ```
 
 # Trouble Shooting Guide

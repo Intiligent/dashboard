@@ -32,12 +32,14 @@ class DashboardServiceProvider extends ServiceProvider
                 __DIR__.'/../database/seeders' => database_path('seeders'),
 
                 __DIR__.'/../webpack.mix.js' => base_path('webpack.mix.js'),
+
+                __DIR__.'/../bootstrap/constants.php' => base_path('bootstrap/constants.php'),
             ]);
         }
     }
 
     public function register()
     {
-        //
+        $this->mergeConfigFrom(__DIR__.'/../config/auth.php', 'auth');
     }
 }
