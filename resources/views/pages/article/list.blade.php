@@ -35,7 +35,7 @@
 </el-breadcrumb>
 
 <el-table class="el-width-1-1" :row-class-name="tableRowClassName" :data="tableRows" @sort-change="onSortChange" :default-sort="defaultSort">
-    <el-table-column prop="id" label="ID" width="60" sortable="custom">
+    <el-table-column prop="id" label="ID" width="56" sortable="custom">
         <template slot-scope="{ row, column, $index }">
             <span v-text="row.id"></span>
         </template>
@@ -55,12 +55,12 @@
             <span v-text="row.created_at"></a>
         </template>
     </el-table-column>
-    <el-table-column prop="active" width="50" sortable="custom">
+    <el-table-column prop="active" width="56" sortable="custom">
         <template slot-scope="{ row, column }">
             <el-switch v-model="row.active" active-color="#67C23A" @change="onActiveChange(row, $event)"></el-switch>
         </template>
     </el-table-column>
-    <el-table-column align="right" width="42">
+    <el-table-column align="right" width="34">
         <template slot-scope="{ row, column, $index }">
             <el-button size="mini" type="danger" icon="el-icon-cross2" circle @click="onDestroy(row)"></el-button>
         </template>

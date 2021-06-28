@@ -63,7 +63,7 @@
                             <el-switch v-model="row.active" active-color="#13ce66" @click.native.stop @change="onActiveChange(row, $event)"></el-switch>
                         </div>
                         <div class="el-width-auto">
-                            <el-link type="info" icon="el-icon-cancel-circle2" @click="onDestroy(row, node)"></el-link>
+                            <el-button size="mini" type="danger" circle icon="el-icon-cross2" @click="onDestroy(row, node)"></el-button>
                         </div>
                     </div>
                 </template>

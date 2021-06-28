@@ -1,14 +1,13 @@
 @import "common.scss";
 @import "../theme/input-number.scss";
-@import "../theme/icon-picker.scss";
-@import "../theme/link.scss";
+@import "~element-ui/packages/theme-chalk/src/icon-picker.scss";
+@import "~element-ui/packages/theme-chalk/src/link.scss";
 @import "../theme/message.scss";
 @import "~element-ui/packages/theme-chalk/src/message-box.scss";
-// @import "../theme/message-box.scss";
 @import "../theme/notification.scss";
 @import "../theme/radio-button.scss";
 @import "../theme/radio-group.scss";
-@import "../theme/select.scss";
+@import "~element-ui/packages/theme-chalk/src/select.scss";
 @import "../theme/switch.scss";
 @import "../theme/tabs.scss";
 @import "../theme/tag.scss";

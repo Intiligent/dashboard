@@ -68,7 +68,7 @@
             <tt v-text="row.id"></tt>
         </template>
     </el-table-column>
-    <el-table-column prop="image.path" width="52">
+    <el-table-column prop="image.path" width="48">
         <template slot-scope="{ row, column, $index }">
             <span class="el-avatar el-avatar--square" style="height: 32px; width: 32px; line-height: 32px;">
                 <img loading="lazy" :src="row.image.path" style="object-fit: cover;">
@@ -95,13 +95,13 @@
             <span v-text="row.price + ' ₴'"></span>
         </template>
     </el-table-column>
-    <el-table-column prop="rate" label="R" width="60" sortable="custom"></el-table-column>
-    <el-table-column width="50">
+    <el-table-column prop="rate" label="R" width="64" sortable="custom"></el-table-column>
+    <el-table-column width="56">
         <template slot-scope="{ row, column, $index }">
             <el-switch v-model="row.active" active-color="#67C23A" @change="onActiveChange(row, $event)"></el-switch>
         </template>
     </el-table-column>
-    <el-table-column align="right" width="42">
+    <el-table-column align="right" width="34">
         <template slot-scope="{ row, column, $index }">
             <el-button size="mini" type="danger" icon="el-icon-cross2" circle @click="destroy(row, $index)"></el-button>
         </template>

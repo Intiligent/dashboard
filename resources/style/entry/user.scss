@@ -1,8 +1,8 @@
 @import "common.scss";
-@import "../theme/message-box.scss";
+@import "~element-ui/packages/theme-chalk/src/message-box.scss";
 @import "../theme/switch.scss";
 @import "../theme/tag.scss";
 @import "../theme/notification.scss";
-@import "../theme/table.scss";
-@import "../theme/table-column.scss";
-@import "../theme/link.scss";
+@import "~element-ui/packages/theme-chalk/src/table.scss";
+@import "~element-ui/packages/theme-chalk/src/table-column.scss";
+@import "~element-ui/packages/theme-chalk/src/link.scss";
