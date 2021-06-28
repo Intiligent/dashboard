@@ -79,13 +79,13 @@ mix.copyDirectory('resources/img', 'public/img');
 
 // process script for public (face)
 // home
-mix.js('resources/js/entry/index.js', 'js').vue()
+mix.js('resources/js/entry/index.js', 'js')
     .sass('resources/style/entry/index.scss', 'style');
 // category
-mix.js('resources/js/entry/category.js', 'js').vue()
+mix.js('resources/js/entry/category.js', 'js')
     .sass('resources/style/entry/category.scss', 'style');
 // product
-mix.js('resources/js/entry/product.js', 'js').vue()
+mix.js('resources/js/entry/product.js', 'js')
     .sass('resources/style/entry/product.scss', 'style');
 
 /*
@@ -100,28 +100,28 @@ mix.js('resources/js/entry/product.js', 'js').vue()
 // login
 mix.sass('dashboard/resources/style/entry/login.scss', 'dashboard/style');
 // dashboard
-mix.js('dashboard/resources/js/entry/dashboard.js', 'dashboard/script').vue()
+mix.js('dashboard/resources/script/entry/dashboard.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/dashboard.scss', 'dashboard/style');
 // menu
-mix.js('dashboard/resources/js/entry/menu.js', 'dashboard/script').vue()
+mix.js('dashboard/resources/script/entry/menu.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/menu.scss', 'dashboard/style');
 // settings
-mix.js('dashboard/resources/js/entry/settings.js', 'dashboard/script').vue()
+mix.js('dashboard/resources/script/entry/settings.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/settings.scss', 'dashboard/style');
 // user
-mix.js('dashboard/resources/js/entry/user.js', 'dashboard/script').vue()
+mix.js('dashboard/resources/script/entry/user.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/user.scss', 'dashboard/style');
 // article
-mix.js('dashboard/resources/js/entry/article.js', 'dashboard/script').vue()
+mix.js('dashboard/resources/script/entry/article.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/article.scss', 'dashboard/style');
 // product
-mix.js('dashboard/resources/js/entry/product.js', 'dashboard/script').vue()
+mix.js('dashboard/resources/script/entry/product.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/product.scss', 'dashboard/style');
 // catalog
-mix.js('dashboard/resources/js/entry/catalog.js', 'dashboard/script').vue()
+mix.js('dashboard/resources/script/entry/catalog.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/catalog.scss', 'dashboard/style');
 // order
-mix.js('dashboard/resources/js/entry/order.js', 'dashboard/script').vue()
+mix.js('dashboard/resources/script/entry/order.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/order.scss', 'dashboard/style');
 
 mix.version();

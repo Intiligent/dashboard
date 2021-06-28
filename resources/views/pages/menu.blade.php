@@ -47,7 +47,7 @@
             <el-tree :data="item.children" :props="{label: 'name'}" node-key="id" draggable default-expand-all :filter-node-method="onFilterNode" @node-drop="onNodeDrop" :ref="item.code">
                 <template v-slot="{node, data: row}">
                     <div class="el-grid el-grid-sm el-flex el-flex-middle el-tree-node-container">
-                        <div class="el-width-2-5">
+                        <div class="el-width-2-5 el-text-truncate" :title="row.name">
                             <small v-if="row.icon" class="el-text-muted" style="margin-right: 5px;"><i :class="row.icon"></i></small>
                             <a href="#" v-text="row.name" @click.prevent.stop="syncMenu({model: row, node})"></a>
                         </div>
