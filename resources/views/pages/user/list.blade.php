@@ -44,7 +44,7 @@
             <tt v-text="row.id"></tt>
         </template>
     </el-table-column>
-    <el-table-column prop="avatar" width="50">
+    <el-table-column prop="avatar" width="46">
         <template slot-scope="{ row, column, $index }">
             <el-avatar :size="30" :src="row.avatar"></el-avatar>
         </template>

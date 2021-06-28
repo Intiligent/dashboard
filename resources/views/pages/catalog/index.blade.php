@@ -43,7 +43,7 @@
             </div>
         </template>
         <div class="el-margin-lg-top" slot="empty">
-            <img src="/img/dashboard/empty.svg" alt="empty">
+            <img src="/dashboard/img/empty.svg" alt="empty">
             <p class="el-text-muted">Нет данных</p>
         </div>
     </el-tree>

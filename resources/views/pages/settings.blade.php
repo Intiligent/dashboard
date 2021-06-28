@@ -53,7 +53,7 @@
                                 <el-input type="textarea" size="medium" :icon="setting.icon" v-model="setting.value"></el-input>
                             </template>
                             <template v-else-if="setting.type === 'input-number'">
-                                <el-input-number v-model="setting.value"></el-input-number>
+                                <el-input-number size="medium" v-model="setting.value" style="max-width: 160px;"></el-input-number>
                             </template>
                             <template v-else-if="setting.type === 'toggle'">
                                 <el-switch active-value="1" active-color="#13ce66" inactive-color="#ff4949" v-model="setting.value"></el-switch>

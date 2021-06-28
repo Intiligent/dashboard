@@ -70,7 +70,7 @@ new Vue({
                 showCancelButton: false,
                 showConfirmButton: false,
                 showClose: true,
-                customClass: 'el-modal-medium',
+                size: 'medium',
             }).catch((state) => {
                 console.log(state);
             });

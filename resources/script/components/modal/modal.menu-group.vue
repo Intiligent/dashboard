@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="el-grid el-flex el-flex-middle">
+        <div class="el-grid el-flex el-flex-middle el-margin">
             <div class="el-width-1-3@md">
                 <label for="model.active" class="el-text-bold2">Активность/видимость:</label>
             </div>

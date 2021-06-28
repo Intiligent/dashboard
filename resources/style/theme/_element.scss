@@ -431,7 +431,7 @@ $--message-min-width: 380px !default;
 $--message-background-color: #edf2fc !default;
 $--message-padding: 15px 15px 15px 20px !default;
 $--message-close-icon-color: $--color-text-placeholder !default;
-$--message-close-size: 20px !default;
+$--message-close-size: 16px !default;
 $--message-close-hover-color: $--color-text-secondary !default;
 
 $--message-success-font-color: $--color-success !default;
@@ -628,6 +628,9 @@ $--table-header-background-color: $--color-white !default;
 $--table-fixed-box-shadow: 0 0 10px rgba(0, 0, 0, .12) !default;
 $--table-body-data-padding: 10px 0 !default;
 $--table-body-cell-padding-horizontal: 8px !default;
+@mixin hook-table-body-cell() {
+    display: flex;
+}
 
 /* Pagination
 -------------------------- */

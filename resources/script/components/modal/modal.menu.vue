@@ -88,7 +88,7 @@
             </div>
         </div>
 
-        <div class="el-grid el-flex el-flex-middle">
+        <div class="el-grid el-flex el-flex-middle el-margin">
             <div class="el-width-1-3@md">
                 <label for="menu.active">Активность:</label>
             </div>
@@ -97,7 +97,7 @@
             </div>
         </div>
 
-        <div class="el-grid el-grid-sm el-flex el-flex-middle el-margin-md">
+        <div class="el-grid el-grid-sm el-flex el-flex-middle el-margin">
             <div class="el-width-expand@md">
                 <el-button size="medium" type="danger" icon="el-icon-cancel-circle2" @click="handleDestroy" plain v-if="innerModel.id">Удалить</el-button>
             </div>

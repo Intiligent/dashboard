@@ -84,7 +84,7 @@ new Vue({
                 showCancelButton: false,
                 showConfirmButton: false,
                 showClose: true,
-                customClass: 'el-modal-small',
+                size: 'small',
             }).catch((state) => {
                 console.log('action:', state);
             });
@@ -127,7 +127,7 @@ new Vue({
                 showCancelButton: false,
                 showConfirmButton: false,
                 showClose: true,
-                customClass: 'el-modal-small',
+                size: 'small',
             }).catch((state) => {
                 console.log('action:', state);
             });

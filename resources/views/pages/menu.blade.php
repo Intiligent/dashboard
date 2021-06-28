@@ -56,7 +56,7 @@
                         </div>
                         <div class="el-width-auto">
                             <el-tooltip content="Добавить категорию" placement="top">
-                                <el-button class="is-narrow" type="primary" size="mini" icon="el-icon-plus2" plain @click.prevent.stop="onAppendNode(row, node)"></el-button>
+                                <el-button type="primary" size="mini" icon="el-icon-plus2" plain narrow @click.prevent.stop="onAppendNode(row, node)"></el-button>
                             </el-tooltip>
                         </div>
                         <div class="el-width-auto">

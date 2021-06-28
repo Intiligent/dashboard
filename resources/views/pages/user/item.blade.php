@@ -27,7 +27,7 @@
 
 <el-breadcrumb class="el-margin" separator="/">
     <el-breadcrumb-item><a href="{{ route('dashboard.home') }}">Главная</a></el-breadcrumb-item>
-    <el-breadcrumb-item><a href="{{ route('dashboard.userList') }}">Список товаров</a></el-breadcrumb-item>
+    <el-breadcrumb-item><a href="{{ route('dashboard.userList') }}">Пользователи</a></el-breadcrumb-item>
     <el-breadcrumb-item>{{ $model->name ?: 'новый' }}</el-breadcrumb-item>
 </el-breadcrumb>
 
@@ -91,12 +91,12 @@
         </div>
     </div>
 
-    <div class="el-grid el-flex el-flex-middle">
+    <div class="el-grid el-flex el-flex-middle el-margin">
         <div class="el-width-1-4@md">
             <label class="el-form-label">Дата создания/обновления:</label>
         </div>
         <div class="el-width-3-4@md">
-            <el-tag plain type="info" size="mini">{{ $model->created_at ?: date('Y-m-d H:i:s') }}</el-tag> / <el-tag plain size="mini">{{ $model->updated_at ?: '-' }}</el-tag>
+            <pre>{{ $model->created_at ?: date('Y-m-d H:i:s') }} / {{ $model->updated_at ?: '-' }}</pre>
         </div>
     </div>
 

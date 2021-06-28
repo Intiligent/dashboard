@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="el-text-center el-margin-lg-top">
-    <img src="/img/dashboard/404.jpg" alt="404">
+    <img src="/dashboard/img/404.jpg" alt="404">
     <h3 class="el-text-bold">404. Page not found.</h3>
 </div>
 @endsection
