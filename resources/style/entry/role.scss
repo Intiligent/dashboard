@@ -1,0 +1,41 @@
+@import "common.scss";
+@import "~element-ui/packages/theme-chalk/src/link.scss";
+@import "~element-ui/packages/theme-chalk/src/switch.scss";
+@import "~element-ui/packages/theme-chalk/src/tag.scss";
+@import "~element-ui/packages/theme-chalk/src/notification.scss";
+@import "~element-ui/packages/theme-chalk/src/table.scss";
+@import "~element-ui/packages/theme-chalk/src/checkbox.scss";
+
+.assign-permission-list {
+    .el-checkbox {
+        display: block;
+        margin: 0;
+        // border-radius: $--border-radius-base;
+        padding: 10px 12px;
+        .description {
+            display: block;
+            font-weight: 500;
+            font-size: 14px;
+            color: $--color-muted;
+            margin-top: 3px;
+        }
+        .el-tag {
+            position: absolute;
+            right: 9px;
+            top: 9px;
+        }
+        .el-checkbox__input {
+            vertical-align: top;
+            top: 3px;
+        }
+        &:hover {
+            background-color: $--background-color-base;
+        }
+        &.is-checked {
+            background-color: $--color-primary-light-9;
+        }
+        & + .el-checkbox {
+            border-top: 1px solid $--color-info-lighter;
+        }
+    }
+}

@@ -112,6 +112,12 @@ mix.js('dashboard/resources/script/entry/settings.js', 'dashboard/script')
 // user
 mix.js('dashboard/resources/script/entry/user.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/user.scss', 'dashboard/style');
+// role
+mix.js('dashboard/resources/script/entry/role.js', 'dashboard/script')
+    .sass('dashboard/resources/style/entry/role.scss', 'dashboard/style');
+// permission
+mix.js('dashboard/resources/script/entry/permission.js', 'dashboard/script')
+    .sass('dashboard/resources/style/entry/permission.scss', 'dashboard/style');
 // article
 mix.js('dashboard/resources/script/entry/article.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/article.scss', 'dashboard/style');

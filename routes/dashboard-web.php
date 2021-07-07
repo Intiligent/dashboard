@@ -34,6 +34,16 @@ Route::as('dashboard.')->prefix('dashboard')->group(function() {
             Route::get('/', 'UserController@showList')->name('userList');
             Route::get('/{id}', 'UserController@showItem')->name('user');
         });
+        // acl role
+        Route::group(['prefix' => 'roles'], function() {
+            Route::get('/', 'RoleController@index')->name('roles');
+            Route::get('/{item}', 'RoleController@item')->name('role');
+        });
+        // acl permission
+        Route::group(['prefix' => 'permissions'], function() {
+            Route::get('/', 'PermissionController@index')->name('permissions');
+            Route::get('/{item}', 'PermissionController@item')->name('permission');
+        });
         // product
         Route::group(['prefix' => 'product'], function() {
             Route::get('/', 'ProductController@showProductList')->name('productList');
@@ -49,6 +59,6 @@ Route::as('dashboard.')->prefix('dashboard')->group(function() {
             Route::get('/{id}', 'OrderController@showOrder')->name('order');
         });
         // home page
-        Route::get('/', 'DashboardController@index')->name('home');
+        Route::get('', 'DashboardController@index')->name('home');
     });
 });

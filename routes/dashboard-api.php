@@ -35,6 +35,16 @@ Route::prefix('api/dashboard')->as('api.dashboard.')->group(function() {
         Route::post('item', 'UserController@postUser')->name('postUser');
         Route::get('fetch', 'UserController@getUsers')->name('getUsers');
     });
+    // acl role
+    Route::group(['prefix' => 'role'], function() {
+        Route::post('role', 'RoleController@postRole')->name('postRole');
+        Route::delete('role', 'RoleController@deleteRole')->name('deleteRole');
+    });
+    // acl permission
+    Route::group(['prefix' => 'permission'], function() {
+        Route::post('permission', 'PermissionController@postPermission')->name('postPermission');
+        Route::delete('permission', 'PermissionController@deletePermission')->name('deletePermission');
+    });
     // article
     Route::group(['prefix' => 'article'], function() {
         Route::get('fetch', 'ArticleController@getArticles')->name('getArticles');
