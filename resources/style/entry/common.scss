@@ -12,6 +12,7 @@
 @import "~element-ui/packages/theme-chalk/src/flex.scss";
 @import "../theme/icomoon.scss";
 // @import "~element-ui/packages/theme-chalk/src/icomoon.scss";
+@import "~element-ui/packages/theme-chalk/src/message-box.scss";
 @import "~element-ui/packages/theme-chalk/src/avatar.scss";
 @import "~element-ui/packages/theme-chalk/src/badge.scss";
 @import "~element-ui/packages/theme-chalk/src/button.scss";
@@ -21,22 +22,6 @@
 @import "~element-ui/packages/theme-chalk/src/menu.scss";
 @import "~element-ui/packages/theme-chalk/src/menu-item-group.scss";
 @import "~element-ui/packages/theme-chalk/src/tooltip.scss";
-
-// @import "../theme/common/var.scss";
-// @import "../theme/fonts.scss";
-// @import "../theme/reset.scss";
-// @import "../theme/base.scss";
-// @import "../theme/text.scss";
-// @import "../theme/container.scss";
-// @import "../theme/margin.scss";
-// @import "../theme/icomoon.scss";
-// @import "../theme/avatar.scss";
-// @import "../theme/badge.scss";
-// @import "../theme/input.scss";
-// @import "../theme/breadcrumb.scss";
-// @import "../theme/dropdown.scss";
-// @import "../theme/menu.scss";
-// @import "../theme/menu-item-group.scss";
 
 $--header-container-height: 70px;
 $--sidebar-container-width: 280px;

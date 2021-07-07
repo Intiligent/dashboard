@@ -255,7 +255,7 @@ $--icon-color-base: $--color-info !default;
 
 /* Checkbox
 -------------------------- */
-$--checkbox-font-size: 14px !default;
+$--checkbox-font-size: inherit !default;
 $--checkbox-font-weight: $--font-weight-primary !default;
 $--checkbox-font-color: $--color-text-regular !default;
 $--checkbox-input-height: 14px !default;
@@ -637,10 +637,11 @@ $--table-body-cell-padding-horizontal: 8px !default;
 $--pagination-font-size: 13px !default;
 $--pagination-background-color: $--color-white !default;
 $--pagination-font-color: $--color-text-primary !default;
-$--pagination-border-radius: 3px !default;
+$--pagination-border-radius: $--border-radius-base !default;
 $--pagination-button-color: $--color-text-primary !default;
-$--pagination-button-width: 35.5px !default;
-$--pagination-button-height: 28px !default;
+$--pagination-button-width: 36px !default;
+$--pagination-button-height: 36px !default;
+$--pagination-button-padding: 0 8px !default;
 $--pagination-button-disabled-color: $--color-text-placeholder !default;
 $--pagination-button-disabled-background-color: $--color-white !default;
 $--pagination-hover-color: $--color-primary !default;

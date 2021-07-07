@@ -1,6 +1,6 @@
 @import "mixins/mixins";
 @import "checkbox";
-@import "tag";
+@import "~element-ui/packages/theme-chalk/src/tag";
 @import "common/var";
 
 @include b(table-column) {

@@ -1,7 +1,7 @@
 @import "mixins/mixins";
 @import "mixins/utils";
 @import "common/var";
-@import "select";
+@import "~element-ui/packages/theme-chalk/src/select.scss";
 
 @include b(pagination) {
     white-space: nowrap;
@@ -242,7 +242,7 @@
     }
 
     li {
-        // padding: 0 4px;
+        padding: $--pagination-button-padding;
         background: $--pagination-background-color;
         vertical-align: top;
         display: inline-block;

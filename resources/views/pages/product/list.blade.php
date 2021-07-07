@@ -57,7 +57,7 @@
     </div>
 </div>
 
-<el-breadcrumb class="el-margin" separator="/">
+<el-breadcrumb class="el-margin" separator="→">
     <el-breadcrumb-item><a href="{{ route('dashboard.home') }}">Главная</a></el-breadcrumb-item>
     <el-breadcrumb-item>Список товаров</el-breadcrumb-item>
 </el-breadcrumb>

@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<el-breadcrumb class="el-margin" separator="/">
+<el-breadcrumb class="el-margin" separator="→">
     <el-breadcrumb-item><a href="{{ route('dashboard.home') }}">Главная</a></el-breadcrumb-item>
     <el-breadcrumb-item><a href="{{ route('dashboard.orderList') }}">Заказы</a></el-breadcrumb-item>
     <el-breadcrumb-item>{{ $order->id ?: 'новый' }}</el-breadcrumb-item>
