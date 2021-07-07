@@ -23,9 +23,5 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'dashboardapi' => [
-            'driver' => 'token', // passport
-            'provider' => 'users',
-        ],
     ],
 ];

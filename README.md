@@ -48,10 +48,6 @@ php artisan dashboard:install
         'driver' => 'session',
         'provider' => 'users',
     ],
-    'dashboardapi' => [
-        'driver' => 'token', // passport
-        'provider' => 'users',
-    ],
 ],
 ```
 
