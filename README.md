@@ -8,50 +8,13 @@
 composer require viart/dashboard
 ```
 
-2. Publish files
+2. Install dashboard scaffolding
 
 ```bash
 php artisan dashboard:install
 ```
 
-3. Add autoload path
-
-```json
-"autoload": {
-    "psr-4": {
-        "Dashboard\\": "dashboard/"
-    }
-},
-```
-
-4. Register Service Provider in `config/app.php` in section `providers`:
-
-```php
-'providers' => [
-    /*
-     * Dashboard Service Providers...
-     */
-    Dashboard\Providers\AuthServiceProvider::class,
-    Dashboard\Providers\DashboardServiceProvider::class,
-    Dashboard\Providers\EventServiceProvider::class,
-    Dashboard\Providers\RouteServiceProvider::class,
-    Dashboard\Providers\ViewServiceProvider::class,
-],
-```
-
-5. Add guards to `config/auth.php`
-
-```php
-'guards' => [
-    // ...
-    'dashboard' => [
-        'driver' => 'session',
-        'provider' => 'users',
-    ],
-],
-```
-
-6. Add `dashboard` log driver to `config/logging.php`
+3. Add `dashboard` log driver to `config/logging.php`
 
 ```php
 'chanels' => [
@@ -64,25 +27,127 @@ php artisan dashboard:install
 ],
 ```
 
-7. Require constants at the top of file `bootstrap/app.php`
+4. Update Authenticate middleware in app/Http/Middleware/Authenticate.php
 
 ```php
-require_once __DIR__ . '/constants.php';
+/**
+ * Get the path the user should be redirected to when they are not authenticated.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return string|null
+ */
+protected function redirectTo($request)
+{
+    if (!$request->expectsJson()) {
+        if ($request->is('dashboard', 'dashboard/*')) {
+            return route('dashboard.login');
+        }
+        return route('face.login');
+    }
+}
 ```
 
-# Trouble Shooting Guide
+5. RedirectIfAuthenticated
 
-```bash
-php artisan vendor:publish --provider="viart\dashboard\DashboardServiceProvider" --tag="views"
+```php
+/**
+ * Handle an incoming request.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  \Closure  $next
+ * @param  string|null  ...$guards
+ * @return mixed
+ */
+public function handle($request, Closure $next, ...$guards)
+{
+    $guards = empty($guards) ? [null] : $guards;
+
+    foreach ($guards as $guard) {
+        if ($guard === 'web' && Auth::guard($guard)->check()) {
+            return redirect()->route('face.home');
+        }
+        if ($guard === 'dashboard' && Auth::guard($guard)->check()) {
+            return redirect()->route('dashboard.home');
+        }
+    }
+
+    return $next($request);
+}
 ```
-output:
-Unable to locate publishable resources.
-Publishing complete.
 
-**Solution:**
+6. Check middleware
 
-```bash
-php artisan vendor:publish
+7. Exception
+
+8. Controller response
+
+```php
+/**
+ * Returns REST response
+ *
+ * @param array|integer $error Error Code or array of params
+ * @param array|null $params Array of additional params
+ *
+ * @return REST array
+ */
+protected function response($params = array()) {
+    $response = Arr::only($params, [ERR, CODE, MSG, DATA]);
+    if (!isset($response[ERR])) {
+        $response[ERR] = Response::HTTP_OK;
+    }
+    return $response;
+}
 ```
 
-ans choose number of published
+9. Copy app Models
+
+- Role
+- Permission
+- User
+- Media
+- Menu
+
+10. AppServiceProvider
+
+```php
+namespace App\Providers;
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        Schema::defaultStringLength(191);
+    }
+}
+```
+
+11. RouteServiceProvider uncomment
+
+```php
+protected $namespace = 'App\\Http\\Controllers';
+```
+
+12. Copy file `deploy.sh`
+
+13. Add test suitecase to `phpunit.xml`
+
+```xml
+<testsuites>
+    <testsuite name="FeatureDashboard">
+        <directory suffix="Test.php">./dashboard/tests/Feature</directory>
+    </testsuite>
+    <testsuite name="UnitDashboard">
+        <directory suffix="Test.php">./dashboard/tests/Unit</directory>
+    </testsuite>
+</testsuites>
+```
+
+14. Set app routes

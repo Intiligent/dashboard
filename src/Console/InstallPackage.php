@@ -80,6 +80,8 @@ class InstallPackage extends Command
 
         copy(__DIR__.'/../../config/dashboard.php', base_path('config/dashboard.php'));
         copy(__DIR__.'/../../config/ziggy.php', base_path('config/ziggy.php'));
+        copy(__DIR__.'/../../config/permission.php', base_path('config/permission.php'));
+        copy(__DIR__.'/../../config/shared-data.php', base_path('config/shared-data.php'));
         $this->line('✔ Copy config files');
 
         copy(__DIR__.'/../../bootstrap/constants.php', base_path('bootstrap/constants.php'));
