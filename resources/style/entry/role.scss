@@ -7,6 +7,10 @@
 @import "~element-ui/packages/theme-chalk/src/checkbox.scss";
 
 .assign-permission-list {
+    border: $--border-base;
+    border-radius: $--border-radius-base;
+    overflow: hidden;
+
     .el-checkbox {
         display: block;
         margin: 0;

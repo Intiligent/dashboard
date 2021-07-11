@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'path' => 'dashboard888',
+    'path' => 'dashboard',
 ];

@@ -25,11 +25,10 @@ mix.options({
         resolve: {
             alias: {
                 '@': resolve('resources/js'),
-                '@dashboard': resolve('dashboard/resources/js'),
+                '@dashboard': resolve('dashboard/resources/script'),
             }
         },
         plugins: [
-            // запуск shell команды перед/после сборкой
             new webpackShellPlugin({
                 onBuildStart: {
                     scripts: [
@@ -40,21 +39,15 @@ mix.options({
                 },
                 onBuildEnd: [],
             }),
-            // уведомления о сборке
             new webpackNotifier({
                 title: 'Vintage',
                 contentImage: path.join(__dirname, 'dashboard/resources/img/logo-square.png'),
-                alwaysNotify: true, // показывать уведомления для watch
+                alwaysNotify: true,
             }),
             new webpack.NormalModuleReplacementPlugin(/element-ui[\/\\]lib[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-ui/lib/locale/lang/ru-RU')
         ]
     }
 });
-
-// mix.autoload({
-//     jquery: ['$', 'window.jQuery', 'jQuery'], // more than one
-//     moment: 'moment' // only one
-// });
 
 /*
 |--------------------------------------------------------------------------
