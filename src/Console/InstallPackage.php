@@ -83,10 +83,10 @@ class InstallPackage extends Command
         $this->line('✔ Copy config files');
 
         copy(__DIR__.'/../../bootstrap/constants.php', base_path('bootstrap/constants.php'));
-        $this->addRequireConstant();
+        $this->addRequireConstant() && $this->line('✔ Require constant file');
         copy(__DIR__.'/../../webpack.mix.js', base_path('webpack.mix.js'));
 
-        $this->updateComposer(function ($elements) {
+        $this->updateComposer(function ($elements) use ($folderName) {
             $psr4 = [
                 'psr-4' => [
                     'Dashboard\\' => "$folderName/",
@@ -99,7 +99,7 @@ class InstallPackage extends Command
 
         $this->registerDashboardGuard() && $this->line('✔ Register dashboard guard');
 
-        false && $this->requireComposerPackages([
+        $this->requireComposerPackages([
             'coderello/laravel-shared-data:^3.0',
             'eusonlito/laravel-meta:3.1.*',
             'kalnoy/nestedset:^5.0',
@@ -257,8 +257,11 @@ class InstallPackage extends Command
     protected function addRequireConstant()
     {
         $app = file_get_contents(base_path('bootstrap/app.php'));
-        $replaceString = "require_once __DIR__ . '/constants.php';".PHP_EOL.PHP_EOL;
-        $content = preg_replace("/(<[?]php\s+)/", '$1'.$replaceString, $app);
+        $require = "require_once __DIR__ . '/constants.php';";
+        if (Str::contains($app, $require)) {
+            return false;
+        }
+        $content = preg_replace("/(<[?]php\s+)/", '$1'.$require.PHP_EOL.PHP_EOL, $app);
         return file_put_contents(base_path('bootstrap/app.php'), $content);
     }
 
