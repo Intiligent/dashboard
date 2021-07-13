@@ -33,7 +33,7 @@ class InstallPackage extends Command
     public function handle()
     {
         $folderName = 'dashboard';
-
+        
         // NPM Packages...
         $this->updateNodePackages(function ($packages) {
             return [
@@ -88,6 +88,8 @@ class InstallPackage extends Command
         $this->addRequireConstant() && $this->line('✔ Require constant file');
         copy(__DIR__.'/../../webpack.mix.js', base_path('webpack.mix.js'));
 
+        $this->replaceInFile("// protected \$namespace = 'App\\Http\\Controllers';", "protected \$namespace = 'App\\Http\\Controllers';", app_path('Providers/RouteServiceProvider.php')) && $this->line('✔ Update route namespace');
+
         $this->updateComposer(function ($elements) use ($folderName) {
             $psr4 = [
                 'psr-4' => [
@@ -100,6 +102,8 @@ class InstallPackage extends Command
         $this->registerDashboardServiceProvider() && $this->line('✔ Register dashboard service providers');
 
         $this->registerDashboardGuard() && $this->line('✔ Register dashboard guard');
+
+        $this->addPhpunitTestsuite() && $this->line('✔ Add phpunit testsuite');
 
         $this->requireComposerPackages([
             'coderello/laravel-shared-data:^3.0',
@@ -265,6 +269,38 @@ class InstallPackage extends Command
         }
         $content = preg_replace("/(<[?]php\s+)/", '$1'.$require.PHP_EOL.PHP_EOL, $app);
         return file_put_contents(base_path('bootstrap/app.php'), $content);
+    }
+
+    public function addPhpunitTestsuite()
+    {
+        $document = new \DOMDocument();
+        $document->preserveWhiteSpace = false;
+        $document->formatOutput = true;
+        $document->load(base_path('phpunit.xml'));
+        $testsuites = $document->getElementsByTagName('testsuites')->item(0);
+        $nodeFeature = $document->createDocumentFragment();
+        $nodeFeature->appendXML('<testsuite name="FeatureDashboard"><directory suffix="Test.php">./dashboard/tests/Feature</directory></testsuite>');
+        $testsuites->appendChild($nodeFeature);
+        $nodeUnit = $document->createDocumentFragment();
+        $nodeUnit->appendXML('<testsuite name="UnitDashboard"><directory suffix="Test.php">./dashboard/tests/Unit</directory></testsuite>');
+        $testsuites->appendChild($nodeUnit);
+        $content = preg_replace_callback('/^( +)</m', function($a) {
+            return str_repeat(' ', intval(strlen($a[1]) / 2) * 4).'<';
+        }, $document->saveXML());
+        return file_put_contents(base_path('phpunit.xml'), $content);
+    }
+
+    /**
+     * Replace a given string within a given file.
+     *
+     * @param string $search
+     * @param string $replace
+     * @param string $path
+     * @return mixed
+     */
+    protected function replaceInFile($search, $replace, $path)
+    {
+        return file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
     }
 
     /**

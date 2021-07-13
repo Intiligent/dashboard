@@ -132,6 +132,8 @@ class AppServiceProvider extends ServiceProvider
 11. RouteServiceProvider uncomment
 
 ```php
+public const HOME = '/';
+
 protected $namespace = 'App\\Http\\Controllers';
 ```
 
@@ -151,3 +153,27 @@ protected $namespace = 'App\\Http\\Controllers';
 ```
 
 14. Set app routes
+
+15. Delete packages from devDependencies if exists (array diff)
+
+```json
+"devDependencies": {
+    "axios": "^0.21",
+    "lodash": "^4.17.19"
+}
+```
+
+16. Fix edit config/auth.php
+
+17. Register external service provider
+
+```php
+/*
+ * Package Service Providers...
+ */
+Barryvdh\Debugbar\ServiceProvider::class,
+Tightenco\Ziggy\ZiggyServiceProvider::class,
+Eusonlito\LaravelMeta\MetaServiceProvider::class,
+Laravel\Socialite\SocialiteServiceProvider::class,
+Spatie\Permission\PermissionServiceProvider::class,
+```
