@@ -108,6 +108,16 @@ public function getAvatarAttribute($value)
 
 10. в element-ui обновить деление на math.div()
 
+11. add core js
+- api
+- helper
+- model
+
+12. после установки добавить предложение с запуском команд с предустановленым ответом:
+- php artisan migrate
+- npm install
+- npm run watch
+
 ## Improve app
 
 1. Add db string limited

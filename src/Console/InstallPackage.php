@@ -142,6 +142,17 @@ class InstallPackage extends Command
 
         $this->info('Dashboard scaffolding installed successfully.');
         $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
+
+        if ($this->confirm('Do you wish to call migrations?', false)) {
+            $this->call('migrate');
+        }
+        if ($this->confirm('Do you wish to install node modules?', false)) {
+            (new Process(['npm', 'install'], base_path()))
+                ->setTimeout(null)
+                ->run(function ($type, $output) {
+                    $this->output->write($output);
+                });
+        }
     }
 
     // private function publishResources($forcePublish = false)
