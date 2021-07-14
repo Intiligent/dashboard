@@ -3,7 +3,6 @@
 namespace Dashboard\Models;
 
 use Illuminate\Database\Eloquent\Model;
-// use Illuminate\Support\Str;
 
 class Component extends Model
 {
@@ -24,73 +23,73 @@ class Component extends Model
     const components = [
         [
             'name' => self::INPUT_TEXT,
-            'title' => 'Поле ввода',
+            'title' => 'Input text',
             'icon' => 'el-icon-pencil6',
         ],
         [
             'name' => self::TEXTAREA,
-            'title' => 'Текстовое поле',
+            'title' => 'Textarea',
             'icon' => 'el-icon-typography',
         ],
         [
             'name' => self::INPUT_NUMBER,
-            'title' => 'Числовое поле',
+            'title' => 'Input number',
             'icon' => 'el-icon-sort-numeric-asc',
         ],
         [
             'name' => self::WYSIWYG,
-            'title' => 'Визуальный редактор',
+            'title' => 'WYSIWYG editor',
             'icon' => 'el-icon-insert-template',
         ],
         [
             'name' => self::TOGGLE,
-            'title' => 'Переключатель',
+            'title' => 'Toggle',
             'icon' => 'el-icon-checkbox-checked2',
         ],
         [
             'name' => self::RADIO_GROUP,
-            'title' => 'Групповой выбор',
+            'title' => 'Radio group',
             'icon' => 'el-icon-radio-checked',
         ],
         [
             'name' => self::MEDIA_FILE,
-            'title' => 'Выбор файла',
+            'title' => 'File uploader',
             'icon' => 'el-icon-attachment',
         ],
         [
             'name' => self::DATEPICKER,
-            'title' => 'Выбор даты',
+            'title' => 'Datepicker',
             'icon' => 'el-icon-calendar2',
         ],
         [
             'name' => self::DATETIMEPICKER,
-            'title' => 'Выбор даты и время',
+            'title' => 'Datetimepicker',
             'icon' => 'el-icon-alarm',
         ],
         [
             'name' => self::SELECT,
-            'title' => 'Список',
+            'title' => 'Select',
             'icon' => 'el-icon-list2',
         ],
         [
             'name' => self::SELECT_MULTIPLE,
-            'title' => 'Множественный список',
+            'title' => 'Select multiple',
             'icon' => 'el-icon-menu2',
         ],
         [
             'name' => self::ICONPICKER,
-            'title' => 'Выбор иконки',
+            'title' => 'Iconpicker',
             'icon' => 'el-icon-image2',
         ],
         [
             'name' => self::INPUT_PASSWORD,
-            'title' => 'Пароль',
+            'title' => 'Password',
             'icon' => 'el-icon-lock',
         ],
     ];
 
     /**
-     * Получить все компоненты
+     * Fetch all componenets
      *
      * @return array
      */

@@ -56,7 +56,7 @@
             <label class="el-form-label" for="role.description">Assign permissions:</label>
         </div>
         <div class="el-width-3-4@md">
-            <el-checkbox-group class="assign-permission-list" v-model="role.assign_permissions">
+            <el-checkbox-group class="checkbox-group-list" v-model="role.assign_permissions">
                 @foreach ($permissions as $permission)
                     <el-checkbox :label="{{ $permission->id }}" key="{{ $permission->id }}">{{ $permission->name }}@if ($permission->description)<span class="description">{{ $permission->description }}</span>@endif<el-tag size="mini" type="{{ $permission->guard_name === 'web' ? 'warning' : 'primary' }}">{{ $permission->guard_name }}</el-tag></el-checkbox>
                 @endforeach

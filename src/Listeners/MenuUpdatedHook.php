@@ -34,14 +34,12 @@ class MenuUpdatedHook
         if ($group) {
             $value = Menu::getMenuByCode($group->code);
             Cache::put('navigation-menu-' . $group->code, $value);
-            // Log::channel('dashboard')->info('update store menu [' . $group->code . ']');
         }
         // изменение группы меню. обновить группу куда перенесли
         if ($event->menu->wasChanged('parent_id')) {
             $parent = Menu::find($event->original->getOriginal('parent_id'));
             $items = Menu::getMenuByCode($parent->code);
             Cache::put('navigation-menu-' . $parent->code, $items);
-            // Log::channel('dashboard')->info('update store menu [' . $parent->code . ']');
         }
     }
 }

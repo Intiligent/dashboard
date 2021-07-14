@@ -1,8 +1,8 @@
 # Dashboard
 
-# Install
+## Install
 
-1. Installation Via Composer
+1. Installation via Composer
 
 ```bash
 composer require viart/dashboard
@@ -14,18 +14,7 @@ composer require viart/dashboard
 php artisan dashboard:install
 ```
 
-3. Add `dashboard` log driver to `config/logging.php`
-
-```php
-'chanels' => [
-    //...
-    'dashboard' => [
-        'driver' => 'single',
-        'path' => storage_path('logs/dashboard.log'),
-        'level' => 'debug',
-    ],
-],
-```
+3. make option create first user [email, password]
 
 4. Update Authenticate middleware in app/Http/Middleware/Authenticate.php
 
@@ -103,11 +92,13 @@ protected function response($params = array()) {
 
 - Role
 - Permission
-- User
 - Media
 - Menu
+- User
 
-10. AppServiceProvider
+## Improve app
+
+1. Add db string limited
 
 ```php
 namespace App\Providers;
@@ -129,51 +120,9 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-11. RouteServiceProvider uncomment
+2. RouteServiceProvider uncomment
 
 ```php
-public const HOME = '/';
 
 protected $namespace = 'App\\Http\\Controllers';
-```
-
-12. Copy file `deploy.sh`
-
-13. Add test suitecase to `phpunit.xml`
-
-```xml
-<testsuites>
-    <testsuite name="FeatureDashboard">
-        <directory suffix="Test.php">./dashboard/tests/Feature</directory>
-    </testsuite>
-    <testsuite name="UnitDashboard">
-        <directory suffix="Test.php">./dashboard/tests/Unit</directory>
-    </testsuite>
-</testsuites>
-```
-
-14. Set app routes
-
-15. Delete packages from devDependencies if exists (array diff)
-
-```json
-"devDependencies": {
-    "axios": "^0.21",
-    "lodash": "^4.17.19"
-}
-```
-
-16. Fix edit config/auth.php
-
-17. Register external service provider
-
-```php
-/*
- * Package Service Providers...
- */
-Barryvdh\Debugbar\ServiceProvider::class,
-Tightenco\Ziggy\ZiggyServiceProvider::class,
-Eusonlito\LaravelMeta\MetaServiceProvider::class,
-Laravel\Socialite\SocialiteServiceProvider::class,
-Spatie\Permission\PermissionServiceProvider::class,
 ```

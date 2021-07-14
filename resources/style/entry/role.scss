@@ -6,7 +6,7 @@
 @import "~element-ui/packages/theme-chalk/src/table.scss";
 @import "~element-ui/packages/theme-chalk/src/checkbox.scss";
 
-.assign-permission-list {
+.checkbox-group-list {
     border: $--border-base;
     border-radius: $--border-radius-base;
     overflow: hidden;
@@ -14,7 +14,6 @@
     .el-checkbox {
         display: block;
         margin: 0;
-        // border-radius: $--border-radius-base;
         padding: 10px 12px;
         .description {
             display: block;

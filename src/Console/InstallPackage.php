@@ -33,19 +33,21 @@ class InstallPackage extends Command
     public function handle()
     {
         $folderName = 'dashboard';
-        
+        $dependencies = [
+            'axios' => '^0.18.0',
+            'ckeditor4-vue' => '^1.3.0',
+            'clipboard' => '^2.0.8',
+            'element-ui' => 'npm:element-ui-viart@*',
+            'lodash' => '^4.17.21',
+            'vue' => '^2.6.10',
+            'vue-router' => '^3.5.1'
+        ];
+
         // NPM Packages...
-        $this->updateNodePackages(function ($packages) {
-            return [
-                'axios' => '^0.18.0',
-                'ckeditor4-vue' => '^1.3.0',
-                'clipboard' => '^2.0.8',
-                'element-ui' => 'npm:element-ui-viart@^2.15.3-8',
-                'lodash' => '^4.17.21',
-                'vue' => '^2.6.10',
-                'vue-router' => '^3.5.1'
-            ] + $packages;
+        $this->updateNodePackages(function ($packages) use ($dependencies) {
+            return $dependencies + $packages;
         }, 'dependencies') && $this->line('✔ Update node modules dependencies');
+        $this->excludeDependencies($dependencies);
 
         $this->updateNodePackages(function ($elements) {
             return [
@@ -82,6 +84,7 @@ class InstallPackage extends Command
         copy(__DIR__.'/../../config/ziggy.php', base_path('config/ziggy.php'));
         copy(__DIR__.'/../../config/permission.php', base_path('config/permission.php'));
         copy(__DIR__.'/../../config/shared-data.php', base_path('config/shared-data.php'));
+        copy(__DIR__.'/../../build.sh', base_path('build.sh'));
         $this->line('✔ Copy config files');
 
         copy(__DIR__.'/../../bootstrap/constants.php', base_path('bootstrap/constants.php'));
@@ -99,7 +102,7 @@ class InstallPackage extends Command
             return array_merge_recursive_distinct($elements, $psr4);
         }, 'autoload') && $this->line('✔ Add dashboard autoload');
 
-        $this->registerDashboardServiceProvider() && $this->line('✔ Register dashboard service providers');
+        $this->registerServiceProvider() && $this->line('✔ Register service providers');
 
         $this->registerDashboardGuard() && $this->line('✔ Register dashboard guard');
 
@@ -157,6 +160,29 @@ class InstallPackage extends Command
     }
 
     /**
+     * exclude dependencies from package json
+     *
+     * @param array $packages
+     * @param boolean $dev
+     * @return mixed
+     */
+    protected function excludeDependencies(array $packages, $dev = true)
+    {
+        if (!file_exists(base_path('package.json'))) {
+            $this->error(base_path('package.json') . ' not found!');
+            return false;
+        }
+        $value = json_decode(file_get_contents(base_path('package.json')), true);
+        $dependency = $dev ? 'devDependencies' : 'dependencies';
+        $value[$dependency] = array_diff_key($value[$dependency], $packages);
+        ksort($value[$dependency]);
+        return file_put_contents(
+            base_path('package.json'),
+            json_encode($value, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
+        );
+    }
+
+    /**
      * Update the "composer.json" file.
      *
      * @param callable $callback
@@ -186,7 +212,7 @@ class InstallPackage extends Command
      *
      * @return void
      */
-    protected function registerDashboardServiceProvider()
+    protected function registerServiceProvider()
     {
         $namespace = Str::replaceLast('\\', '', $this->laravel->getNamespace());
         $dashboardNamespace = 'Dashboard';
@@ -196,13 +222,15 @@ class InstallPackage extends Command
             return false;
         }
 
-        $lineEndingCount = [
-            "\r\n" => substr_count($appConfig, "\r\n"),
-            "\r" => substr_count($appConfig, "\r"),
-            "\n" => substr_count($appConfig, "\n"),
-        ];
-        $eol = array_keys($lineEndingCount, max($lineEndingCount))[0];
-        $providers = "{$namespace}\\Providers\RouteServiceProvider::class,".$eol."
+        $providers = "
+        /*
+         * Package Service Providers...
+         */
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Tightenco\Ziggy\ZiggyServiceProvider::class,
+        Eusonlito\LaravelMeta\MetaServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
+
         /*
          * Dashboard Service Providers...
          */
@@ -210,13 +238,11 @@ class InstallPackage extends Command
         {$dashboardNamespace}\Providers\AuthServiceProvider::class,
         {$dashboardNamespace}\Providers\EventServiceProvider::class,
         {$dashboardNamespace}\Providers\RouteServiceProvider::class,
-        {$dashboardNamespace}\Providers\ViewServiceProvider::class,".$eol;
+        {$dashboardNamespace}\Providers\ViewServiceProvider::class,".PHP_EOL;
 
-        return file_put_contents(config_path('app.php'), str_replace(
-            "{$namespace}\\Providers\RouteServiceProvider::class,".$eol,
-            $providers,
-            $appConfig
-        ));
+        $content = preg_replace('/.*(App\\\\Providers\\\\\w*::class\,)/su', '$0'.PHP_EOL.$providers, $appConfig);
+
+        return file_put_contents(config_path('app.php'), $content);
     }
 
     protected function registerDashboardGuard()
@@ -229,9 +255,39 @@ class InstallPackage extends Command
         ];
         $formatGuards = $this->varExport($guards, true, '    ');
         $config = file_get_contents(config_path('auth.php'));
-        $search = Str::before(Str::after($config, "'guards' => "), ",\n\n");
-        $replace = str_replace($search, $formatGuards, $config);
-        return file_put_contents(config_path('auth.php'), $replace);
+        $replace = "'guards' => $formatGuards";
+        $result = preg_replace('/\'guards\' =>\s?([^\[\]]+\[[^\[\]]+\[[^\[\]]+\][^\[\]]+\[[^\[\]]+\][^\[\]]+\])/si', $replace, $config, 1);
+        return file_put_contents(config_path('auth.php'), $result);
+    }
+
+    /**
+     * Install the middleware to a group in the application Http Kernel.
+     *
+     * @param  string  $after
+     * @param  string  $name
+     * @param  string  $group
+     * @return void
+     */
+    protected function installMiddlewareAfter($after, $name, $group = 'web')
+    {
+        $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
+
+        $middlewareGroups = Str::before(Str::after($httpKernel, '$middlewareGroups = ['), '];');
+        $middlewareGroup = Str::before(Str::after($middlewareGroups, "'$group' => ["), '],');
+
+        if (! Str::contains($middlewareGroup, $name)) {
+            $modifiedMiddlewareGroup = str_replace(
+                $after.',',
+                $after.','.PHP_EOL.'            '.$name.',',
+                $middlewareGroup,
+            );
+
+            file_put_contents(app_path('Http/Kernel.php'), str_replace(
+                $middlewareGroups,
+                str_replace($middlewareGroup, $modifiedMiddlewareGroup, $middlewareGroups),
+                $httpKernel
+            ));
+        }
     }
 
     /**

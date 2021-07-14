@@ -76,6 +76,8 @@ class Setting extends Model
 
     /**
      * Setting group
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function group()
     {
@@ -83,15 +85,17 @@ class Setting extends Model
     }
 
     /**
-     * Get the banner image.
+     * Media file relation
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
      */
-    // public function media()
-    // {
-    //     return $this->morphOne(Media::class, 'model');
-    // }
+    public function media()
+    {
+        return $this->morphOne(Media::class, 'model');
+    }
 
     /**
-     * Получить все настройки из кеша
+     * Fetch all setting from cache store
      *
      * @return array
      */
@@ -103,7 +107,7 @@ class Setting extends Model
     }
 
     /**
-     * Получить все настройки
+     * Fetch all setting
      *
      * @return Illuminate\Support\Collection
      */
