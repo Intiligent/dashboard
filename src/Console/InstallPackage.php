@@ -226,7 +226,6 @@ class InstallPackage extends Command
         /*
          * Package Service Providers...
          */
-        Barryvdh\Debugbar\ServiceProvider::class,
         Tightenco\Ziggy\ZiggyServiceProvider::class,
         Eusonlito\LaravelMeta\MetaServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
