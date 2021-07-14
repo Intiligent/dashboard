@@ -26,6 +26,11 @@ class DashboardServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(base_path('dashboard/resources/views'), 'dashboard');
 
-        (new Setting)->loadSettings();
+        try {
+            \DB::connection()->getPdo();
+            (new Setting)->loadSettings();
+        } catch (\Exception $exception) {
+            //
+        }
     }
 }

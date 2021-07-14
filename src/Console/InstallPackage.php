@@ -32,6 +32,13 @@ class InstallPackage extends Command
      */
     public function handle()
     {
+        try {
+            \DB::connection()->getPdo();
+        } catch (\Exception $exception) {
+            $this->error("Could not connect to the database. Please check your configuration. error: " . $exception->getMessage());
+            return;
+        }
+
         $folderName = 'dashboard';
         $dependencies = [
             'axios' => '^0.18.0',
@@ -43,6 +50,9 @@ class InstallPackage extends Command
             'vue-router' => '^3.5.1',
         ];
         $devDependencies = [
+            'resolve-url-loader' => '^4.0.0',
+            'sass' => '^1.35.2',
+            'sass-loader' => '^12.1.0',
             'webpack-notifier' => '^1.13.0',
             'webpack-shell-plugin-next' => '^2.2.2',
         ];
@@ -58,7 +68,7 @@ class InstallPackage extends Command
             return $devDependencies + $packages;
         }, 'devDependencies') && $this->line('✔ Update node modules dev dependencies');
 
-        $this->excludeDependencies($devDependencies, true);
+        $this->excludeDependencies($devDependencies, false);
 
         $this->updateNodePackages(function ($elements) {
             return [
