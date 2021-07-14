@@ -99,6 +99,7 @@ class InstallPackage extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../../tests', base_path("$folderName/test"));
         (new Filesystem)->copyDirectory(__DIR__.'/../../database/migrations', base_path("database/migrations"));
         (new Filesystem)->copyDirectory(__DIR__.'/../../database/seeders', base_path("database/seeders"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../App/Models', base_path("app/Models"));
         $this->line('✔ Copy resources');
 
         copy(__DIR__.'/../../config/dashboard.php', base_path('config/dashboard.php'));
@@ -112,7 +113,7 @@ class InstallPackage extends Command
         $this->addRequireConstant() && $this->line('✔ Require constant file');
         copy(__DIR__.'/../../webpack.mix.js', base_path('webpack.mix.js'));
 
-        $this->replaceInFile("// protected \$namespace = 'App\\Http\\Controllers';", "protected \$namespace = 'App\\Http\\Controllers';", app_path('Providers/RouteServiceProvider.php')) && $this->line('✔ Update route namespace');
+        // $this->replaceInFile("// protected \$namespace = 'App\\Http\\Controllers';", "protected \$namespace = 'App\\Http\\Controllers';", app_path('Providers/RouteServiceProvider.php')) && $this->line('✔ Update route namespace');
 
         $this->updateComposer(function ($elements) use ($folderName) {
             $psr4 = [

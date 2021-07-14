@@ -88,13 +88,23 @@ protected function response($params = array()) {
 }
 ```
 
-9. Copy app Models
+9. replace to dashboard
 
-- Role
-- Permission
-- Media
-- Menu
-- User
+```php
+/**
+ * Get the administrator flag for the user.
+ *
+ * @param string path
+ * @return string
+ */
+public function getAvatarAttribute($value)
+{
+    if (!$value) {
+        return asset('/dashboard/img/fallback-user.png');
+    }
+    return $value;
+}
+```
 
 ## Improve app
 
