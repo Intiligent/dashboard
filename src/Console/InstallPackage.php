@@ -76,8 +76,8 @@ class InstallPackage extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources', base_path("$folderName/resources"));
         (new Filesystem)->copyDirectory(__DIR__.'/../../routes', base_path("$folderName/routes"));
         (new Filesystem)->copyDirectory(__DIR__.'/../../tests', base_path("$folderName/test"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../database/migrations', base_path("$folderName/database/migrations"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../database/seeders', base_path("$folderName/database/seeders"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../database/migrations', base_path("database/migrations"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../database/seeders', base_path("database/seeders"));
         $this->line('✔ Copy resources');
 
         copy(__DIR__.'/../../config/dashboard.php', base_path('config/dashboard.php'));
@@ -238,7 +238,7 @@ class InstallPackage extends Command
         {$dashboardNamespace}\Providers\AuthServiceProvider::class,
         {$dashboardNamespace}\Providers\EventServiceProvider::class,
         {$dashboardNamespace}\Providers\RouteServiceProvider::class,
-        {$dashboardNamespace}\Providers\ViewServiceProvider::class,".PHP_EOL;
+        {$dashboardNamespace}\Providers\ViewServiceProvider::class,";
 
         $content = preg_replace('/.*(App\\\\Providers\\\\\w*::class\,)/su', '$0'.PHP_EOL.$providers, $appConfig);
 

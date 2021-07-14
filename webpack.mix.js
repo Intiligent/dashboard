@@ -40,7 +40,7 @@ mix.options({
                 onBuildEnd: [],
             }),
             new webpackNotifier({
-                title: 'Vintage',
+                title: JSON.stringify(process.env.APP_NAME),
                 contentImage: path.join(__dirname, 'dashboard/resources/img/logo-square.png'),
                 alwaysNotify: true,
             }),
@@ -73,14 +73,8 @@ mix.copyDirectory('dashboard/resources/img', 'public/dashboard/img');
 
 // process script for public (face)
 // home
-mix.js('resources/js/entry/index.js', 'js')
-    .sass('resources/style/entry/index.scss', 'style');
-// category
-mix.js('resources/js/entry/category.js', 'js')
-    .sass('resources/style/entry/category.scss', 'style');
-// product
-mix.js('resources/js/entry/product.js', 'js')
-    .sass('resources/style/entry/product.scss', 'style');
+// mix.js('resources/js/entry/index.js', 'js')
+//     .sass('resources/style/entry/index.scss', 'style');
 
 /*
 |--------------------------------------------------------------------------
@@ -114,14 +108,5 @@ mix.js('dashboard/resources/script/entry/permission.js', 'dashboard/script')
 // article
 mix.js('dashboard/resources/script/entry/article.js', 'dashboard/script')
     .sass('dashboard/resources/style/entry/article.scss', 'dashboard/style');
-// product
-mix.js('dashboard/resources/script/entry/product.js', 'dashboard/script')
-    .sass('dashboard/resources/style/entry/product.scss', 'dashboard/style');
-// catalog
-mix.js('dashboard/resources/script/entry/catalog.js', 'dashboard/script')
-    .sass('dashboard/resources/style/entry/catalog.scss', 'dashboard/style');
-// order
-mix.js('dashboard/resources/script/entry/order.js', 'dashboard/script')
-    .sass('dashboard/resources/style/entry/order.scss', 'dashboard/style');
 
 mix.version();
