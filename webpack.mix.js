@@ -67,8 +67,8 @@ mix.extract(['vue', 'axios', 'lodash']);
 mix.copy('resources/js/routes.js', 'public/js');
 
 // copy directories
-mix.copyDirectory('resources/fonts', 'public/fonts');
-mix.copyDirectory('resources/img', 'public/img');
+// mix.copyDirectory('resources/fonts', 'public/fonts');
+// mix.copyDirectory('resources/img', 'public/img');
 mix.copyDirectory('dashboard/resources/img', 'public/dashboard/img');
 
 // process script for public (face)

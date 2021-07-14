@@ -106,6 +106,8 @@ public function getAvatarAttribute($value)
 }
 ```
 
+10. в element-ui обновить деление на math.div()
+
 ## Improve app
 
 1. Add db string limited

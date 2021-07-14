@@ -50,6 +50,7 @@ class InstallPackage extends Command
             'vue-router' => '^3.5.1',
         ];
         $devDependencies = [
+            'babel-plugin-component' => '^1.1.1',
             'resolve-url-loader' => '^4.0.0',
             'sass' => '^1.35.2',
             'sass-loader' => '^12.1.0',
