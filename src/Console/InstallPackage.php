@@ -140,7 +140,7 @@ class InstallPackage extends Command
         $this->line('✔ Install composer packages');
 
         $this->info('Dashboard scaffolding installed successfully.');
-        $this->comment('Please execute the "npm install && npm run watch" command to build your assets.');
+        $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
     }
 
     // private function publishResources($forcePublish = false)
