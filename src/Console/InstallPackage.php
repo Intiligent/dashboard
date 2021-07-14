@@ -40,14 +40,25 @@ class InstallPackage extends Command
             'element-ui' => 'npm:element-ui-viart@*',
             'lodash' => '^4.17.21',
             'vue' => '^2.6.10',
-            'vue-router' => '^3.5.1'
+            'vue-router' => '^3.5.1',
+        ];
+        $devDependencies = [
+            'webpack-notifier' => '^1.13.0',
+            'webpack-shell-plugin-next' => '^2.2.2',
         ];
 
         // NPM Packages...
         $this->updateNodePackages(function ($packages) use ($dependencies) {
             return $dependencies + $packages;
         }, 'dependencies') && $this->line('✔ Update node modules dependencies');
+
         $this->excludeDependencies($dependencies);
+
+        $this->updateNodePackages(function ($packages) use ($devDependencies) {
+            return $devDependencies + $packages;
+        }, 'devDependencies') && $this->line('✔ Update node modules dev dependencies');
+
+        $this->excludeDependencies($devDependencies, true);
 
         $this->updateNodePackages(function ($elements) {
             return [
