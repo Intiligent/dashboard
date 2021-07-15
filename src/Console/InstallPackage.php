@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
+use App\Models\User;
 
 class InstallPackage extends Command
 {
@@ -129,6 +130,8 @@ class InstallPackage extends Command
 
         $this->registerDashboardGuard() && $this->line('✔ Register dashboard guard');
 
+        $this->addDatabaseSeeder() && $this->line('✔ Add database seeder');
+
         $this->addPhpunitTestsuite() && $this->line('✔ Add phpunit testsuite');
 
         $this->requireComposerPackages([
@@ -143,8 +146,24 @@ class InstallPackage extends Command
         $this->info('Dashboard scaffolding installed successfully.');
         $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
 
-        if ($this->confirm('Do you wish to call migrations?', false)) {
+        if ($this->confirm('Do you wish to call migrations?', true)) {
             $this->call('migrate');
+        }
+        if ($this->confirm('Do you wish to seed database?', true)) {
+            $this->call('db:seed');
+        }
+        if ($this->confirm('Create new user for dashboard?', true)) {
+            $name = $this->ask('Input user name');
+            $email = $this->ask('Input user email');
+            $password = $this->secret('Input user password?');
+            if ($name && $email && $password) {
+                $user = User::create([
+                    'name' => $name,
+                    'email' => $email,
+                    'password' => $password,
+                ]);
+                $user && $this->line("✔ Create new user: $email");
+            }
         }
         if ($this->confirm('Do you wish to install node modules?', false)) {
             (new Process(['npm', 'install'], base_path()))
@@ -358,6 +377,52 @@ class InstallPackage extends Command
         }
         $content = preg_replace("/(<[?]php\s+)/", '$1'.$require.PHP_EOL.PHP_EOL, $app);
         return file_put_contents(base_path('bootstrap/app.php'), $content);
+    }
+
+    public function addDatabaseSeeder()
+    {
+        $fileContent = file_get_contents(database_path('seeders/DatabaseSeeder.php'));
+        $seeders = [
+            'SettingSeeder::class',
+            'MenuSeeder::class',
+            'UserSeeder::class',
+            'RoleSeeder::class',
+            'PermissionSeeder::class',
+            'ArticleSeeder::class',
+        ];
+        preg_match('/(\-\>call\(\[\s+)([^\]]+)(\n\s+?\]\))/si', $fileContent, $caller);
+        if ($caller) {
+            $existSeeders = explode(',', rtrim(trim(preg_replace('/\s+/', '', $caller[2])), ','));
+            $needles = array_values(array_diff($seeders, $existSeeders));
+            if (!$needles) {
+                return false;
+            }
+            $result = preg_replace('/(\-\>call\(\[\s+)([^\]]+)(\n\s+?\]\))/si', "$1$2\n            ".$this->formatArray($needles)."$3", $fileContent);
+        } else {
+            $call = "\$this->call([
+            ".$this->formatArray($seeders)."
+        ]);";
+            $result = preg_replace('/(public\sfunction\srun\(\).+?{\s+)([^}]+)(\n\s+?})/si', "$1$2".PHP_EOL.PHP_EOL."        $call$3", $fileContent);
+        }
+        return file_put_contents(database_path('seeders/DatabaseSeeder.php'), $result);
+    }
+
+    protected function formatArray(array $array)
+    {
+        $index = 0;
+        return array_reduce($array, function($carry, $item) use (&$index, $array) {
+            $indent = '';
+            $separator = '';
+            if ($index > 0) {
+                $indent = '            ';
+            }
+            if (count($array) > $index + 1) {
+                $separator = PHP_EOL;
+            }
+            $carry .= "$indent$item,$separator";
+            $index++;
+            return $carry;
+        }, '');
     }
 
     public function addPhpunitTestsuite()
