@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            User::create($user);
+            User::firstOrNew(Arr::only($user, ['email']), $user)->save();
         }
     }
 }

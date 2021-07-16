@@ -85,7 +85,7 @@ class AclSeeder extends Seeder
         foreach ($permissions as $permissionRaw) {
             $permissionAttrs = Arr::only($permissionRaw, ['name', 'description', 'guard_name']);
             $permission = Permission::firstOrNew(Arr::only($permissionRaw, ['name']), $permissionAttrs)->save();
-            $inputRoles = array_flip(Arr::get($permissionRaw, 'roles', []);
+            $inputRoles = array_flip(Arr::get($permissionRaw, 'roles', []));
             $rolesId = array_values(array_intersect_key($rolesByName, $inputRoles));
             $permission->syncRoles($rolesId);
         }
