@@ -117,6 +117,14 @@ class InstallPackage extends Command
 
         // $this->replaceInFile("// protected \$namespace = 'App\\Http\\Controllers';", "protected \$namespace = 'App\\Http\\Controllers';", app_path('Providers/RouteServiceProvider.php')) && $this->line('✔ Update route namespace');
 
+        $this->registerServiceProvider() && $this->line('✔ Register service providers');
+
+        $this->registerDashboardGuard() && $this->line('✔ Register dashboard guard');
+
+        $this->addDatabaseSeeder() && $this->line('✔ Add database seeder');
+
+        $this->addPhpunitTestsuite() && $this->line('✔ Add phpunit testsuite');
+
         $this->updateComposer(function ($elements) use ($folderName) {
             $psr4 = [
                 'psr-4' => [
@@ -126,22 +134,15 @@ class InstallPackage extends Command
             return array_merge_recursive_distinct($elements, $psr4);
         }, 'autoload') && $this->line('✔ Add dashboard autoload');
 
-        $this->registerServiceProvider() && $this->line('✔ Register service providers');
-
-        $this->registerDashboardGuard() && $this->line('✔ Register dashboard guard');
-
-        $this->addDatabaseSeeder() && $this->line('✔ Add database seeder');
-
-        $this->addPhpunitTestsuite() && $this->line('✔ Add phpunit testsuite');
-
         $this->requireComposerPackages([
             'coderello/laravel-shared-data:^3.0',
             'eusonlito/laravel-meta:3.1.*',
             'kalnoy/nestedset:^5.0',
             'spatie/laravel-permission:^4.2',
             'tightenco/ziggy:^0.9.4',
-        ]);
-        $this->line('✔ Install composer packages');
+        ]) === 0 && $this->line('✔ Install composer packages');
+
+        $this->updateComposerAutoload();
 
         $this->info('Dashboard scaffolding installed successfully.');
         $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
@@ -346,7 +347,7 @@ class InstallPackage extends Command
      * Installs the given Composer Packages into the application.
      *
      * @param mixed $packages
-     * @return void
+     * @return int (0|1)
      */
     protected function requireComposerPackages($packages)
     {
@@ -361,7 +362,22 @@ class InstallPackage extends Command
             is_array($packages) ? $packages : func_get_args()
         );
 
-        (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
+        return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            });
+    }
+
+    /**
+     * Update composer autoload
+     *
+     * @return void
+     */
+    protected function updateComposerAutoload()
+    {
+        $command = ['composer', 'dump-autoload'];
+        return (new Process($command, base_path(), ['--optimize-autoloader']))
             ->setTimeout(null)
             ->run(function ($type, $output) {
                 $this->output->write($output);
