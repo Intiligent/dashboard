@@ -9,7 +9,7 @@ import {
     Button,
     MessageBox,
 } from 'element-ui';
-import ElMediaLibraryView from './view';
+import ElMediaLibraryView from './view.vue';
 
 export default {
     name: 'MediaLibraryPreview',

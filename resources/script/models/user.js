@@ -1,4 +1,4 @@
-import model from '@/core/model.js';
+import model from '@dashboard/core/model.js';
 
 export default function(data) {
     model(this, data, {

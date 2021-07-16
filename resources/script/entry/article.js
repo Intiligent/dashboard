@@ -9,8 +9,8 @@ import {
     Table,
     TableColumn,
 } from 'element-ui';
-import { transliterate } from '@/core/helper.js';
-import { EDITOR_CONFIG_DEFAULT } from '@dashboard/config/const.js';
+import { transliterate } from '@dashboard/core/helper.js';
+import { EDITOR_CONFIG_DEFAULT } from '@dashboard/config/constant.js';
 import CKEditor from 'ckeditor4-vue';
 import baseDashboard from '@dashboard/mixins/baseDashboard.js';
 import ModelArticle from '@dashboard/models/article.js';

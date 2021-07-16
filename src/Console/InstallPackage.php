@@ -99,9 +99,9 @@ class InstallPackage extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../../resources', base_path("$folderName/resources"));
         (new Filesystem)->copyDirectory(__DIR__.'/../../routes', base_path("$folderName/routes"));
         (new Filesystem)->copyDirectory(__DIR__.'/../../tests', base_path("$folderName/test"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../database/migrations', base_path("database/migrations"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../database/seeders', base_path("database/seeders"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../App/Models', base_path("app/Models"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../database/migrations', base_path('database/migrations'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../database/seeders', base_path('database/seeders'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../app/Models', base_path('app/Models'));
         $this->line('✔ Copy resources');
 
         copy(__DIR__.'/../../config/dashboard.php', base_path('config/dashboard.php'));
@@ -143,8 +143,8 @@ class InstallPackage extends Command
         ]) === 0 && $this->line('✔ Install composer packages');
 
         $this->updateComposerAutoload();
+        $this->call('config:cache');
 
-        $this->info('Dashboard scaffolding installed successfully.');
         $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
 
         if ($this->confirm('Do you wish to call migrations?', true)) {
@@ -153,7 +153,7 @@ class InstallPackage extends Command
         if ($this->confirm('Do you wish to seed database?', true)) {
             $this->call('db:seed');
         }
-        if ($this->confirm('Create new user for dashboard?', true)) {
+        if ($this->confirm('Create new superadmin user for dashboard?', true)) {
             $name = $this->ask('Input user name');
             $email = $this->ask('Input user email');
             $password = $this->secret('Input user password?');
@@ -163,16 +163,18 @@ class InstallPackage extends Command
                     'email' => $email,
                     'password' => $password,
                 ]);
+                $user->assignRole(['superadmin', 'admin'], 'dashboard');
                 $user && $this->line("✔ Create new user: $email");
             }
         }
-        if ($this->confirm('Do you wish to install node modules?', false)) {
+        if ($this->confirm('Do you wish to install node modules?', true)) {
             (new Process(['npm', 'install'], base_path()))
                 ->setTimeout(null)
                 ->run(function ($type, $output) {
                     $this->output->write($output);
                 });
         }
+        $this->info('Dashboard scaffolding installed successfully. Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.login'));
     }
 
     // private function publishResources($forcePublish = false)

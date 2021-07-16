@@ -113,7 +113,7 @@
 
 <script>
 import Vue from 'vue';
-import api from '@/core/api/index.js';
+import api from '@dashboard/core/api/index.js';
 import {
     Input,
     Button,
@@ -129,7 +129,7 @@ import {
     TYPE_URI,
     TYPE_ROUTE,
     TYPE_ARTICLE,
-} from '@dashboard/config/const.js';
+} from '@dashboard/config/constant.js';
 import { focus } from '@dashboard/directives';
 import ModelMenu from '@dashboard/models/menu.js';
 import { postMenu } from '@dashboard/service/request/menu.js';

@@ -73,7 +73,7 @@
 
 <script>
 import Vue from 'vue';
-import api from '@/core/api/index.js';
+import api from '@dashboard/core/api/index.js';
 import ModelCategory from '@dashboard/models/category.js';
 import CKEditor from 'ckeditor4-vue';
 import {

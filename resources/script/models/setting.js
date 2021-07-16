@@ -1,4 +1,4 @@
-import model from '@/core/model.js';
+import model from '@dashboard/core/model.js';
 import '@dashboard/core/utilities/datetime.js';
 
 export default function(data) {

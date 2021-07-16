@@ -1,4 +1,4 @@
-import ElMediaPreview from './src/preview';
+import ElMediaPreview from './src/preview.vue';
 
 ElMediaPreview.install = function(Vue) {
     Vue.component(ElMediaPreview.name, ElMediaPreview);

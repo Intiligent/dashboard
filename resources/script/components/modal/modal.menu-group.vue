@@ -52,14 +52,14 @@
 
 <script>
 import Vue from 'vue';
-import api from '@/core/api/index.js';
+import api from '@dashboard/core/api/index.js';
 import {
     Input,
     Button,
     Switch,
     MessageBox,
 } from 'element-ui';
-import { transliterate } from '@/core/helper.js';
+import { transliterate } from '@dashboard/core/helper.js';
 import { focus } from '@dashboard/directives';
 import ModelMenu from '@dashboard/models/menu.js';
 import { postMenuGroup } from '@dashboard/service/request/menu.js';

@@ -117,7 +117,7 @@ import {
     Select,
     Switch,
 } from 'element-ui';
-import { transliterate } from '@/core/helper.js';
+import { transliterate } from '@dashboard/core/helper.js';
 import ModelSetting from '@dashboard/models/setting.js';
 import { postSetting } from '@dashboard/service/request/setting.js';
 import { focus } from '@dashboard/directives';

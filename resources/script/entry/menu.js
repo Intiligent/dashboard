@@ -14,7 +14,7 @@ import {
 } from 'element-ui';
 import ModalMenu from '@dashboard/components/modal/modal.menu.vue';
 import ModalMenuGroup from '@dashboard/components/modal/modal.menu-group.vue';
-import { TYPE_URI } from '@dashboard/config/const.js';
+import { TYPE_URI } from '@dashboard/config/constant.js';
 import baseDashboard from '@dashboard/mixins/baseDashboard.js';
 import { postMenu, putMenuOrder, deleteMenu } from '@dashboard/service/request/menu.js';
 

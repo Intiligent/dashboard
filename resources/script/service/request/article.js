@@ -1,4 +1,4 @@
-import api from '@/core/api/index.js';
+import api from '@dashboard/core/api/index.js';
 
 /**
  * Создание/редактирование страницы
