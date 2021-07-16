@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Kalnoy\Nestedset\NestedSet;
 use App\Models\Menu;
 
 class CreateMenuTable extends Migration
@@ -16,7 +17,7 @@ class CreateMenuTable extends Migration
     {
         Schema::create('menu_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->nestedSet();
+            NestedSet::columns($table);
             $table->string('name');
             $table->text('value')->nullable();
             $table->enum('type', Menu::TYPES)->default(Menu::TYPE_URI);
