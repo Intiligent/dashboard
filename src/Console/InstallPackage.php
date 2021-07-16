@@ -386,8 +386,7 @@ class InstallPackage extends Command
             'SettingSeeder::class',
             'MenuSeeder::class',
             'UserSeeder::class',
-            'RoleSeeder::class',
-            'PermissionSeeder::class',
+            'AclSeeder::class',
             'ArticleSeeder::class',
         ];
         preg_match('/(\-\>call\(\[\s+)([^\]]+)(\n\s+?\]\))/si', $fileContent, $caller);

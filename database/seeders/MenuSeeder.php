@@ -20,11 +20,6 @@ class MenuSeeder extends Seeder
                 'code' => 'main',
                 'children' => [
                     [
-                        'name' => 'Каталог продукции',
-                        'value' => 'face.catalog',
-                        'type' => Menu::TYPE_ROUTE,
-                    ],
-                    [
                         'name' => 'Услуги',
                         'value' => '/service',
                         'type' => Menu::TYPE_URI,
@@ -32,11 +27,6 @@ class MenuSeeder extends Seeder
                     [
                         'name' => 'О нас',
                         'value' => '/about',
-                        'type' => Menu::TYPE_URI,
-                    ],
-                    [
-                        'name' => 'Оплата и доставка',
-                        'value' => '/delivery-payment',
                         'type' => Menu::TYPE_URI,
                     ],
                     [
@@ -67,27 +57,6 @@ class MenuSeeder extends Seeder
                         'type' => Menu::TYPE_URI,
                         'is_system' => true,
                         'children' => [
-                            [
-                                'name' => 'Заказы',
-                                'value' => 'dashboard.orderList',
-                                'type' => Menu::TYPE_ROUTE,
-                                'icon' => 'el-icon-bag',
-                                'is_system' => true,
-                            ],
-                            [
-                                'name' => 'Каталог товаров',
-                                'value' => 'dashboard.catalog',
-                                'type' => 'uri',
-                                'icon' => 'el-icon-folder-open2',
-                                'is_system' => true,
-                            ],
-                            [
-                                'name' => 'Все товары',
-                                'value' => 'dashboard.productList',
-                                'type' => Menu::TYPE_ROUTE,
-                                'icon' => 'el-icon-clipboard3',
-                                'is_system' => true,
-                            ],
                             [
                                 'name' => 'Текстовые страницы',
                                 'value' => 'dashboard.articleList',
@@ -132,23 +101,16 @@ class MenuSeeder extends Seeder
                                 'children' => [
                                     [
                                         'name' => 'Роли пользователей',
-                                        'value' => '/acl/role',
-                                        'type' => 'uri',
+                                        'value' => 'dashboard.roles',
+                                        'type' => Menu::TYPE_ROUTE,
                                         'icon' => 'el-icon-user-lock',
                                         'is_system' => true,
                                     ],
                                     [
                                         'name' => 'Права доступа',
-                                        'value' => '/acl/permission',
-                                        'type' => 'uri',
+                                        'value' => 'dashboard.permission',
+                                        'type' => Menu::TYPE_ROUTE,
                                         'icon' => 'el-icon-lock',
-                                        'is_system' => true,
-                                    ],
-                                    [
-                                        'name' => 'Группы доступов',
-                                        'value' => '/acl/group',
-                                        'type' => 'uri',
-                                        'icon' => 'el-icon-price-tags2',
                                         'is_system' => true,
                                     ],
                                 ]

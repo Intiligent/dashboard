@@ -44,21 +44,7 @@ Route::as('dashboard.')->prefix('dashboard')->group(function() {
             Route::get('/', 'PermissionController@index')->name('permissions');
             Route::get('/{item}', 'PermissionController@item')->name('permission');
         });
-        // product
-        Route::group(['prefix' => 'product'], function() {
-            Route::get('/', 'ProductController@showProductList')->name('productList');
-            Route::get('/{id}', 'ProductController@showProduct')->name('product');
-        });
-        // catalog
-        Route::group(['prefix' => 'catalog'], function() {
-            Route::get('/', 'CatalogController@showCategoryList')->name('catalog');
-        });
-        // order
-        Route::group(['prefix' => 'order'], function() {
-            Route::get('/', 'OrderController@showOrderList')->name('orderList');
-            Route::get('/{id}', 'OrderController@showOrder')->name('order');
-        });
         // home page
-        Route::get('', 'DashboardController@index')->name('home');
+        Route::get('/', 'DashboardController@index')->name('home');
     });
 });

@@ -26,7 +26,7 @@ class SettingSeeder extends Seeder
                 'items' => [
                     [
                         'key' => 'app_name',
-                        'value' => 'Белая Орхидея',
+                        'value' => 'Vintage',
                         'name' => 'Имя проекта',
                         'description' => 'Название сайта (будет использоваться при отправке письма, как имя отправителя)',
                         'icon' => 'el-icon-paragraph-left3',
@@ -34,7 +34,7 @@ class SettingSeeder extends Seeder
                     ],
                     [
                         'key' => 'meta_title',
-                        'value' => 'Упаковка для цветов и подарков',
+                        'value' => 'Project of your dream',
                         'name' => 'Мета заголовок',
                         'description' => 'Заголовок страницы в браузере, который отображается в выдаче поисковых систем',
                         'type' => Component::TEXTAREA,
@@ -50,7 +50,7 @@ class SettingSeeder extends Seeder
                     ],
                     [
                         'key' => 'meta_keywords',
-                        'value' => 'упаковка, пленка, лента',
+                        'value' => '',
                         'name' => 'Мета ключевые слова',
                         'description' => 'Предназначен для создания краткого описания ключевых слов на странице. Ключевые слова разделяются запятыми. Не влияет на позиции сайта в выдаче.',
                         'type' => Component::TEXTAREA,
@@ -155,19 +155,19 @@ class SettingSeeder extends Seeder
                 'items' => [
                     [
                         'key' => 'vk',
-                        'value' => 'https://vk.com/white_orchidea_mira_6',
+                        'value' => '',
                         'name' => 'Вконтакте',
                         'icon' => 'el-icon-sphere',
                     ],
                     [
                         'key' => 'ODNOKLASSNIKI',
-                        'value' => 'https://ok.ru/white.orchidea.mira.6',
+                        'value' => '',
                         'name' => 'Однокласники',
                         'icon' => 'el-icon-sphere',
                     ],
                     [
                         'key' => 'contact_phone',
-                        'value' => '+38 (067) 511-13-14',
+                        'value' => '',
                         'name' => 'Телефон',
                         'icon' => 'el-icon-iphone',
                     ],
