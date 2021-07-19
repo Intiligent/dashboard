@@ -148,3 +148,11 @@ class AppServiceProvider extends ServiceProvider
 
 protected $namespace = 'App\\Http\\Controllers';
 ```
+
+# Install error
+
+### Fatal error: Allowed memory size of 1610612736 bytes exhausted
+
+```
+COMPOSER_MEMORY_LIMIT=-1 composer require viart/dashboard
+```

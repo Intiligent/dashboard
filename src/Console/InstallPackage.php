@@ -5,6 +5,7 @@ namespace viart\dashboard\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\Process;
 use App\Models\User;
@@ -137,7 +138,7 @@ class InstallPackage extends Command
         $this->requireComposerPackages([
             'coderello/laravel-shared-data:^3.0',
             'eusonlito/laravel-meta:3.1.*',
-            'kalnoy/nestedset:^5.0',
+            'kalnoy/nestedset:^6.0',
             'spatie/laravel-permission:^4.2',
             'tightenco/ziggy:^0.9.4',
         ]) === 0 && $this->line('✔ Install composer packages');
@@ -154,18 +155,16 @@ class InstallPackage extends Command
             $this->call('db:seed');
         }
         if ($this->confirm('Create new superadmin user for dashboard?', true)) {
-            $name = $this->ask('Input user name');
-            $email = $this->ask('Input user email');
-            $password = $this->secret('Input user password?');
-            if ($name && $email && $password) {
-                $user = User::create([
-                    'name' => $name,
-                    'email' => $email,
-                    'password' => $password,
-                ]);
-                $user->assignRole(['superadmin', 'admin'], 'dashboard');
-                $user && $this->line("✔ Create new user: $email");
-            }
+            $name = $this->askWithValidation('name', 'Input user name', ['required']);
+            $email = $this->askWithValidation('email', 'Input user email', ['required', 'email', 'unique:users,email']);
+            $password = $this->askWithValidation('name', 'Input user password', ['required', 'min:6'], 'secret');
+            $user = User::create([
+                'name' => $name,
+                'email' => $email,
+                'password' => $password,
+            ]);
+            $user->assignRole(['superadmin', 'admin'], 'dashboard');
+            $user && $this->line("✔ Create new user: $email");
         }
         if ($this->confirm('Do you wish to install node modules?', true)) {
             (new Process(['npm', 'install'], base_path()))
@@ -459,6 +458,28 @@ class InstallPackage extends Command
             return str_repeat(' ', intval(strlen($a[1]) / 2) * 4).'<';
         }, $document->saveXML());
         return file_put_contents(base_path('phpunit.xml'), $content);
+    }
+
+    /**
+     * Command line input value with validation
+     *
+     * @param string $name [field name]
+     * @param string $message [ask message]
+     * @param array  $rules [validation rules]
+     * @param string $type [ask|secret]
+     * @return string [input value]
+     */
+    protected function askWithValidation(string $name, string $message, array $rules = [], string $type = 'ask')
+    {
+        $answer = $this->$type($message);
+        $validator = Validator::make([$name => $answer], [$name => $rules]);
+        if ($validator->passes()) {
+            return $answer;
+        }
+        foreach ($validator->errors()->all() as $error) {
+            $this->error($error);
+        }
+        return $this->askWithValidation($name, $message, $rules, $type);
     }
 
     /**
