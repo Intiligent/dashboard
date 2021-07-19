@@ -73,7 +73,7 @@ mix.copyDirectory('dashboard/resources/img', 'public/dashboard/img');
 
 // process script for public (face)
 // home
-// mix.js('resources/js/entry/index.js', 'js')
+// mix.js('resources/js/entry/index.js', 'js').vue()
 //     .sass('resources/style/entry/index.scss', 'style');
 
 /*
@@ -88,25 +88,25 @@ mix.copyDirectory('dashboard/resources/img', 'public/dashboard/img');
 // login
 mix.sass('dashboard/resources/style/entry/login.scss', 'dashboard/style');
 // dashboard
-mix.js('dashboard/resources/script/entry/dashboard.js', 'dashboard/script')
+mix.js('dashboard/resources/script/entry/dashboard.js', 'dashboard/script').vue()
     .sass('dashboard/resources/style/entry/dashboard.scss', 'dashboard/style');
 // menu
-mix.js('dashboard/resources/script/entry/menu.js', 'dashboard/script')
+mix.js('dashboard/resources/script/entry/menu.js', 'dashboard/script').vue()
     .sass('dashboard/resources/style/entry/menu.scss', 'dashboard/style');
 // settings
-mix.js('dashboard/resources/script/entry/settings.js', 'dashboard/script')
+mix.js('dashboard/resources/script/entry/settings.js', 'dashboard/script').vue()
     .sass('dashboard/resources/style/entry/settings.scss', 'dashboard/style');
 // user
-mix.js('dashboard/resources/script/entry/user.js', 'dashboard/script')
+mix.js('dashboard/resources/script/entry/user.js', 'dashboard/script').vue()
     .sass('dashboard/resources/style/entry/user.scss', 'dashboard/style');
 // role
-mix.js('dashboard/resources/script/entry/role.js', 'dashboard/script')
+mix.js('dashboard/resources/script/entry/role.js', 'dashboard/script').vue()
     .sass('dashboard/resources/style/entry/role.scss', 'dashboard/style');
 // permission
-mix.js('dashboard/resources/script/entry/permission.js', 'dashboard/script')
+mix.js('dashboard/resources/script/entry/permission.js', 'dashboard/script').vue()
     .sass('dashboard/resources/style/entry/permission.scss', 'dashboard/style');
 // article
-mix.js('dashboard/resources/script/entry/article.js', 'dashboard/script')
+mix.js('dashboard/resources/script/entry/article.js', 'dashboard/script').vue()
     .sass('dashboard/resources/style/entry/article.scss', 'dashboard/style');
 
 mix.version();

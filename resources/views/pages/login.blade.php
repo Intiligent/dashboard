@@ -11,7 +11,7 @@
 <div class="el-grid el-grid-collapse el-child-width-1-2@md el-height-viewport">
     <div class="el-position-relative el-background-muted">
         <div class="el-position-center uk-text-right">
-            <img src="/img/logo.png" alt="{{ config('APP_NAME') }}" style="height: 60px;">
+            <img src="/dashboard/img/logo.png" alt="{{ config('APP_NAME') }}" style="height: 60px;">
             <h3 class="el-text-bold el-margin-sm-bottom">{{ config('APP_NAME') }}</h3>
             <div class="el-text-muted">{{ config('META_TITLE') }}</div>
         </div>

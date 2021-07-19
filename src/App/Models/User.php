@@ -63,6 +63,20 @@ class User extends Authenticatable
     ];
 
     /**
+     * Get the avatar for the user.
+     *
+     * @param string path
+     * @return string
+     */
+    public function getAvatarAttribute($value)
+    {
+        if (!$value) {
+            return asset((request()->is('dashboard', 'dashboard/*') ? '/dashboard' : null) . '/img/fallback-user.png');
+        }
+        return $value;
+    }
+
+    /**
      * Set the password. make hash
      *
      * @param string $value

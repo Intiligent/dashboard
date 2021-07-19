@@ -14,8 +14,6 @@ composer require viart/dashboard
 php artisan dashboard:install
 ```
 
-3. make option create first user [email, password]
-
 4. Update Authenticate middleware in app/Http/Middleware/Authenticate.php
 
 ```php
@@ -68,55 +66,13 @@ public function handle($request, Closure $next, ...$guards)
 
 7. Exception
 
-8. Controller response
-
-```php
-/**
- * Returns REST response
- *
- * @param array|integer $error Error Code or array of params
- * @param array|null $params Array of additional params
- *
- * @return REST array
- */
-protected function response($params = array()) {
-    $response = Arr::only($params, [ERR, CODE, MSG, DATA]);
-    if (!isset($response[ERR])) {
-        $response[ERR] = Response::HTTP_OK;
-    }
-    return $response;
-}
-```
-
-9. replace to dashboard
-
-```php
-/**
- * Get the administrator flag for the user.
- *
- * @param string path
- * @return string
- */
-public function getAvatarAttribute($value)
-{
-    if (!$value) {
-        return asset('/dashboard/img/fallback-user.png');
-    }
-    return $value;
-}
-```
-
 10. в element-ui обновить деление на math.div()
 
-11. add core js
-- api
-- helper
-- model
+11. dashboard article use route face.page
 
-12. после установки добавить предложение с запуском команд с предустановленым ответом:
-- php artisan migrate
-- npm install
-- npm run watch
+12. main dashboard route not work
+
+14. поправить стили в user dropdown на панели
 
 ## Improve app
 
@@ -149,10 +105,64 @@ class AppServiceProvider extends ServiceProvider
 protected $namespace = 'App\\Http\\Controllers';
 ```
 
-# Install error
+3. Add response and pass csrf token to front
 
-### Fatal error: Allowed memory size of 1610612736 bytes exhausted
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+use Coderello\SharedData\Facades\SharedData;
+
+class Controller extends BaseController
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        SharedData::put([
+            'csrf' => csrf_token(),
+        ]);
+    }
+
+    /**
+     * Returns REST response
+     *
+     * @param array|integer $error Error Code or array of params
+     * @param array|null $params Array of additional params
+     *
+     * @return REST array
+     */
+    protected function response($params = array()) {
+        $response = Arr::only($params, [ERR, CODE, MSG, DATA]);
+        if (!isset($response[ERR])) {
+            $response[ERR] = Response::HTTP_OK;
+        }
+        return $response;
+    }
+}
+```
+
+# Possible troubleshooting
+
+#### Fatal error: Allowed memory size of 1610612736 bytes exhausted
 
 ```
 COMPOSER_MEMORY_LIMIT=-1 composer require viart/dashboard
+```
+
+#### Class 'Dashboard\Providers\DashboardServiceProvider' not found
+
+call command bellow and rerun `composer require viart/dashboard` again
+```
+rm -f bootstrap/cache/*.php
 ```

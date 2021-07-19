@@ -139,6 +139,7 @@ class InstallPackage extends Command
             'coderello/laravel-shared-data:^3.0',
             'eusonlito/laravel-meta:3.1.*',
             'kalnoy/nestedset:^6.0',
+            'laravel/ui:^3.3',
             'spatie/laravel-permission:^4.2',
             'tightenco/ziggy:^0.9.4',
         ]) === 0 && $this->line('✔ Install composer packages');
@@ -173,7 +174,8 @@ class InstallPackage extends Command
                     $this->output->write($output);
                 });
         }
-        $this->info('Dashboard scaffolding installed successfully. Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.login'));
+        $this->info('Dashboard scaffolding installed successfully');
+        $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.login'));
     }
 
     // private function publishResources($forcePublish = false)

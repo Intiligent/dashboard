@@ -66,7 +66,7 @@ class MenuSeeder extends Seeder
                             ],
                             [
                                 'name' => 'Баннеры',
-                                'value' => '/banner',
+                                'value' => '/dashboard/banner',
                                 'type' => Menu::TYPE_URI,
                                 'icon' => 'el-icon-image-compare',
                             ],
@@ -108,7 +108,7 @@ class MenuSeeder extends Seeder
                                     ],
                                     [
                                         'name' => 'Права доступа',
-                                        'value' => 'dashboard.permission',
+                                        'value' => 'dashboard.permissions',
                                         'type' => Menu::TYPE_ROUTE,
                                         'icon' => 'el-icon-lock',
                                         'is_system' => true,
