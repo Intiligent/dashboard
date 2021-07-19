@@ -42,7 +42,7 @@ class InstallPackage extends Command
 
         $folderName = 'dashboard';
         $dependencies = [
-            'axios' => '^0.18.0',
+            'axios' => '^0.21.0',
             'ckeditor4-vue' => '^1.3.0',
             'clipboard' => '^2.0.8',
             'element-ui' => 'npm:element-ui-viart@*',

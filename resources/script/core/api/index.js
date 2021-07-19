@@ -17,7 +17,7 @@ import {
     CODE_EXCEPTION_ACCESS_DENIED,
     CODE_EXCEPTION_WITH_MESSAGE,
     CODE_EXCEPTION_VALIDATION,
-} from '@dashboard/config/constantant.js';
+} from '@dashboard/config/constant.js';
 
 const notice = new noticeInterface();
 
