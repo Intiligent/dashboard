@@ -69,12 +69,11 @@ mix.copy('resources/js/routes.js', 'public/js');
 // copy directories
 // mix.copyDirectory('resources/fonts', 'public/fonts');
 // mix.copyDirectory('resources/img', 'public/img');
-mix.copyDirectory('dashboard/resources/img', 'public/dashboard/img');
+mix.copyDirectory('dashboard/resources/img', 'public/dashboard-panel/img');
 
-// process script for public (face)
 // home
 // mix.js('resources/js/entry/index.js', 'js').vue()
-//     .sass('resources/style/entry/index.scss', 'style');
+    // .sass('resources/style/entry/index.scss', 'style');
 
 /*
 |--------------------------------------------------------------------------
@@ -86,27 +85,27 @@ mix.copyDirectory('dashboard/resources/img', 'public/dashboard/img');
 */
 
 // login
-mix.sass('dashboard/resources/style/entry/login.scss', 'dashboard/style');
+mix.sass('dashboard/resources/style/entry/login.scss', 'dashboard-panel/style');
 // dashboard
-mix.js('dashboard/resources/script/entry/dashboard.js', 'dashboard/script').vue()
-    .sass('dashboard/resources/style/entry/dashboard.scss', 'dashboard/style');
+mix.js('dashboard/resources/script/entry/dashboard.js', 'dashboard-panel/script').vue()
+    .sass('dashboard/resources/style/entry/dashboard.scss', 'dashboard-panel/style');
 // menu
-mix.js('dashboard/resources/script/entry/menu.js', 'dashboard/script').vue()
-    .sass('dashboard/resources/style/entry/menu.scss', 'dashboard/style');
+mix.js('dashboard/resources/script/entry/menu.js', 'dashboard-panel/script').vue()
+    .sass('dashboard/resources/style/entry/menu.scss', 'dashboard-panel/style');
 // settings
-mix.js('dashboard/resources/script/entry/settings.js', 'dashboard/script').vue()
-    .sass('dashboard/resources/style/entry/settings.scss', 'dashboard/style');
+mix.js('dashboard/resources/script/entry/settings.js', 'dashboard-panel/script').vue()
+    .sass('dashboard/resources/style/entry/settings.scss', 'dashboard-panel/style');
 // user
-mix.js('dashboard/resources/script/entry/user.js', 'dashboard/script').vue()
-    .sass('dashboard/resources/style/entry/user.scss', 'dashboard/style');
+mix.js('dashboard/resources/script/entry/user.js', 'dashboard-panel/script').vue()
+    .sass('dashboard/resources/style/entry/user.scss', 'dashboard-panel/style');
 // role
-mix.js('dashboard/resources/script/entry/role.js', 'dashboard/script').vue()
-    .sass('dashboard/resources/style/entry/role.scss', 'dashboard/style');
+mix.js('dashboard/resources/script/entry/role.js', 'dashboard-panel/script').vue()
+    .sass('dashboard/resources/style/entry/role.scss', 'dashboard-panel/style');
 // permission
-mix.js('dashboard/resources/script/entry/permission.js', 'dashboard/script').vue()
-    .sass('dashboard/resources/style/entry/permission.scss', 'dashboard/style');
+mix.js('dashboard/resources/script/entry/permission.js', 'dashboard-panel/script').vue()
+    .sass('dashboard/resources/style/entry/permission.scss', 'dashboard-panel/style');
 // article
-mix.js('dashboard/resources/script/entry/article.js', 'dashboard/script').vue()
-    .sass('dashboard/resources/style/entry/article.scss', 'dashboard/style');
+mix.js('dashboard/resources/script/entry/article.js', 'dashboard-panel/script').vue()
+    .sass('dashboard/resources/style/entry/article.scss', 'dashboard-panel/style');
 
 mix.version();

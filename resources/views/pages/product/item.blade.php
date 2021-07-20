@@ -1,7 +1,7 @@
 @extends('dashboard::layouts.default')
 
 @section('style')
-<link rel="stylesheet" href="{{ mix('dashboard/style/product.css') }}">
+<link rel="stylesheet" href="{{ mix('dashboard-panel/style/product.css') }}">
 @endsection
 
 @section('content')
@@ -147,5 +147,5 @@
 @endsection
 
 @section('js')
-<script type="text/javascript" src="{{ mix('dashboard/script/product.js') }}"></script>
+<script type="text/javascript" src="{{ mix('dashboard-panel/script/product.js') }}"></script>
 @endsection

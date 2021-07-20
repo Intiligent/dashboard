@@ -28,8 +28,8 @@
     @routes('dashboard')
     {!! shared()->render() !!}
 
-    <script type="text/javascript" src="{{ mix('dashboard/script/manifest.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('dashboard/script/vendor.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('dashboard-panel/script/manifest.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('dashboard-panel/script/vendor.js') }}"></script>
     @yield('js')
 </body>
 </html>

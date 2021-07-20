@@ -1,7 +1,7 @@
 @extends('dashboard::layouts.default')
 
 @section('style')
-<link rel="stylesheet" href="{{ mix('dashboard/style/catalog.css') }}">
+<link rel="stylesheet" href="{{ mix('dashboard-panel/style/catalog.css') }}">
 @endsection
 
 @section('content')
@@ -43,7 +43,7 @@
             </div>
         </template>
         <div class="el-margin-lg-top" slot="empty">
-            <img src="/dashboard/img/empty.svg" alt="empty">
+            <img src="/dashboard-panel/img/empty.svg" alt="empty">
             <p class="el-text-muted">Нет данных</p>
         </div>
     </el-tree>
@@ -51,5 +51,5 @@
 @endsection
 
 @section('js')
-<script type="text/javascript" src="{{ mix('dashboard/script/catalog.js') }}"></script>
+<script type="text/javascript" src="{{ mix('dashboard-panel/script/catalog.js') }}"></script>
 @endsection

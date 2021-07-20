@@ -5,7 +5,7 @@
                 <span class="el-grid el-grid-sm el-flex el-flex-middle el-height-inherit">
                     <span class="el-width-auto">
                         <span class="el-avatar el-avatar--large el-avatar--circle">
-                            <img src="/dashboard/img/logo-square.png?v=2" style="object-fit: cover;">
+                            <img src="/dashboard-panel/img/logo-square.png?v=2" style="object-fit: cover;">
                         </span>
                     </span>
                     <span class="el-width-expand">
