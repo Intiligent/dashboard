@@ -97,9 +97,9 @@ class InstallPackage extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../Policies', base_path("$folderName/Policies"));
         (new Filesystem)->copyDirectory(__DIR__.'/../Providers', base_path("$folderName/Providers"));
         (new Filesystem)->copyDirectory(__DIR__.'/../Rules', base_path("$folderName/Rules"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../resources', base_path("$folderName/resources"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../routes', base_path("$folderName/routes"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../tests', base_path("$folderName/test"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../resources', base_path("$folderName/resources"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../routes', base_path("$folderName/routes"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../tests', base_path("$folderName/test"));
         (new Filesystem)->copyDirectory(__DIR__.'/../../database/migrations', base_path('database/migrations'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../database/seeders', base_path('database/seeders'));
         (new Filesystem)->copyDirectory(__DIR__.'/../app/Models', base_path('app/Models'));

@@ -4,8 +4,6 @@ build
 composer.lock
 /node_modules
 /vendor
-/src/resources
-/src/routes
 
 /resources/style/entry/catalog.scss
 /resources/style/entry/order.scss
