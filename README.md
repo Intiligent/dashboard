@@ -52,8 +52,6 @@ public function handle($request, Closure $next, ...$guards)
 
 15. поправить стили tabs
 
-16. /dashboard/img/fallback-user.png 404 (Not Found)
-
 ## Improve app
 
 1. Add db string limited
