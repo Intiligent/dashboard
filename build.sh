@@ -6,7 +6,7 @@ composer dump-autoload
 php artisan config:clear
 php artisan route:clear
 php artisan cache:clear
-php artisan debug:clear
+# php artisan debug:clear
 php artisan view:clear
 php artisan migrate
 # php artisan db:seed

@@ -71,7 +71,7 @@ class User extends Authenticatable
     public function getAvatarAttribute($value)
     {
         if (!$value) {
-            return asset((request()->is('dashboard', 'dashboard/*') ? '/dashboard' : null) . '/img/fallback-user.png');
+            return asset((request()->is('dashboard', 'dashboard/*') ? '/dashboard-panel' : null) . '/img/fallback-user.png');
         }
         return $value;
     }

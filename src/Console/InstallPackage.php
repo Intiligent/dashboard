@@ -147,6 +147,7 @@ class InstallPackage extends Command
         ]) === 0 && $this->line('✔ Install composer packages');
 
         $this->updateComposerAutoload();
+        $this->call('cache:clear');
         $this->call('config:cache');
 
         $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
@@ -177,7 +178,7 @@ class InstallPackage extends Command
                 });
         }
         $this->info('Dashboard scaffolding installed successfully');
-        $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.login'));
+        $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.home'));
     }
 
     // private function publishResources($forcePublish = false)
