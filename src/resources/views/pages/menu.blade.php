@@ -21,10 +21,7 @@
 
 <el-tabs class="el-margin" tab-position="left" v-model="currentTabName" v-if="tree.length" v-cloak>
     <el-tab-pane v-for="item in tree" :key="item.id" :name="item.code">
-        <span slot="label">
-            <i class="el-icon-date"></i>
-            <span v-text="item.name"></span>
-        </span>
+        <span slot="label" v-text="item.name"></span>
         <div class="">
             <div class="el-grid el-margin-bottom el-flex el-flex-middle">
                 <div class="el-width-expand">
@@ -51,8 +48,8 @@
                             <small v-if="row.icon" class="el-text-muted" style="margin-right: 5px;"><i :class="row.icon"></i></small>
                             <a href="#" v-text="row.name" @click.prevent.stop="syncMenu({model: row, node})"></a>
                         </div>
-                        <div class="el-width-expand">
-                            <i class="el-icon-code el-margin-sm-right el-text-sm" v-if="row.attribute" :title="row.attribute"></i><span v-text="row.value"></span>
+                        <div class="el-width-expand el-text-truncate">
+                            <i class="el-icon-code el-margin-sm-right el-text-sm" v-if="row.attribute" :title="row.attribute"></i><span v-text="row.value" :title="row.value"></span>
                         </div>
                         <div class="el-width-auto">
                             <el-tooltip content="Добавить категорию" placement="top">

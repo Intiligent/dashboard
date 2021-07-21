@@ -1,6 +1,6 @@
 @import "common.scss";
-@import "../theme/tabs.scss";
-@import "../theme/tree.scss";
+@import "~element-ui/packages/theme-chalk/src/tabs.scss";
+@import "~element-ui/packages/theme-chalk/src/tree.scss";
 @import "~element-ui/packages/theme-chalk/src/icon-picker.scss";
 @import "~element-ui/packages/theme-chalk/src/link.scss";
 @import "~element-ui/packages/theme-chalk/src/radio-button.scss";

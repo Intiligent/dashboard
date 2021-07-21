@@ -10,7 +10,7 @@
 @section('content')
 <div class="el-grid el-grid-collapse el-child-width-1-2@md el-height-viewport">
     <div class="el-position-relative el-background-muted">
-        <div class="el-position-center uk-text-right">
+        <div class="el-position-center el-text-right">
             <img src="/dashboard-panel/img/logo.png" alt="{{ config('APP_NAME') }}" style="height: 60px;">
             <h3 class="el-text-bold el-margin-sm-bottom">{{ config('APP_NAME') }}</h3>
             <div class="el-text-muted">{{ config('META_TITLE') }}</div>
@@ -33,13 +33,13 @@
             {{ csrf_field() }}
             <div class="el-margin">
                 <div class="el-input el-input--prefix">
-                    <input type="text" name="email" placeholder="Type your login" class="el-input__inner">
+                    <input type="text" name="email" placeholder="Type your login" class="el-input__inner" required>
                     <span class="el-input__prefix"><i class="el-input__icon el-icon-user"></i></span>
                 </div>
             </div>
             <div class="el-margin">
                 <div class="el-input el-input--prefix">
-                    <input type="password" name="password" placeholder="Type your password" class="el-input__inner">
+                    <input type="password" name="password" placeholder="Type your password" class="el-input__inner" required>
                     <span class="el-input__prefix"><i class="el-input__icon el-icon-lock"></i></span>
                 </div>
             </div>

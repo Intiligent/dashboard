@@ -126,6 +126,8 @@ class InstallPackage extends Command
 
         $this->addPhpunitTestsuite() && $this->line('✔ Add phpunit testsuite');
 
+        $this->updateAuthenticateMiddleware() && $this->line('✔ Update authenticate middleware');
+
         $this->updateComposer(function ($elements) use ($folderName) {
             $psr4 = [
                 'psr-4' => [
@@ -344,6 +346,21 @@ class InstallPackage extends Command
                 $httpKernel
             ));
         }
+    }
+
+    /**
+     * Update authenticate middleware. add redirect to dashboard if auth
+     *
+     * @return void
+     */
+    protected function updateAuthenticateMiddleware()
+    {
+        $middleware = file_get_contents(app_path('Http/Middleware/Authenticate.php'));
+        $code = "if (\$request->is('dashboard', 'dashboard/*')) {
+                return route('dashboard.login');
+            }";
+        $content = preg_replace('/(redirectTo\([^)]*\)\s*\{\s*if\s*\([^)]*\)\)\s*{\s*)(return[^;]*;)(\s*}\s*})/si', '$1'.$code.PHP_EOL."\t\t\t$2$3", $middleware);
+        return file_put_contents(app_path('Http/Middleware/Authenticate.php'), $content);
     }
 
     /**

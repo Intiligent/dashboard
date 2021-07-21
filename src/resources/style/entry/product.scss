@@ -2,7 +2,7 @@
 @import "~element-ui/packages/theme-chalk/src/switch.scss";
 @import "~element-ui/packages/theme-chalk/src/tag.scss";
 @import "~element-ui/packages/theme-chalk/src/notification.scss";
-@import "../theme/input-number.scss";
+@import "~element-ui/packages/theme-chalk/src/input-number.scss";
 @import "~element-ui/packages/theme-chalk/src/select.scss";
 @import "~element-ui/packages/theme-chalk/src/table.scss";
 @import "~element-ui/packages/theme-chalk/src/table-column.scss";
@@ -12,7 +12,3 @@
 @import "~element-ui/packages/theme-chalk/src/checkbox.scss";
 @import "~element-ui/packages/theme-chalk/src/pagination.scss";
 @import "~element-ui/packages/theme-chalk/src/autocomplete.scss";
-
-.ttt {
-    background-color: #ccc;
-}

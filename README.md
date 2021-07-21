@@ -14,26 +14,6 @@ composer require viart/dashboard
 php artisan dashboard:install
 ```
 
-4. Update Authenticate middleware in app/Http/Middleware/Authenticate.php
-
-```php
-/**
- * Get the path the user should be redirected to when they are not authenticated.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return string|null
- */
-protected function redirectTo($request)
-{
-    if (!$request->expectsJson()) {
-        if ($request->is('dashboard', 'dashboard/*')) {
-            return route('dashboard.login');
-        }
-        return route('face.login');
-    }
-}
-```
-
 5. RedirectIfAuthenticated
 
 ```php
@@ -70,9 +50,7 @@ public function handle($request, Closure $next, ...$guards)
 
 11. dashboard article use route face.page
 
-12. main dashboard route not work
-
-14. поправить стили в user dropdown на панели
+15. поправить стили tabs
 
 ## Improve app
 
