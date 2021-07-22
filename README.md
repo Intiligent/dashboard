@@ -1,6 +1,7 @@
+<p align="center"><a href="https://packagist.org/packages/viart/dashboard"><img src="https://raw.githubusercontent.com/Intiligent/dashboard/main/src/resources/img/logo.png"></img></a></p>
 # Dashboard
 
-Package: https://packagist.org/packages/viart/dashboard
+Dashboard panel for Laravel project.
 
 ## Install
 
