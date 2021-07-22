@@ -28,6 +28,42 @@ class InstallPackage extends Command
     protected $description = 'Install the dashboard scaffolding';
 
     /**
+     * Folder name at the root of project.
+     *
+     * @var string
+     */
+    protected $folderName = 'dashboard';
+
+    /**
+     * Node modules dependencies.
+     *
+     * @var array
+     */
+    protected $dependencies = [
+        'axios' => '^0.21.0',
+        'ckeditor4-vue' => '^1.3.0',
+        'clipboard' => '^2.0.8',
+        'element-ui' => 'npm:element-ui-viart@*',
+        'lodash' => '^4.17.21',
+        'vue' => '^2.6.10',
+        'vue-router' => '^3.5.1',
+    ];
+
+    /**
+     * Node modules dev dependencies.
+     *
+     * @var array
+     */
+    protected $devDependencies = [
+        'babel-plugin-component' => '^1.1.1',
+        'resolve-url-loader' => '^4.0.0',
+        'sass' => '^1.35.2',
+        'sass-loader' => '^12.1.0',
+        'webpack-notifier' => '^1.13.0',
+        'webpack-shell-plugin-next' => '^2.2.2',
+    ];
+
+    /**
      * Execute the console command.
      *
      * @return mixed
@@ -41,37 +77,18 @@ class InstallPackage extends Command
             return;
         }
 
-        $folderName = 'dashboard';
-        $dependencies = [
-            'axios' => '^0.21.0',
-            'ckeditor4-vue' => '^1.3.0',
-            'clipboard' => '^2.0.8',
-            'element-ui' => 'npm:element-ui-viart@*',
-            'lodash' => '^4.17.21',
-            'vue' => '^2.6.10',
-            'vue-router' => '^3.5.1',
-        ];
-        $devDependencies = [
-            'babel-plugin-component' => '^1.1.1',
-            'resolve-url-loader' => '^4.0.0',
-            'sass' => '^1.35.2',
-            'sass-loader' => '^12.1.0',
-            'webpack-notifier' => '^1.13.0',
-            'webpack-shell-plugin-next' => '^2.2.2',
-        ];
-
         // NPM Packages...
-        $this->updateNodePackages(function ($packages) use ($dependencies) {
-            return $dependencies + $packages;
+        $this->updateNodePackages(function ($packages) {
+            return $this->dependencies + $packages;
         }, 'dependencies') && $this->line('✔ Update node modules dependencies');
 
-        $this->excludeDependencies($dependencies);
+        $this->excludeDependencies($this->dependencies);
 
-        $this->updateNodePackages(function ($packages) use ($devDependencies) {
-            return $devDependencies + $packages;
+        $this->updateNodePackages(function ($packages) {
+            return $this->devDependencies + $packages;
         }, 'devDependencies') && $this->line('✔ Update node modules dev dependencies');
 
-        $this->excludeDependencies($devDependencies, false);
+        $this->excludeDependencies($this->devDependencies, false);
 
         $this->updateNodePackages(function ($elements) {
             return [
@@ -90,33 +107,11 @@ class InstallPackage extends Command
             ] + $elements;
         }, 'babel') && $this->line('✔ Update package.json plugins');
 
-        (new Filesystem)->copyDirectory(__DIR__.'/../Events', base_path("$folderName/Events"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../Http', base_path("$folderName/Http"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../Listeners', base_path("$folderName/Listeners"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../Models', base_path("$folderName/Models"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../Policies', base_path("$folderName/Policies"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../Providers', base_path("$folderName/Providers"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../Rules', base_path("$folderName/Rules"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../resources', base_path("$folderName/resources"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../routes', base_path("$folderName/routes"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../tests', base_path("$folderName/test"));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../database/migrations', base_path('database/migrations'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../database/seeders', base_path('database/seeders'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../app/Models', base_path('app/Models'));
-        $this->line('✔ Copy resources');
+        $this->copyResources() && $this->line('✔ Copy resources');
 
-        copy(__DIR__.'/../../config/dashboard.php', base_path('config/dashboard.php'));
-        copy(__DIR__.'/../../config/ziggy.php', base_path('config/ziggy.php'));
-        copy(__DIR__.'/../../config/permission.php', base_path('config/permission.php'));
-        copy(__DIR__.'/../../config/shared-data.php', base_path('config/shared-data.php'));
-        copy(__DIR__.'/../../build.sh', base_path('build.sh'));
-        $this->line('✔ Copy config files');
+        $this->copyConfigFiles() && $this->line('✔ Copy config files');
 
-        copy(__DIR__.'/../../bootstrap/constants.php', base_path('bootstrap/constants.php'));
         $this->addRequireConstant() && $this->line('✔ Require constant file');
-        copy(__DIR__.'/../../webpack.mix.js', base_path('webpack.mix.js'));
-
-        // $this->replaceInFile("// protected \$namespace = 'App\\Http\\Controllers';", "protected \$namespace = 'App\\Http\\Controllers';", app_path('Providers/RouteServiceProvider.php')) && $this->line('✔ Update route namespace');
 
         $this->registerServiceProvider() && $this->line('✔ Register service providers');
 
@@ -128,25 +123,26 @@ class InstallPackage extends Command
 
         $this->updateAuthenticateMiddleware() && $this->line('✔ Update authenticate middleware');
 
-        $this->updateComposer(function ($elements) use ($folderName) {
+        $this->updateComposer(function ($elements) {
             $psr4 = [
                 'psr-4' => [
-                    'Dashboard\\' => "$folderName/",
+                    'Dashboard\\' => "$this->folderName/",
                 ],
             ];
             return array_merge_recursive_distinct($elements, $psr4);
         }, 'autoload') && $this->line('✔ Add dashboard autoload');
 
-        $this->requireComposerPackages([
-            'coderello/laravel-shared-data:^3.0',
-            'eusonlito/laravel-meta:3.1.*',
-            'kalnoy/nestedset:^6.0',
-            'laravel/ui:^3.3',
-            'spatie/laravel-permission:^4.2',
-            'tightenco/ziggy:^0.9.4',
-        ]) === 0 && $this->line('✔ Install composer packages');
+        // $this->requireComposerPackages([
+        //     'coderello/laravel-shared-data:^3.0',
+        //     'eusonlito/laravel-meta:3.1.*',
+        //     'kalnoy/nestedset:^6.0',
+        //     'laravel/ui:^3.3',
+        //     'spatie/laravel-permission:^4.2',
+        //     'tightenco/ziggy:^0.9.4',
+        // ]) === 0 && $this->line('✔ Install composer packages');
 
-        $this->updateComposerAutoload();
+        // $this->updateComposerAutoload();
+
         $this->call('cache:clear');
         $this->call('config:cache');
 
@@ -181,18 +177,47 @@ class InstallPackage extends Command
         $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.home'));
     }
 
-    // private function publishResources($forcePublish = false)
-    // {
-    //     $params = [
-    //         '--provider' => 'viart\dashboard\DashboardServiceProvider',
-    //     ];
-    //
-    //     if ($forcePublish === true) {
-    //         $params['--force'] = '';
-    //     }
-    //
-    //    $this->call('vendor:publish', $params);
-    // }
+    /**
+     * Copy resources file
+     *
+     * @return bool
+     */
+    protected function copyResources()
+    {
+        (new Filesystem)->copyDirectory(__DIR__.'/../Events', base_path("$this->folderName/Events"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../Http', base_path("$this->folderName/Http"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../Listeners', base_path("$this->folderName/Listeners"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../Models', base_path("$this->folderName/Models"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../Policies', base_path("$this->folderName/Policies"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../Providers', base_path("$this->folderName/Providers"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../Rules', base_path("$this->folderName/Rules"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../resources', base_path("$this->folderName/resources"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../routes', base_path("$this->folderName/routes"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../tests', base_path("$this->folderName/test"));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../database/migrations', base_path('database/migrations'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../../database/seeders', base_path('database/seeders'));
+        (new Filesystem)->copyDirectory(__DIR__.'/../app/Models', base_path('app/Models'));
+
+        copy(__DIR__.'/../../bootstrap/constants.php', base_path('bootstrap/constants.php'));
+        copy(__DIR__.'/../../webpack.mix.js', base_path('webpack.mix.js'));
+
+        return true;
+    }
+
+    /**
+     * Copy config files
+     *
+     * @return bool
+     */
+    protected function copyConfigFiles()
+    {
+        copy(__DIR__.'/../../config/dashboard.php', base_path('config/dashboard.php'));
+        copy(__DIR__.'/../../config/ziggy.php', base_path('config/ziggy.php'));
+        copy(__DIR__.'/../../config/permission.php', base_path('config/permission.php'));
+        copy(__DIR__.'/../../config/shared-data.php', base_path('config/shared-data.php'));
+        copy(__DIR__.'/../../build.sh', base_path('build.sh'));
+        return true;
+    }
 
     /**
      * Update the "package.json" file.

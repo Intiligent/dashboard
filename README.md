@@ -46,6 +46,10 @@ public function handle($request, Closure $next, ...$guards)
 
 7. Exception
 
+8. dashboard 404
+
+9. settings tab icon
+
 10. в element-ui обновить деление на math.div()
 
 11. dashboard article use route face.page
