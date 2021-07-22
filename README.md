@@ -1,5 +1,7 @@
 # Dashboard
 
+Package: https://packagist.org/packages/viart/dashboard
+
 ## Install
 
 1. Installation via Composer
