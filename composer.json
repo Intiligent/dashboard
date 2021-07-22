@@ -1,6 +1,6 @@
 {
     "name": "viart/dashboard",
-    "description": "A dashboard for Laravel",
+    "description": "Dashboard for Laravel",
     "type": "library",
     "keywords": [
         "dashboard",
