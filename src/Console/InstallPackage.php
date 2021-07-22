@@ -59,6 +59,8 @@ class InstallPackage extends Command
         'resolve-url-loader' => '^4.0.0',
         'sass' => '^1.35.2',
         'sass-loader' => '^12.1.0',
+        'vue-loader' => '^15.9.7',
+        'vue-template-compiler' => '^2.6.14',
         'webpack-notifier' => '^1.13.0',
         'webpack-shell-plugin-next' => '^2.2.2',
     ];
@@ -141,9 +143,9 @@ class InstallPackage extends Command
         //     'tightenco/ziggy:^0.9.4',
         // ]) === 0 && $this->line('✔ Install composer packages');
 
-        // $this->updateComposerAutoload();
+        $this->updateComposerAutoload();
 
-        $this->call('cache:clear');
+        // $this->call('cache:clear');
         $this->call('config:cache');
 
         $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
