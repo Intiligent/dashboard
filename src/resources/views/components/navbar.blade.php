@@ -15,7 +15,7 @@
                     <span slot="title">@if ($submenu->icon)<i class="{{ $submenu->icon }}"></i>@endif {{ $submenu->name }}</span>
                     @foreach ($submenu->children as $item)
                     <el-menu-item index="{{ $item->url }}">
-                        <a href="{{ $item->url }}">{{ $item->name }}</a>
+                        <a href="{{ $item->url }}"><i class="{{ $item->icon }}"></i>{{ $item->name }}</a>
                     </el-menu-item>
                     @endforeach
                 </el-submenu>

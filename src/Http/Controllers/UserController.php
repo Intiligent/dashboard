@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 use Coderello\SharedData\Facades\SharedData;
+use App\Models\Role;
 use App\Models\User;
 
 class UserController extends Controller
@@ -38,11 +39,14 @@ class UserController extends Controller
     public function showItem($id)
     {
         $user = User::findOrNew($id);
+        $user->assign_roles = $user->roles->pluck('id')->toArray();
+        $roles = Role::all();
         SharedData::put([
             'model' => $user,
         ]);
         return view('dashboard::pages.user.item', [
             'model' => $user,
+            'roles' => $roles,
         ]);
     }
 
@@ -55,6 +59,7 @@ class UserController extends Controller
     public function getUsers(Request $request, $restResponse = true)
     {
         $collection = User::query()
+            ->with('roles:id,name')
             ->select('id', 'name', 'email', 'phone', 'avatar', 'created_at')
             ->applySort($request)
             ->paginate();
@@ -77,16 +82,21 @@ class UserController extends Controller
             'name' => ['required', 'min:2'],
             'email' => ['required', 'email:rfc'],
             'phone' => ['sometimes'],
-            'password' => ['required_without:id', 'min:6'],
+            'assign_roles' => ['sometimes', 'array'],
+            'password' => ['sometimes', 'nullable', 'required_without:id', 'min:6'],
         ]);
-        $model = User::updateOrCreate(['id' => $request->get('id')], $payload);
-        if ($model->wasRecentlyCreated) {
+        $user = User::updateOrCreate(['id' => $request->get('id')], $payload);
+        if ($payload['assign_roles']) {
+            // $roles = Role::whereIn('id', $payload['assign_roles'])->get()->pluck('name');
+            // $user->assignRole($roles, 'dashboard');
+        }
+        if ($user->wasRecentlyCreated) {
             return $this->response([
                 ERR => Response::HTTP_CREATED,
                 MSG => 'Обьект успешно сохранен',
             ]);
         }
-        // event(new ArticleUpdated($model));
+        // event(new ArticleUpdated($user));
 
         return $this->response([MSG => 'Обьект успешно обновлен']);
     }

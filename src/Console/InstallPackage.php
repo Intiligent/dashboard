@@ -149,7 +149,8 @@ class InstallPackage extends Command
                 });
         }
         $this->info('Dashboard scaffolding installed successfully');
-        $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.home') . '. If you dont have a local server pleas call "php artisan serve" for serve project.');
+        $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.home'));
+        $this->info('If you dont have a local server please call "php artisan serve" for serve project.');
     }
 
     protected function clearCache()

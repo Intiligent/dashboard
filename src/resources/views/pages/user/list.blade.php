@@ -55,7 +55,11 @@
         </template>
     </el-table-column>
     <el-table-column prop="email" label="Email" sortable="custom"></el-table-column>
-    <el-table-column prop="phone" label="Телефон" sortable="custom"></el-table-column>
+    <el-table-column prop="roles" label="Roles" sortable="custom">
+        <template slot-scope="{ row, column, $index }">
+            <span class="el-tag el-tag--mini" v-for="role in row.roles" :key="role.id" v-text="role.name"></span>
+        </template>
+    </el-table-column>
     <el-table-column prop="created_at" label="Дата создания" sortable="custom">
         <template slot-scope="{ row, column, $index }">
             <span v-text="row.created_at"></span>

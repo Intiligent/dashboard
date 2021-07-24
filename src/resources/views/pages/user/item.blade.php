@@ -82,6 +82,19 @@
 
     <div class="el-grid el-flex el-flex-middle el-margin">
         <div class="el-width-1-4@md">
+            <label class="el-form-label" for="model.phone">Roles:</label>
+        </div>
+        <div class="el-width-3-4@md">
+            <el-select size="medium" class="el-width-1-1" v-model="model.assign_roles" multiple placeholder="Select user roles">
+                @foreach ($roles as $role)
+                    <el-option :key="{{ $role->id }}" label="{{ $role->name }}" :value="{{ $role->id }}"></el-option>
+                @endforeach
+            </el-select>
+        </div>
+    </div>
+
+    <div class="el-grid el-flex el-flex-middle el-margin">
+        <div class="el-width-1-4@md">
             <label class="el-form-label" for="model.password">Пароль:</label>
         </div>
         <div class="el-width-3-4@md">
