@@ -205,6 +205,7 @@ export default {
 @import "~element-ui/packages/theme-chalk/src/radio-button.scss";
 @import "~element-ui/packages/theme-chalk/src/upload.scss";
 @import "~element-ui/packages/theme-chalk/src/tag.scss";
+@import "~element-ui/packages/theme-chalk/src/position.scss";
 
 $--media-attachment-gutter: 5px;
 

@@ -164,8 +164,9 @@ class MenuController extends Controller
      */
     public function deleteMenu(Request $request)
     {
+        $request->user()->hasPermissionTo('menu.delete', 'dashboard');
         $model = Menu::findOrFail($request->get('id'));
-        $this->authorize('delete', [Menu::class, $model]);
+        // $this->authorize('delete', [Menu::class, $model]);
         $ancestor = $model->ancestor();
         $model->delete();
         event(new MenuDeleted($ancestor ?: $model));

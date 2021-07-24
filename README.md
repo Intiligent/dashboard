@@ -24,7 +24,7 @@ php artisan dashboard:install
 
 8. dashboard 404
 
-10. в element-ui обновить деление на math.div()
+[Documentation](__DOC/index.md)
 
 ## Improve app
 

@@ -43,7 +43,7 @@ export default {
     },
 
     created() {
-        this.onMediaEditorClick();
+        // this.onMediaEditorClick();
     },
 
     methods: {

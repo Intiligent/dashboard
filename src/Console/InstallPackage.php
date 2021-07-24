@@ -107,6 +107,7 @@ class InstallPackage extends Command
         $this->addFaceRoute() && $this->line('✔ Add face route');
         $this->addDatabaseSeeder() && $this->line('✔ Add database seeder');
         $this->addPhpunitTestsuite() && $this->line('✔ Add phpunit testsuite');
+        $this->addMiddlewareDashboardApiGroup() && $this->line('✔ Add middleware group');
         $this->updateAuthenticateMiddleware() && $this->line('✔ Update Authenticate middleware');
         $this->updateRedirectIfAuthenticatedMiddleware() && $this->line('✔ Update RedirectIfAuthenticated middleware');
         $this->updateComposer(function ($elements) {
@@ -311,6 +312,21 @@ class InstallPackage extends Command
         $replace = "'guards' => $formatGuards";
         $result = preg_replace('/\'guards\' =>\s?([^\[\]]+\[[^\[\]]+\[[^\[\]]+\][^\[\]]+\[[^\[\]]+\][^\[\]]+\])/si', $replace, $config, 1);
         return file_put_contents(config_path('auth.php'), $result);
+    }
+
+    protected function addMiddlewareDashboardApiGroup()
+    {
+        $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
+        $middlewareGroups = Str::before(Str::after($httpKernel, '$middlewareGroups = ['), '];');
+        $modifiedMiddlewareGroup = "\n\t\t'api-authorize' => [
+            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \Illuminate\Session\Middleware\StartSession::class,
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ],".PHP_EOL."\t";
+        $content = str_replace($middlewareGroups, $middlewareGroups.$modifiedMiddlewareGroup, $httpKernel);
+        return file_put_contents(app_path('Http/Kernel.php'), $content);
     }
 
     /**
