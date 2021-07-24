@@ -18,47 +18,13 @@ composer require viart/dashboard
 php artisan dashboard:install
 ```
 
-5. RedirectIfAuthenticated
-
-```php
-/**
- * Handle an incoming request.
- *
- * @param  \Illuminate\Http\Request  $request
- * @param  \Closure  $next
- * @param  string|null  ...$guards
- * @return mixed
- */
-public function handle($request, Closure $next, ...$guards)
-{
-    $guards = empty($guards) ? [null] : $guards;
-
-    foreach ($guards as $guard) {
-        if ($guard === 'web' && Auth::guard($guard)->check()) {
-            return redirect()->route('face.home');
-        }
-        if ($guard === 'dashboard' && Auth::guard($guard)->check()) {
-            return redirect()->route('dashboard.home');
-        }
-    }
-
-    return $next($request);
-}
-```
-
-6. Check middleware
+3. Check middleware
 
 7. Exception
 
 8. dashboard 404
 
-9. settings tab icon
-
 10. в element-ui обновить деление на math.div()
-
-11. dashboard article use route face.page
-
-15. поправить стили tabs
 
 ## Improve app
 
@@ -151,4 +117,10 @@ COMPOSER_MEMORY_LIMIT=-1 composer require viart/dashboard
 call command bellow and rerun `composer require viart/dashboard` again
 ```
 rm -f bootstrap/cache/*.php
+```
+
+#### No application encryption key has been specified.
+
+```
+php artisan key:generate
 ```

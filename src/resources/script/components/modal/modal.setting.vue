@@ -41,8 +41,7 @@
                 <label for="setting.group" class="el-text-bold2">Группа настроек:</label>
             </div>
             <div class="el-width-2-3@md">
-                <el-select id="setting.group" class="el-width-1-1" size="medium" v-model="innerModel.group_id" placeholder="Выберите группу настроек">
-                    <i :class="currentGroup.icon" slot="prefix"></i>
+                <el-select id="setting.group" class="el-width-1-1" :prefix-icon="currentGroup.icon" size="medium" v-model="innerModel.group_id" placeholder="Выберите группу настроек">
                     <el-option v-for="group in groups" :key="group.id" :label="group.name" :value="group.id">
                         <i class="el-text-muted" :class="group.icon"></i><span class="el-margin-left" v-text="group.name"></span>
                     </el-option>
@@ -55,16 +54,15 @@
                 <label for="setting.type" class="el-text-bold2">Элемент отображения:</label>
             </div>
             <div class="el-width-2-3@md">
-                <el-select id="setting.type" class="el-width-1-1" size="medium" v-model="innerModel.type" placeholder="Выберите элемент отображения">
-                    <i :class="currentComponent.icon" slot="prefix"></i>
+                <el-select id="setting.type" class="el-width-1-1" :prefix-icon="currentComponent.icon" size="medium" v-model="innerModel.type" placeholder="Выберите элемент отображения">
                     <el-option v-for="component in components" :key="component.name" :label="component.title" :value="component.name">
                         <div class="el-grid el-grid-sm el-flex el-flex-middle">
                             <div class="el-width-auto">
                                 <i :class="component.icon"></i>
                             </div>
                             <div class="el-width-expand">
-                                <div class="el-select-item_title" v-text="component.title"></div>
-                                <div class="el-select-item_subtitle" v-text="component.name"></div>
+                                <div class="el-select-dropdown__item--title" v-text="component.title"></div>
+                                <div class="el-select-dropdown__item--subtitle" v-text="component.name"></div>
                             </div>
                         </div>
                     </el-option>

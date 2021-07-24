@@ -45,7 +45,7 @@ class InstallPackage extends Command
         'clipboard' => '^2.0.8',
         'element-ui' => 'npm:element-ui-viart@*',
         'lodash' => '^4.17.21',
-        'vue' => '^2.6.10',
+        'vue' => '^2.6.14',
         'vue-router' => '^3.5.1',
     ];
 
@@ -66,6 +66,26 @@ class InstallPackage extends Command
     ];
 
     /**
+     * Package json babel section.
+     *
+     * @var array
+     */
+    protected $babel = [
+        'presets' => [
+            '@babel/preset-env',
+        ],
+        'plugins' => [
+            [
+                'component',
+                [
+                    'libraryName' => 'element-ui',
+                    'style' => false,
+                ]
+            ]
+        ],
+    ];
+
+    /**
      * Execute the console command.
      *
      * @return mixed
@@ -78,53 +98,17 @@ class InstallPackage extends Command
             $this->error("Could not connect to the database. Please check your configuration. error: " . $exception->getMessage());
             return;
         }
-
-        // NPM Packages...
-        $this->updateNodePackages(function ($packages) {
-            return $this->dependencies + $packages;
-        }, 'dependencies') && $this->line('✔ Update node modules dependencies');
-
-        $this->excludeDependencies($this->dependencies);
-
-        $this->updateNodePackages(function ($packages) {
-            return $this->devDependencies + $packages;
-        }, 'devDependencies') && $this->line('✔ Update node modules dev dependencies');
-
-        $this->excludeDependencies($this->devDependencies, false);
-
-        $this->updateNodePackages(function ($elements) {
-            return [
-                'presets' => [
-                    '@babel/preset-env',
-                ],
-                'plugins' => [
-                    [
-                        'component',
-                        [
-                            'libraryName' => 'element-ui',
-                            'style' => false,
-                        ]
-                    ]
-                ],
-            ] + $elements;
-        }, 'babel') && $this->line('✔ Update package.json plugins');
-
+        $this->updatePackages() && $this->line('✔ Update package.json file');
         $this->copyResources() && $this->line('✔ Copy resources');
-
         $this->copyConfigFiles() && $this->line('✔ Copy config files');
-
         $this->addRequireConstant() && $this->line('✔ Require constant file');
-
         $this->registerServiceProvider() && $this->line('✔ Register service providers');
-
         $this->registerDashboardGuard() && $this->line('✔ Register dashboard guard');
-
+        $this->addFaceRoute() && $this->line('✔ Add face route');
         $this->addDatabaseSeeder() && $this->line('✔ Add database seeder');
-
         $this->addPhpunitTestsuite() && $this->line('✔ Add phpunit testsuite');
-
-        $this->updateAuthenticateMiddleware() && $this->line('✔ Update authenticate middleware');
-
+        $this->updateAuthenticateMiddleware() && $this->line('✔ Update Authenticate middleware');
+        $this->updateRedirectIfAuthenticatedMiddleware() && $this->line('✔ Update RedirectIfAuthenticated middleware');
         $this->updateComposer(function ($elements) {
             $psr4 = [
                 'psr-4' => [
@@ -133,23 +117,10 @@ class InstallPackage extends Command
             ];
             return array_merge_recursive_distinct($elements, $psr4);
         }, 'autoload') && $this->line('✔ Add dashboard autoload');
-
-        // $this->requireComposerPackages([
-        //     'coderello/laravel-shared-data:^3.0',
-        //     'eusonlito/laravel-meta:3.1.*',
-        //     'kalnoy/nestedset:^6.0',
-        //     'laravel/ui:^3.3',
-        //     'spatie/laravel-permission:^4.2',
-        //     'tightenco/ziggy:^0.9.4',
-        // ]) === 0 && $this->line('✔ Install composer packages');
-
         $this->updateComposerAutoload();
-
         // $this->call('cache:clear');
         $this->call('config:cache');
-
         $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
-
         if ($this->confirm('Do you wish to call migrations?', true)) {
             $this->call('migrate');
         }
@@ -199,10 +170,8 @@ class InstallPackage extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../../database/migrations', base_path('database/migrations'));
         (new Filesystem)->copyDirectory(__DIR__.'/../../database/seeders', base_path('database/seeders'));
         (new Filesystem)->copyDirectory(__DIR__.'/../app/Models', base_path('app/Models'));
-
         copy(__DIR__.'/../../bootstrap/constants.php', base_path('bootstrap/constants.php'));
         copy(__DIR__.'/../../webpack.mix.js', base_path('webpack.mix.js'));
-
         return true;
     }
 
@@ -222,50 +191,48 @@ class InstallPackage extends Command
     }
 
     /**
-     * Update the "package.json" file.
+     * Update package.json file.
+     * - add dependencies
+     * - add dev dependencies
+     * - add babel section
      *
-     * @param callable $callback
-     * @param string $configurationKey [devDependencies|dependencies|babel]
      * @return mixed
      */
-    protected function updateNodePackages(callable $callback, $configurationKey = 'dependencies')
+    protected function updatePackages()
     {
-        if (!file_exists(base_path('package.json'))) {
-            $this->error(base_path('package.json') . ' not found!');
+        $filePath = base_path('package.json');
+        if (!file_exists($filePath)) {
+            $this->error("$filePath not found!");
             return false;
         }
-        $packages = json_decode(file_get_contents(base_path('package.json')), true);
-        $packages[$configurationKey] = $callback(
-            array_key_exists($configurationKey, $packages) ? $packages[$configurationKey] : [],
-            $configurationKey
-        );
-        ksort($packages[$configurationKey]);
-        return file_put_contents(
-            base_path('package.json'),
-            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
-        );
-    }
+        $fileContent = json_decode(file_get_contents($filePath), true);
+        $packages = collect($fileContent)
+            ->pipe(function ($collection) {
+                $dependencies = $collection->get('dependencies', []);
+                $dependencies = array_merge($dependencies, $this->dependencies);
+                $dependencies = array_diff_key($dependencies, $this->devDependencies);
+                ksort($dependencies);
+                $collection->put('dependencies', $dependencies);
+                return $collection;
+            })
+            ->pipe(function ($collection) {
+                $devDependencies = $collection->get('devDependencies', []);
+                $devDependencies = array_merge($devDependencies, $this->devDependencies);
+                $devDependencies = array_diff_key($devDependencies, $this->dependencies);
+                ksort($devDependencies);
+                $collection->put('devDependencies', $devDependencies);
+                return $collection;
+            })
+            ->pipe(function ($collection) {
+                $babel = $collection->get('babel', []);
+                $collection->put('babel', array_merge_recursive_distinct($babel, $this->babel));
+                return $collection;
+            })
+            ->toArray();
 
-    /**
-     * exclude dependencies from package json
-     *
-     * @param array $packages
-     * @param boolean $dev
-     * @return mixed
-     */
-    protected function excludeDependencies(array $packages, $dev = true)
-    {
-        if (!file_exists(base_path('package.json'))) {
-            $this->error(base_path('package.json') . ' not found!');
-            return false;
-        }
-        $value = json_decode(file_get_contents(base_path('package.json')), true);
-        $dependency = $dev ? 'devDependencies' : 'dependencies';
-        $value[$dependency] = array_diff_key($value[$dependency], $packages);
-        ksort($value[$dependency]);
         return file_put_contents(
-            base_path('package.json'),
-            json_encode($value, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
+            $filePath,
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
         );
     }
 
@@ -392,29 +359,18 @@ class InstallPackage extends Command
     }
 
     /**
-     * Installs the given Composer Packages into the application.
+     * Update authenticate middleware. add redirect to dashboard if auth
      *
-     * @param mixed $packages
-     * @return int (0|1)
+     * @return void
      */
-    protected function requireComposerPackages($packages)
+    protected function updateRedirectIfAuthenticatedMiddleware()
     {
-        $composer = $this->option('composer');
-
-        if ($composer !== 'global') {
-            $command = ['php', $composer, 'require'];
-        }
-
-        $command = array_merge(
-            $command ?? ['composer', 'require'],
-            is_array($packages) ? $packages : func_get_args()
-        );
-
-        return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-            ->setTimeout(null)
-            ->run(function ($type, $output) {
-                $this->output->write($output);
-            });
+        $middleware = file_get_contents(app_path('Http/Middleware/RedirectIfAuthenticated.php'));
+        $code = "if (\$guard === 'dashboard') {
+                    return redirect()->route('dashboard.home');
+                }";
+        $content = preg_replace('/(return redirect\(.*[^)]\);)/m', $code.PHP_EOL."\t\t\t\t$1", $middleware);
+        return file_put_contents(app_path('Http/Middleware/RedirectIfAuthenticated.php'), $content);
     }
 
     /**
@@ -441,6 +397,19 @@ class InstallPackage extends Command
         }
         $content = preg_replace("/(<[?]php\s+)/", '$1'.$require.PHP_EOL.PHP_EOL, $app);
         return file_put_contents(base_path('bootstrap/app.php'), $content);
+    }
+
+    protected function addFaceRoute()
+    {
+        $routes = file_get_contents(base_path('routes/web.php'));
+        if (Str::contains($routes, "Route::as('face.')->group")) {
+            return false;
+        }
+        $routes .= PHP_EOL."Route::as('face.')->group(function () {
+    Route::get('/{slug}', 'PageController@showArticlePage')->name('page');
+    Route::get('/', 'HomeController@index')->name('home');
+});";
+        return file_put_contents(base_path('routes/web.php'), $routes);
     }
 
     public function addDatabaseSeeder()

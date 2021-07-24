@@ -23,7 +23,7 @@
                 <label for="menu.type" class="el-text-bold2">Тип ссылки:</label>
             </div>
             <div class="el-width-2-3@md">
-                <el-radio-group size="medium" v-model="innerModel.type">
+                <el-radio-group stretch size="medium" v-model="innerModel.type">
                     <el-radio-button :label="type.key" v-for="type in types" :key="type.key">
                         <i :class="type.icon"></i>
                         <span v-text="type.name"></span>
@@ -43,8 +43,7 @@
                     </el-input>
                 </template>
                 <template v-if="innerModel.type === 'route'">
-                    <el-select class="el-width-1-1" size="medium" clearable filterable v-model="innerModel.value" placeholder="Выберите маршрут ссылки">
-                        <template slot="prefix"><i class="el-icon-link"></i></template>
+                    <el-select class="el-width-1-1" prefix-icon="el-icon-link" size="medium" clearable filterable v-model="innerModel.value" placeholder="Выберите маршрут ссылки">
                         <el-option v-for="route in routes" :key="route.name" :label="route.name" :value="route.name">
                             <span style="float: left" v-text="route.name"></span>
                             <span style="float: right; color: #8492a6; font-size: 13px" v-text="route.uri"></span>
@@ -182,7 +181,7 @@ export default {
         this.types = [
             {key: TYPE_URI, name: 'Ссылка', icon: 'el-icon-link el-icon-08x'},
             {key: TYPE_ROUTE, name: 'Маршрут', icon: 'el-icon-merge el-icon-08x'},
-            {key: TYPE_ARTICLE, name: 'Страница текст.', icon: 'el-icon-bookmark el-icon-08x'},
+            {key: TYPE_ARTICLE, name: 'Страница', icon: 'el-icon-bookmark el-icon-08x'},
         ];
     },
 
