@@ -147,7 +147,7 @@ class InstallPackage extends Command
                 });
         }
         $this->info('Dashboard scaffolding installed successfully');
-        $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.home'));
+        $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.home') . '. If you dont have a local server pleas call "php artisan serve" for serve project.');
     }
 
     /**
@@ -407,7 +407,7 @@ class InstallPackage extends Command
         }
         $routes .= PHP_EOL."Route::as('face.')->group(function () {
     Route::get('/{slug}', 'PageController@showArticlePage')->name('page');
-    Route::get('/', 'HomeController@index')->name('home');
+    // Route::get('/', 'HomeController@index')->name('home');
 });";
         return file_put_contents(base_path('routes/web.php'), $routes);
     }

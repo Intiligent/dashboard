@@ -78,9 +78,9 @@
             <label class="el-form-label">Roles has permission:</label>
         </div>
         <div class="el-width-3-4@md">
-            <el-checkbox-group v-model="permission.assign_roles">
+            <el-checkbox-group class="checkbox-group-list" v-model="permission.assign_roles">
                 @foreach ($roles as $role)
-                    <el-checkbox :label="{{ $role->id }}" key="{{ $role->id }}" class="el-margin-xs-bottom el-display-block">{{ $role->name }}</el-checkbox>
+                    <el-checkbox :label="{{ $role->id }}" key="{{ $role->id }}">{{ $role->name }}</el-checkbox>
                 @endforeach
             </el-checkbox-group>
             <el-link target="_blank" :href="route('dashboard.role', 'new')" class="el-margin-sm-top">+ Добавить новую</el-link>
