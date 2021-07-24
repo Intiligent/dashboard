@@ -98,6 +98,7 @@ class InstallPackage extends Command
             $this->error("Could not connect to the database. Please check your configuration. error: " . $exception->getMessage());
             return;
         }
+        $this->clearCache();
         $this->updatePackages() && $this->line('✔ Update package.json file');
         $this->copyResources() && $this->line('✔ Copy resources');
         $this->copyConfigFiles() && $this->line('✔ Copy config files');
@@ -149,6 +150,12 @@ class InstallPackage extends Command
         }
         $this->info('Dashboard scaffolding installed successfully');
         $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.home') . '. If you dont have a local server pleas call "php artisan serve" for serve project.');
+    }
+
+    protected function clearCache()
+    {
+        $process = new Process(['rm', '-f', 'bootstrap/cache/config.php', 'bootstrap/cache/packages.php', 'bootstrap/cache/routes-v7.php', 'bootstrap/cache/services.php'], base_path());
+        $process->run();
     }
 
     /**
