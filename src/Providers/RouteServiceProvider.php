@@ -33,7 +33,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('dashboard/routes/dashboard-web.php'));
 
-            Route::middleware(['api-authorize', 'auth:dashboard'])
+            Route::middleware(['api', 'auth:dashboard'])
                 ->namespace($this->namespace)
                 ->group(base_path('dashboard/routes/dashboard-api.php'));
         });

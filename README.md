@@ -18,11 +18,9 @@ composer require viart/dashboard
 php artisan dashboard:install
 ```
 
-3. Check middleware
+3. Exception
 
-7. Exception
-
-8. dashboard 404
+4. dashboard 404
 
 [Documentation](__DOC/index.md)
 
