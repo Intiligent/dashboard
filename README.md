@@ -22,6 +22,10 @@ php artisan dashboard:install
 
 4. dashboard 404
 
+5. RedirectIfAuthenticated make duplicate. add check on already exist
+
+6. MenuSeeder make duplicate. fix it
+
 [Documentation](__DOC/index.md)
 
 ## Improve app

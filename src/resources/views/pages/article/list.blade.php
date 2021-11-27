@@ -67,6 +67,10 @@
     </el-table-column>
 </el-table>
 
+<div class="el-margin-md">
+    {{ $collection->withQueryString()->links('dashboard::vendor.pagination.default') }}
+</div>
+
 </div>
 @endsection
 

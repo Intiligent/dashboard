@@ -39,7 +39,7 @@ class ArticleController extends Controller
      */
     public function showArticlePage($id)
     {
-        $article = Article::findOrNew($id);
+        $article = Article::with(['image'])->findOrNew($id);
         Meta::set('title', 'Текстовая страница - ' . ($article->title ?: 'новая'));
         SharedData::put([
             'model' => $article,
@@ -59,6 +59,7 @@ class ArticleController extends Controller
     {
         $collection = Article::query()
             ->select('id', 'title', 'slug', 'views', 'active', 'created_at')
+            ->applyFilter($request)
             ->applySort($request)
             ->paginate();
 

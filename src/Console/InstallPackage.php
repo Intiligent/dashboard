@@ -335,7 +335,7 @@ class InstallPackage extends Command
         $middlewares = "\App\Http\Middleware\EncryptCookies::class,
         \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         \Illuminate\Session\Middleware\StartSession::class,";
-        $content = preg_replace('/(\$middleware\s*=\s*\[\s*)([^]]*)$(\s*\];)/ms', "$1$middlewares\n\t\t$2$3", $content);
+        $content = preg_replace('/(\$middleware\s*=\s*\[\s*)([^]]*)$(\s*\];)/ms', "$1$middlewares\n        $2$3", $content);
         return file_put_contents(app_path('Http/Kernel.php'), $content);
     }
 
@@ -380,7 +380,7 @@ class InstallPackage extends Command
         $code = "if (\$request->is('dashboard', 'dashboard/*')) {
                 return route('dashboard.login');
             }";
-        $content = preg_replace('/(redirectTo\([^)]*\)\s*\{\s*if\s*\([^)]*\)\)\s*{\s*)(return[^;]*;)(\s*}\s*})/si', '$1'.$code.PHP_EOL."\t\t\t$2$3", $middleware);
+        $content = preg_replace('/(redirectTo\([^)]*\)\s*\{\s*if\s*\([^)]*\)\)\s*{\s*)(return[^;]*;)(\s*}\s*})/si', '$1'.$code.PHP_EOL."            $2$3", $middleware);
         return file_put_contents(app_path('Http/Middleware/Authenticate.php'), $content);
     }
 
@@ -395,7 +395,7 @@ class InstallPackage extends Command
         $code = "if (\$guard === 'dashboard') {
                     return redirect()->route('dashboard.home');
                 }";
-        $content = preg_replace('/(return redirect\(.*[^)]\);)/m', $code.PHP_EOL."\t\t\t\t$1", $middleware);
+        $content = preg_replace('/(return redirect\(.*[^)]\);)/m', $code.PHP_EOL."                $1", $middleware);
         return file_put_contents(app_path('Http/Middleware/RedirectIfAuthenticated.php'), $content);
     }
 

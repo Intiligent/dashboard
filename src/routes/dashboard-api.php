@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('api/dashboard')->as('api.dashboard.')->group(function() {
+    // home
+    Route::group(['prefix' => 'home'], function() {
+        Route::get('analytic', 'DashboardController@getAnalyticData')->name('getAnalyticData');
+    });
     // settings
     Route::group(['prefix' => 'setting'], function() {
         Route::post('item', 'SettingsController@postSetting')->name('postSetting');

@@ -306,6 +306,7 @@
 .el-icon-bell-cross:before {content: "\eab1";}
 .el-icon-calendar:before {content: "\eab2";}
 .el-icon-calendar2:before {content: "\eab3";}
+.el-icon-date:before {content: "\eab3";}
 .el-icon-calendar3:before {content: "\eab4";}
 .el-icon-calendar52:before {content: "\eab6";}
 .el-icon-printer:before {content: "\eab7";}
@@ -808,10 +809,12 @@
 .el-icon-arrow-up8:before {content: "\edd9";}
 .el-icon-arrow-up-right3:before {content: "\edda";}
 .el-icon-arrow-right8:before {content: "\eddb";}
+.el-icon-d-arrow-right:before {content: "\eddb";} // alias
 .el-icon-arrow-down-right3:before {content: "\eddc";}
 .el-icon-arrow-down8:before {content: "\eddd";}
 .el-icon-arrow-down-left3:before {content: "\edde";}
 .el-icon-arrow-left8:before {content: "\eddf";}
+.el-icon-d-arrow-left:before {content: "\eddf";} // alias
 .el-icon-circle-up2:before {content: "\ede4";}
 .el-icon-circle-right2:before {content: "\ede5";}
 .el-icon-circle-down2:before {content: "\ede6";}
@@ -1134,11 +1137,13 @@
 .el-icon-arrow-up22:before {content: "\e9c6";}
 .el-icon-arrow-right22:before {content: "\e9c7";}
 .el-icon-arrow-left32:before {content: "\e9c8";}
+.el-icon-arrow-left:before {content: "\e9c8";} // alias
 .el-icon-arrow-down32:before {content: "\e9c9";}
 .el-icon-arrow-down:before {content: "\e9c9";}
 .el-icon-arrow-up:before {content: "\e9ca";}
 .el-icon-arrow-up32:before {content: "\e9ca";}
 .el-icon-arrow-right32:before {content: "\e9cb";}
+.el-icon-arrow-right:before {content: "\e9cb";} // alias
 .el-icon-switch2:before {content: "\e647";}
 .el-icon-checkmark5:before {content: "\e600";}
 .el-icon-ampersand:before {content: "\e9cc";}
