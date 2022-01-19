@@ -24,7 +24,7 @@ class ArticleUpdatedHook
     /**
      * Handle the event.
      *
-     * @param  ArticleUpdated  $event
+     * @param ArticleUpdated $event
      * @return void
      */
     public function handle(ArticleUpdated $event)
@@ -35,7 +35,7 @@ class ArticleUpdatedHook
     /**
      * Update article into cache
      *
-     * @param  string $slug [url identifier]
+     * @param string $slug [url identifier]
      * @return Article
      */
     public function updateArticle(Article $article)

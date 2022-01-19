@@ -88,7 +88,11 @@ class MediaController extends Controller
         $modelType = 'App\\Models\\' . ucfirst($request->get('model_type'));
         $entity = $request->get('entity') ?: Media::ENTITY_DEFAULT;
         $items = [];
-        foreach ($request->file('files') as $index => $file) {
+        $files = $request->file('files');
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+        foreach ($files as $index => $file) {
             // ограничение на количество загрузок в 10 файлов
             if ($index >= 10) break;
             $basename = $file->getClientOriginalName();
@@ -104,7 +108,7 @@ class MediaController extends Controller
                 'model_id' => $request->get('model_id'),
                 'model_type' => $modelType,
                 'entity' => $entity,
-                'user_id' => Auth::guard('admin')->id(),
+                'user_id' => Auth::guard('dashboard')->id(),
                 'path' => 'storage'.DIRECTORY_SEPARATOR.$storedFileName,
             ]);
             array_push($items, $media->fresh());

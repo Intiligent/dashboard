@@ -243,7 +243,7 @@ class Media extends Model
         $model = self::create([
             'model_id' => $data['model_id'],
             'model_type' => $modelType,
-            'user_id' => Auth::guard('admin')->id(),
+            'user_id' => Auth::guard('dashboard')->id(),
             'entity' => $entity,
             'path' => 'storage'.DIRECTORY_SEPARATOR.$destination,
         ]);

@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <div class="el-grid el-grid-sm el-flex el-flex-middle el-margin-md">
+        <div class="el-grid el-grid-sm el-flex el-flex-middle el-margin-md-top">
             <div class="el-width-expand@md">
                 <el-button size="medium" type="danger" icon="el-icon-cancel-circle2" @click="handleDestroy" plain v-if="innerModel.id">Удалить</el-button>
             </div>

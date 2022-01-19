@@ -47,12 +47,21 @@
         </div>
     </div>
 
-    <div class="el-grid el-flex el-flex-middle">
+    <div class="el-grid el-flex el-flex-middle el-margin">
         <div class="el-width-1-4@md">
             <label class="el-form-label" for="file">Изображение:</label>
         </div>
         <div class="el-width-3-4@md">
-            <el-media-library :entity-id="10" entity-type="product"></el-media-library>
+            <el-media-library :source="model.image" :model-id="model.id" model-type="article"></el-media-library>
+        </div>
+    </div>
+
+    <div class="el-grid el-flex el-flex-middle el-margin">
+        <div class="el-width-1-4@md">
+            <label class="el-form-label" for="file">Галерея:</label>
+        </div>
+        <div class="el-width-3-4@md">
+            <el-media-library :source="model.gallery" :model-id="model.id" model-type="article" entity="gallery" multiple></el-media-library>
         </div>
     </div>
 

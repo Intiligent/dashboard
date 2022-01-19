@@ -35,11 +35,12 @@ class ArticleController extends Controller
     /**
      * Show article page
      *
+     * @param int|string $id
      * @return Illuminate\Support\Facades\View
      */
     public function showArticlePage($id)
     {
-        $article = Article::with(['image'])->findOrNew($id);
+        $article = Article::with(['image', 'gallery'])->findOrNew($id);
         Meta::set('title', 'Текстовая страница - ' . ($article->title ?: 'новая'));
         SharedData::put([
             'model' => $article,
@@ -98,7 +99,7 @@ class ArticleController extends Controller
         }
         event(new ArticleUpdated($model));
 
-        return $this->response([MSG => 'Обьект успешно обновлен']);
+        return $this->response([MSG => 'Страница успешно обновлен']);
     }
 
     /**

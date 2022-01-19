@@ -39,14 +39,14 @@
 </el-breadcrumb>
 
 <el-table class="el-width-1-1" :data="tableRows" @sort-change="onSortChange" :default-sort="defaultSort">
-    <el-table-column prop="id" label="ID" width="60" sortable="custom">
+    <el-table-column prop="id" label="ID" width="54" sortable="custom">
         <template slot-scope="{ row, column, $index }">
             <tt v-text="row.id"></tt>
         </template>
     </el-table-column>
     <el-table-column prop="avatar" width="46">
         <template slot-scope="{ row, column, $index }">
-            <el-avatar :size="30" :src="row.avatar"></el-avatar>
+            <el-avatar icon="el-icon-user-solid" :size="30" :src="row.avatar"></el-avatar>
         </template>
     </el-table-column>
     <el-table-column prop="name" label="Имя" sortable="custom">

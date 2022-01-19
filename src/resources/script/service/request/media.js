@@ -18,19 +18,41 @@ export function getMediaLibrary(data = {}, state = {}, params = {}) {
 };
 
 /**
- * Получение всех медиа файлов библиотеки (пагинация)
+ * Загрузка файла по ссылке
  *
- * @param {Object} data [модель меню]
- * @param {Object} state
- * @return {Promise}
+ * @param {Object} payload
+ * @param {Numbe} payload.model_id [model id]
+ * @param {String} payload.model_type [model name]
+ * @param {String} payload.entity
+ * @param {Boolean} payload.multiple
+ * @param {String} payload.value
+ * @return {Promise} (response)
  */
-// export function postMenu(data = {}, state = {}, params = {}) {
-//     return new Promise((resolve, reject) => {
-//         api.post(window.route('api.dashboard.postMenu'), data, Object.assign({
-//             notify: true,
-//         }, params, {
-//             onSuccess: (response) => resolve(response.data),
-//             state: state,
-//         }));
-//     });
-// };
+export function postMediaUploadFromUrl(payload = {}, params = {}) {
+    return new Promise((resolve, reject) => {
+        api.post(route('api.dashboard.postMediaUploadFromUrl').url(), payload, Object.assign({
+            notify: false,
+        }, params, {
+            onSuccess: (response) => resolve(response.data),
+            onAbort: (response) => reject(response.data),
+        }));
+    });
+};
+
+/**
+ * Удаление медиа файла
+ *
+ * @param {Object} payload
+ * @param {Number|Array} payload.id [model id]
+ * @return {Promise} (response)
+ */
+export function deleteMedia(payload = {}, params = {}) {
+    return new Promise((resolve, reject) => {
+        api.delete(route('api.dashboard.deleteMedia').url(), payload, Object.assign({
+            notify: false,
+        }, params, {
+            onSuccess: (response) => resolve(response.data),
+            onAbort: (response) => reject(response.data),
+        }));
+    });
+};
