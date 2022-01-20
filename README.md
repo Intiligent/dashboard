@@ -4,6 +4,12 @@
 
 Dashboard panel for Laravel project.
 
+<div>
+    <div style="width: 32%; display: inline-block;"><img src="https://github.com/Intiligent/dashboard/blob/main/__UI/dashboard-1.jpg?raw=true"></img></div>
+    <div style="width: 32%; display: inline-block;"><img src="https://github.com/Intiligent/dashboard/blob/main/__UI/dashboard-2.jpg?raw=true"></img></div>
+    <div style="width: 32%; display: inline-block;"><img src="https://github.com/Intiligent/dashboard/blob/main/__UI/dashboard-3.jpg?raw=true"></img></div>
+</div>
+
 ## Install
 
 1. Installation via Composer
