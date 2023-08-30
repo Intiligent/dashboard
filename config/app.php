@@ -195,6 +195,15 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Dashboard Service Providers...
+         */
+        Dashboard\Providers\DashboardServiceProvider::class,
+        Dashboard\Providers\AuthServiceProvider::class,
+        Dashboard\Providers\EventServiceProvider::class,
+        Dashboard\Providers\RouteServiceProvider::class,
+        Dashboard\Providers\ViewServiceProvider::class,
+
     ],
 
     /*
