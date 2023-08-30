@@ -1,0 +1,67 @@
+@use 'sass:map';
+@use '~element-plus/theme-chalk/src/mixins/mixins' as *;
+
+// breakpoints
+$xs: 480px !default;
+
+// Width
+$width-xs: 100px !default;
+$width-sm: 150px !default;
+$width-md: 320px !default;
+$width-lg: 450px !default;
+$width-xl: 600px !default;
+$width-xxl: 750px !default;
+
+// Horisontal space. Used in grid, column, container, align, card, padding
+$gutter-default: 20px !default;
+$gutter-xs: 5px !default;
+$gutter-sm: 10px !default;
+$gutter-md: 30px !default;
+$gutter-lg: 40px !default;
+$gutter-xl: 60px !default;
+
+// grid gutter
+$grid-gutter-horizontal: $gutter-default !default;
+$grid-gutter-vertical: $grid-gutter-horizontal !default;
+$grid-gutter-horizontal-xs: $gutter-xs !default;
+$grid-gutter-vertical-xs: $grid-gutter-horizontal-xs !default;
+$grid-gutter-horizontal-sm: $gutter-sm !default;
+$grid-gutter-vertical-sm: $grid-gutter-horizontal-sm !default;
+$grid-gutter-horizontal-md: $gutter-md !default;
+$grid-gutter-vertical-md: $grid-gutter-horizontal-md !default;
+$grid-gutter-horizontal-lg: $gutter-lg !default;
+$grid-gutter-vertical-lg: $grid-gutter-horizontal-lg !default;
+
+// $grid-divider-border-width: $border-width !default;
+// $grid-divider-border: getCssVar('border-color');
+
+// Navbar
+// css3 var in packages/theme-chalk/src/navbar.scss
+$navbar: () !default;
+$navbar: map.merge(
+  (
+    'background': #ffffff,
+    'color': getCssVar('text-color', 'regular'),
+    'item-height': 80px,
+    'item-padding-horizontal': 10px,
+    'item-color': getCssVar('color-muted'),
+    'item-hover-color': getCssVar('color-black'),
+    'item-onclick-color': getCssVar('text-color', 'primary'),
+    'item-active-color': getCssVar('text-color', 'primary'),
+    'toggle-color': getCssVar('color-muted'),
+    'toggle-hover-color': getCssVar('color-black'),
+  ),
+  $navbar
+);
+
+$aside: () !default;
+$aside: map.merge(
+  (
+    'width': 260px,
+  ),
+  $aside
+);
+
+@include b(aside) {
+  @include set-component-css-var('aside', $aside);
+}

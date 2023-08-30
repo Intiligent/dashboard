@@ -1,0 +1,207 @@
+// Info:
+// https://css-tricks.com/introducing-sass-modules/
+// https://github.com/sass/sass/blob/main/accepted/module-system.md#the-next-generation-sass-module-system-draft-6
+
+@forward '~element-plus/theme-chalk/src/common/var' with (
+    // $colors: (
+    //     'primary': (
+    //         'base': #64362D,
+    //     ),
+    // ),
+    $input-font-size: (
+        'large': 16px,
+    ),
+    $font-family: (
+        '': "-apple-system, BlinkMacSystemFont, 'Open Sans', Arial, sans-serifsans-serif",
+    ),
+    $font-size: (
+        'base': 15px,
+        'large': 26px,
+    ),
+    // $common-component-size: (
+    //     'large': 48px,
+    //     'default': 36px,
+    // ),
+    // $button-font-size: (
+    //     'large': 16px,
+    // ),
+    // $empty: (
+    //     'padding': 20px 0,
+    // ),
+    // $input: (
+    //     'text-color': getCssVar('color-primary'),
+    // ),
+    // $border-color: (
+    //     '': rgba(51, 51, 51, 0.16),
+    //     'light': #DFD8CF,
+    // ),
+    // $border-radius: (
+    //     'base': 6px,
+    // ),
+    // $bg-color: (
+    //     '': #FFF8EF,
+    //     'overlay': #FFF8EF,
+    // ),
+    // $fill-color: (
+    //     'light': #F6EFE6,
+    // ),
+    $menu: (
+        'bg-color': transparent,
+        'border-color': transparent,
+    ),
+    $message: (
+        'close-size': 22px,
+    ),
+    $messagebox: (
+        'padding-primary': 30px,
+        // 'font-weight': bold,
+        'width': 520px,
+    ),
+    $text-color: (
+        'primary': #111,
+        'regular': #2A2A2A,
+    ),
+);
+
+@use '../theme-chalk/var' as *;
+
+
+// @use '../theme-chalk/margin.scss';
+@use '~element-plus/theme-chalk/src/base';
+// @use '~element-plus/theme-chalk/src/reset';
+@use '../theme-chalk/reset';
+@use '../theme-chalk/height';
+@use '../theme-chalk/width';
+@use '../theme-chalk/grid';
+@use '../theme-chalk/flex';
+@use '../theme-chalk/typhography';
+@use '~element-plus/theme-chalk/src/text';
+@use '~element-plus/theme-chalk/src/icon';
+@use '../theme-chalk/icomoon';
+@use '~element-plus/theme-chalk/src/container';
+@use '~element-plus/theme-chalk/src/aside';
+@use '~element-plus/theme-chalk/src/overlay';
+@use '~element-plus/theme-chalk/src/message';
+@use '~element-plus/theme-chalk/src/message-box';
+@use '~element-plus/theme-chalk/src/button';
+@use '~element-plus/theme-chalk/src/notification';
+
+html {
+    height: 100%;
+}
+body {
+    height: inherit;
+}
+
+.spinner-icon {
+    width: 18px;
+    height: 18px;
+    box-sizing: border-box;
+    border-color: var(--el-color-primary) transparent transparent var(--el-color-primary);
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 50%;
+    display: inline-block;
+    -webkit-animation: nprogress-spinner 0.5s linear infinite;
+    animation: nprogress-spinner 0.5s linear infinite;
+}
+@-webkit-keyframes nprogress-spinner {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(1turn);
+    }
+}
+@keyframes nprogress-spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+// ElContainer
+.el-container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// ElAside
+.el-aside {
+    background-color: #f7faff;
+}
+
+// ElMenu
+.el-menu {
+    min-height: 100%;
+}
+
+// ElButton
+.el-button {
+    &.is-narrow {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+.el-button--small {
+    --el-button-size: 20px;
+    &.is-narrow {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+}
+.el-button--large {
+    &.is-narrow {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}
+
+// ElMessageBox
+.el-message-box {
+    padding-bottom: 25px;
+    .el-message-box__header {
+        font-weight: bold;
+        padding-top: 25px;
+    }
+    .el-message-box__content {
+        padding-bottom: 0;
+    }
+    .el-message-box__btns {
+        padding: 0 30px;
+    }
+    &.el-message--sm {
+        max-width: 600px;
+    }
+    // .el-message-box__headerbtn {
+    //     width: getCssVarWithDefault(('message', 'close-size'), 22px);
+    //     height: getCssVarWithDefault(('message', 'close-size'), 22px);
+    //     .el-message-box__close {
+    //         color: #3C1F1D;
+    //     }
+    // }
+}
+
+// ElRadio
+.el-radio-group {
+    &.is-stretch {
+        & > .el-radio-button {
+            flex: 1;
+            .el-radio-button__inner {
+                width: 100%;
+            }
+        }
+    }
+}
+
+// ElInput
+.el-input {
+    .el-input-group__append, .el-input-group__prepend {
+        padding-left: 12px;
+        padding-right: 12px;
+        min-width: 16px;
+    }
+}
