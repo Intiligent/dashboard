@@ -3,12 +3,15 @@
     label-position="left"
     require-asterisk-position="right"
     label-width="150px"
-    @submit.prevent="onSubmit"
+    ref="formRef"
+    :model="innerModel"
+    :rules="validationRules"
+    @submit.prevent="onSubmit(formRef)"
 >
-    <el-form-item label="ID:">
+    <el-form-item label="ID:" v-if="innerModel.id">
         <span v-text="innerModel.id"></span>
     </el-form-item>
-    <el-form-item label="Title:" for="menu.title" required>
+    <el-form-item label="Title:" prop="name" for="menu.title" required>
         <el-input
             size="large"
             ref="menuTitleRef"
@@ -22,7 +25,7 @@
             </template>
         </el-input>
     </el-form-item>
-    <el-form-item label="Link type:">
+    <el-form-item label="Link type:" v-if="!isRoot">
         <el-radio-group
             v-model="innerModel.type"
             size="large"
@@ -33,11 +36,11 @@
                 :key="type.name"
                 :label="type.name"
             >
-                {{ type.title }}
+                <i class="el-icon--left el-icon-08x" :class="type.icon"></i>{{ type.title }}
             </el-radio-button>
         </el-radio-group>
     </el-form-item>
-    <el-form-item>
+    <el-form-item prop="value" v-if="!isRoot">
         <template #label>
             <el-link type="primary">follow the link</el-link>
         </template>
@@ -96,11 +99,11 @@
             v-model="innerModel.icon"
         ></el-icon-picker>
     </el-form-item>
-    <el-form-item label="Attributes:" for="menu.attribute">
+    <el-form-item label="Attributes:" for="menu.attribute" v-if="!isRoot">
         <el-input
             size="large"
             id="menu.attribute"
-            placeholder='data-type="menu"'
+            placeholder='html attributes for link'
             v-model="innerModel.attribute"
             clearable
         >
@@ -109,7 +112,7 @@
             </template>
         </el-input>
     </el-form-item>
-    <el-form-item label="Parent:" for="menu.parent">
+    <el-form-item label="Parent:" for="menu.parent" v-if="!isRoot">
         <el-cascader
             size="large"
             id="menu.parent"
@@ -120,6 +123,7 @@
             :props="cascaderMenuProps"
             v-model="innerModel.parent_id"
             filterable
+            clearable
         ></el-cascader>
     </el-form-item>
     <el-form-item label="Active:" for="menu.active">
@@ -132,25 +136,35 @@
     <div class="el-grid">
         <div class="el-width-expand">
             <el-button
+                v-if="innerModel.id"
                 size="large"
                 type="danger"
                 plain
-            ><el-icon class="el-icon--left"><i class="el-icon-cancel-circle2" /></el-icon> Delete</el-button>
+                @click="onDelete"
+            >
+                <i class="el-icon-cancel-circle2 el-icon--left" />Delete
+            </el-button>
         </div>
         <div class="">
-            <el-button size="large">Cancel</el-button>
+            <el-button size="large" @click="onCancel">Cancel</el-button>
             <el-button
                 size="large"
                 native-type="submit"
                 type="primary"
-            >Submit<el-icon class="el-icon--right"><i class="el-icon-paperplane" /></el-icon></el-button>
+                :loading="localState.isLoading"
+            >
+                <template #icon>
+                    <i class="el-icon-left el-icon-paperplane" />
+                </template>
+                Submit
+            </el-button>
         </div>
     </div>
 </el-form>
 </template>
 
 <script>
-import { nextTick, ref } from 'vue';
+import { computed, nextTick, reactive, ref } from 'vue';
 import ElIconPicker from '@dashboard/components/icon-picker/index';
 import {
     ElButton,
@@ -167,7 +181,7 @@ import {
     ElSelect,
     ElSwitch,
 } from 'element-plus';
-import { postMenu } from '@dashboard/service/request/menu';
+import { postMenu, deleteMenu } from '@dashboard/service/request/menu';
 
 const TYPE_URI = 'uri';
 const TYPE_ROUTE = 'route';
@@ -205,6 +219,8 @@ export default {
 
     emits: {
         create: null,
+        delete: null,
+        update: null,
     },
 
     watch: {
@@ -216,27 +232,69 @@ export default {
     },
 
     setup(props, { emit }) {
-        const innerModel = ref({...props.model});
         const cascaderMenuProps = {
             checkStrictly: true,
             emitPath: false,
             value: 'id',
             label: 'name',
         };
+        const innerModel = ref(Object.assign({
+            name: '',
+            value: '',
+            type: 'uri',
+        }, props.model));
+        const formRef = ref(null);
         const menuTitleRef = ref();
         const typeuriRef = ref(null);
         const typerouteRef = ref(null);
         const typearticleRef = ref(null);
+        const localState = ref({
+            isLoading: false,
+        });
+        const isRoot = computed(() => !props.model.parent_id);
+        const validationRules = reactive({
+            name: [
+                { required: true, message: 'Please input title', trigger: 'change' },
+            ],
+            value: [
+                {
+                    validator: (rule, value, callback) => {
+                        if (!isRoot.value && !value) {
+                            callback(new Error('Please input link value'));
+                        }
+                        callback();
+                    },
+                    trigger: 'change',
+                },
+            ],
+        });
 
-        const onSubmit = async () => {
-            console.log(innerModel.value);
+        const onSubmit = async (formEl) => {
+            const validate = await formEl.validate((valid, fields) => valid);
+            if (!validate) {
+                return;
+            }
             const payload = innerModel.value;
-            const response = await postMenu(payload);
-            console.log('response', response);
+            const response = await postMenu(payload, {
+                state: localState.value,
+                notify: true,
+            });
             if (response.error === 201) {
                 emit('create', response.data);
                 ElMessageBox.close();
             }
+            if (response.error === 200) {
+                emit('update', payload);
+                ElMessageBox.close();
+            }
+        };
+
+        const onDelete = function() {
+            emit('delete');
+        };
+
+        const onCancel = function() {
+            ElMessageBox.close();
         };
 
         nextTick(() => {
@@ -246,21 +304,30 @@ export default {
         return {
             cascaderMenuProps,
             innerModel,
+            isRoot,
+            formRef,
             menuTitleRef,
             MENU_TYPE_LIST: window.app.MENU_TYPE_LIST,
+            onCancel,
+            onDelete,
             onSubmit,
+            localState,
             typeuriRef,
             typerouteRef,
             typearticleRef,
             TYPE_URI,
             TYPE_ROUTE,
             TYPE_ARTICLE,
+            validationRules,
         };
     },
 }
 </script>
 
 <style lang="scss">
+@use '../../../style/theme/common';
+@use '~element-plus/theme-chalk/src/input';
+@use '~element-plus/theme-chalk/src/form';
 @use '~element-plus/theme-chalk/src/link';
 @use '~element-plus/theme-chalk/src/cascader';
 @use '~element-plus/theme-chalk/src/cascader-panel';

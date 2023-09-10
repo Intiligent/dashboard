@@ -51,7 +51,7 @@ class Controller extends BaseController
     protected function getConfig(): array {
         return [
             'APP_NAME' => config('app.name'),
-            'META_TITLE' => config('META_TITLE'),
+            'META_TITLE' => config('META_TITLE', 'Project name'),
         ];
     }
 }
