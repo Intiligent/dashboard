@@ -31,7 +31,8 @@ export default {
 
         provide('collapseMenu', collapseMenu);
         provide('config', readonly(window.app.config));
-        provide('state', computed(() => state.value));
+        provide('state', state);
+        provide('route', window.route);
         provide('searchQuery', searchQuery);
         provide('user', user);
 

@@ -1,7 +1,7 @@
 <template lang="html">
     <aside class="el-aside">
         <div class="" style="height: 70px; border-bottom: 1px solid var(--el-border-color-light);">
-            <a href="{{ route('dashboard.home') }}" class="el-height-1-1" style="display: block;">
+            <a :href="route('dashboard.home')" class="el-height-1-1" style="display: block;">
                 <span class="el-grid el-grid-sm el-flex el-flex-middle el-height-inherit" style="padding: 5px 12px;">
                     <span class="el-width-auto">
                         <span class="el-avatar el-avatar--circle" style="padding: 5px;">
@@ -80,7 +80,7 @@ export default {
         ElSubMenu,
     },
 
-    inject: ['config', 'collapseMenu'],
+    inject: ['config', 'collapseMenu', 'route'],
 
     setup() {
         return {
