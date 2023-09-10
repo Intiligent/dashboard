@@ -1,11 +1,6 @@
 @use '~element-plus/theme-chalk/src/mixins/function' as *;
 @use '../theme/common';
 
-@use '~element-plus/theme-chalk/src/avatar';
-@use '~element-plus/theme-chalk/src/input';
-@use '~element-plus/theme-chalk/src/form';
-@use '~element-plus/theme-chalk/src/menu';
-@use '~element-plus/theme-chalk/src/message-box';
 @use '~element-plus/theme-chalk/src/tabs';
 @use '~element-plus/theme-chalk/src/dropdown';
 @use '~element-plus/theme-chalk/src/popper';
@@ -32,5 +27,12 @@
         border-radius: getCssVar('border-radius', 'base');
         min-height: 38px;
         padding-right: 8px;
+        border-bottom: 1px solid #f6f6f6;
+        .el-grid {
+            [class^=el-icon-], [class*=" el-icon-"] {
+                vertical-align: text-bottom;
+                opacity: 0.8;
+            }
+        }
     }
 }

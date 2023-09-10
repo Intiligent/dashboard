@@ -92,7 +92,7 @@ class LoginController extends Controller
             $this->username() => $request->email,
             'password' => $request->password,
         ];
-        if (Auth::guard($this->guard)->attempt($credentials, $request->has('remember'))) {
+        if (Auth::guard($this->guard)->attempt($credentials, $request->filled('remember'))) {
             // dd($this->redirectTo());
             // Event::fire('dashboard.login', [$request, $user]);
 			return redirect()->intended($this->redirectTo());

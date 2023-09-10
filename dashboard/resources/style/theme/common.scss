@@ -3,11 +3,17 @@
 // https://github.com/sass/sass/blob/main/accepted/module-system.md#the-next-generation-sass-module-system-draft-6
 
 @forward '~element-plus/theme-chalk/src/common/var' with (
-    // $colors: (
-    //     'primary': (
-    //         'base': #64362D,
-    //     ),
-    // ),
+    $border-radius: (
+        'base': 6px,
+    ),
+    $colors: (
+        'primary': (
+            'base': #188fff,
+        ),
+    ),
+    $avatar: (
+        'bg-color': '#FFFFFF',
+    ),
     $input-font-size: (
         'large': 16px,
     ),
@@ -17,6 +23,7 @@
     $font-size: (
         'base': 15px,
         'large': 26px,
+        'extra-large': 32px,
     ),
     // $common-component-size: (
     //     'large': 48px,
@@ -35,9 +42,6 @@
     //     '': rgba(51, 51, 51, 0.16),
     //     'light': #DFD8CF,
     // ),
-    // $border-radius: (
-    //     'base': 6px,
-    // ),
     // $bg-color: (
     //     '': #FFF8EF,
     //     'overlay': #FFF8EF,
@@ -48,14 +52,18 @@
     $menu: (
         'bg-color': transparent,
         'border-color': transparent,
+        'item-height': 46px,
     ),
     $message: (
         'close-size': 22px,
     ),
     $messagebox: (
+        'border-radius': 8px,
         'padding-primary': 30px,
-        // 'font-weight': bold,
         'width': 520px,
+    ),
+    $popover: (
+        'border-radius': 6px,
     ),
     $text-color: (
         'primary': #111,
@@ -91,6 +99,10 @@ html {
 }
 body {
     height: inherit;
+}
+
+[v-cloak] {
+    display: none;
 }
 
 .spinner-icon {
@@ -129,14 +141,13 @@ body {
     margin-right: auto;
 }
 
-// ElAside
-.el-aside {
-    background-color: #f7faff;
-}
-
 // ElMenu
 .el-menu {
+    --el-menu-bg-color: transparent;
     min-height: 100%;
+    .el-menu-item [class^=el-icon] {
+        font-size: 16px;
+    }
 }
 
 // ElButton
@@ -199,9 +210,60 @@ body {
 
 // ElInput
 .el-input {
+
     .el-input-group__append, .el-input-group__prepend {
         padding-left: 12px;
         padding-right: 12px;
         min-width: 16px;
     }
+}
+
+// ElDropdown
+.el-dropdown-menu {
+    &.el-dropdown-menu--large {
+        min-width: 220px;
+        .el-dropdown-menu__item {
+            line-height: 24px;
+            i {
+                margin-right: 10px;
+            }
+            &.el-dropdown--link {
+                padding: 0 5px;
+                a {
+                    display: block;
+                    padding: 7px 15px;
+                    width: 100%;
+                    border-radius: var(--el-border-radius);
+                }
+                &:hover {
+                    a {
+                        background-color: var(--el-dropdown-menuItem-hover-fill);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ElTabs
+.el-tabs {
+    &.el-tabs--left {
+        .el-tabs__header.is-left {
+            margin-right: 20px;
+        }
+    }
+}
+
+// ElPopper
+.el-popper {
+    --el-popover-border-radius: 6px;
+    --el-popper-border-radius: 6px;
+}
+
+// ElIcon
+.el-icon--right {
+    margin-left: 8px;
+}
+.el-icon--left {
+    margin-right: 8px;
 }

@@ -23,15 +23,18 @@ class Menu extends Model
     const TYPE_LIST = [
         [
             'name' => self::TYPE_URI,
-            'title' => 'Url'
+            'title' => 'Url',
+            'icon' => 'el-icon-link2',
         ],
         [
             'name' => self::TYPE_ROUTE,
             'title' => 'Route',
+            'icon' => 'el-icon-bookmark',
         ],
         [
             'name' => self::TYPE_ARTICLE,
             'title' => 'Article',
+            'icon' => 'el-icon-magazine',
         ],
     ];
 

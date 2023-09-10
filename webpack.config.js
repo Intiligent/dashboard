@@ -21,11 +21,11 @@ module.exports = {
             },
             onBuildEnd: [],
         }),
-        new webpackNotifier({
-            title: JSON.stringify(process.env.APP_NAME),
-            contentImage: resolve(__dirname, 'dashboard/resources/img/logo-square.png'),
-            alwaysNotify: true,
-        }),
+        // new webpackNotifier({
+        //     title: JSON.stringify(process.env.APP_NAME),
+        //     contentImage: resolve(__dirname, 'dashboard/resources/img/logo-square.png'),
+        //     alwaysNotify: true,
+        // }),
         // new webpack.DefinePlugin({
         //     __VUE_OPTIONS_API__: false,
         //     __VUE_PROD_DEVTOOLS__: false,

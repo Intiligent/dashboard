@@ -1,6 +1,7 @@
 import { createApp, ref } from 'vue';
 import {
     ElButton,
+    ElCheckbox,
     ElContainer,
     ElInput,
     ElForm,
@@ -10,6 +11,7 @@ import {
 createApp({
     components: {
         ElButton,
+        ElCheckbox,
         ElContainer,
         ElInput,
         ElForm,
@@ -18,8 +20,9 @@ createApp({
 
     setup() {
         const form = ref({
-            login: null,
+            email: null,
             password: null,
+            remember: false,
         });
         return {
             form,

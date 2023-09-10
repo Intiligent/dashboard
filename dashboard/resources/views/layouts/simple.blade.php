@@ -4,7 +4,7 @@
     @include('dashboard::components.head')
 </head>
 <body>
-    <div id="root">
+    <div id="root" class="el-height-1-1">
         @yield('content')
     </div>
 

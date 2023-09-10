@@ -11,7 +11,7 @@
             <el-icon><i :class="innerValue" /></el-icon>
         </template>
         <template #default="{ item }">
-            <div class="value">
+            <div class="value" :title="item.name">
                 <i :class="item.name"></i>
             </div>
         </template>
@@ -34,14 +34,25 @@ export default {
     },
 
     props: {
+        modelValue: {
+            type: String,
+        },
         provider: {
             type: String,
             default: 'icomoon',
         },
     },
 
+    emits: ['update:modelValue'],
+
+    watch: {
+        innerValue: function(value) {
+            this.$emit('update:modelValue', value);
+        },
+    },
+
     setup(props) {
-        const innerValue = ref(null);
+        const innerValue = ref(props.modelValue);
         const icons = computed(() => {
             if (props.provider === 'icomoon') {
                 return [
@@ -1212,4 +1223,21 @@ export default {
 
 <style lang="scss">
 @use '~element-plus/theme-chalk/src/autocomplete';
+
+.el-autocomplete-suggestion {
+    li {
+        font-size: 18px;
+        line-height: 55px;
+        display: inline-block;
+        padding: 0;
+        width: 55px;
+        height: 55px;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 4px;
+        &:hover {
+            color: var(--el-color-primary);
+        }
+    }
+}
 </style>

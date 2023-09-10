@@ -26,6 +26,7 @@ class Controller extends BaseController
         // Meta::set('keywords', config('META_KEYWORDS'));
         // Meta::set('img', config('LOGO_SQUARE'));
         SharedData::put([
+            'config' => self::getConfig(),
             'csrf' => csrf_token(),
             'user' => auth('dashboard')->user(),
         ]);
@@ -45,5 +46,12 @@ class Controller extends BaseController
             $response[ERR] = Response::HTTP_OK;
         }
         return $response;
+    }
+
+    protected function getConfig(): array {
+        return [
+            'APP_NAME' => config('app.name'),
+            'META_TITLE' => config('META_TITLE'),
+        ];
     }
 }

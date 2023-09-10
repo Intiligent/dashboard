@@ -1,0 +1,13 @@
+diff --git a/node_modules/axios/lib/core/mergeConfig.js b/node_modules/axios/lib/core/mergeConfig.js
+index 671e334..8c1d97b 100644
+--- a/node_modules/axios/lib/core/mergeConfig.js
++++ b/node_modules/axios/lib/core/mergeConfig.js
+@@ -22,8 +22,6 @@ export default function mergeConfig(config1, config2) {
+   function getMergedValue(target, source, caseless) {
+     if (utils.isPlainObject(target) && utils.isPlainObject(source)) {
+       return utils.merge.call({caseless}, target, source);
+-    } else if (utils.isPlainObject(source)) {
+-      return utils.merge({}, source);
+     } else if (utils.isArray(source)) {
+       return source.slice();
+     }

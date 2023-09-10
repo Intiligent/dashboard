@@ -205,9 +205,9 @@
 // .el-text-black {
 //   color: $color-black;
 // }
-// .el-text-muted {
-//   color: $color-muted;
-// }
+.el-text--muted {
+    color: var(--el-text-color-disabled);
+}
 .el-text--primary {
   color: var(--el-color-primary);
 }
