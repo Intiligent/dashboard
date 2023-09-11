@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Vitaliy Artyukh',
                 'email' => 'vitaliy.artyukh@gmail.com',
+                'avatar' => 'https://lh3.googleusercontent.com/a/AAcHTtcsWsVUkoFjJ62PCN9WNeyc4yWl32qo2uWSfqQ9tCZncHo=s83-c-mo',
                 'password' => 'secret',
             ],
         ];

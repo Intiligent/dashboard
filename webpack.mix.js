@@ -25,6 +25,9 @@ mix.sass('dashboard/resources/style/entry/login.scss', 'dashboard/style');
 
 mix.js('dashboard/resources/js/entry/menu/index.js', 'dashboard/js/menu.js').vue();
 mix.sass('dashboard/resources/style/entry/menu.scss', 'dashboard/style');
+// user list
+mix.js('dashboard/resources/js/entry/user-list/index.js', 'dashboard/js/user-list.js').vue();
+mix.sass('dashboard/resources/style/entry/user-list.scss', 'dashboard/style');
 
 mix.version();
 

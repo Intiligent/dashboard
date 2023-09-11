@@ -3,7 +3,7 @@
         <layout-navbar></layout-navbar>
         <section class="el-container is-vertical">
             <layout-header></layout-header>
-            <main class="el-main" style="padding: 20px 30px;">
+            <main class="el-main" style="padding: 20px 30px 60px;">
                 <slot></slot>
             </main>
         </section>

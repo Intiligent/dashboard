@@ -13,11 +13,12 @@
                 </el-button>
             </div>
             <div class="el-width-expand">
-                <form method="POST" @submit.prevet="">
+                <form method="get">
                     <el-input
                         size="large"
                         v-model="searchQuery"
                         placeholder="Type some text to search"
+                        name="q"
                         clearable
                     >
                         <template #prefix>
@@ -49,7 +50,7 @@
                                 <i class="el-icon-arrow-down22"></i>
                             </div>
                             <div class="">
-                                <el-avatar src="https://lh3.googleusercontent.com/a/AAcHTtcsWsVUkoFjJ62PCN9WNeyc4yWl32qo2uWSfqQ9tCZncHo=s83-c-mo"/>
+                                <el-avatar :src="user.avatar"/>
                             </div>
                         </div>
                     </div>
@@ -73,7 +74,8 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import {
     ElAvatar,
     ElButton,
@@ -93,10 +95,17 @@ export default {
         ElInput,
     },
 
-    inject: ['collapseMenu', 'searchQuery', 'state', 'user'],
+    inject: ['collapseMenu', 'state', 'user'],
 
     setup() {
-        //
+        const currentRoute = useRoute();
+        const searchQuery = inject('searchQuery');
+        if (currentRoute.query.q) {
+            searchQuery.value = currentRoute.query.q;
+        }
+        return {
+            searchQuery,
+        };
     },
 }
 </script>
@@ -104,4 +113,14 @@ export default {
 <style lang="scss">
 @use '../../../style/theme/common';
 @use '~element-plus/theme-chalk/src/avatar';
+@use '~element-plus/theme-chalk/src/dropdown';
+@use '~element-plus/theme-chalk/src/popper';
+@use '~element-plus/theme-chalk/src/input';
+
+form {
+    .el-input .el-input-group__append {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
 </style>
