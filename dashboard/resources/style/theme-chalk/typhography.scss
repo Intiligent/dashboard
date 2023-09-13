@@ -256,17 +256,17 @@
 /* Alignment modifiers
  ========================================================================== */
 
-.el-text-left {
-  text-align: left !important;
+.el-text--left {
+    text-align: left !important;
 }
-.el-text-right {
-  text-align: right !important;
+.el-text--right {
+    text-align: right !important;
 }
-.el-text-center {
-  text-align: center !important;
+.el-text--center {
+    text-align: center !important;
 }
-.el-text-justify {
-  text-align: justify !important;
+.el-text--justify {
+    text-align: justify !important;
 }
 
 // /* Phone landscape */
@@ -350,33 +350,33 @@
 // .el-text-baseline {
 //   vertical-align: baseline !important;
 // }
-//
-// /* Wrap modifiers
-//  ========================================================================== */
-//
-// /*
-//  * Prevent text from wrapping onto multiple lines
-//  */
-//
-// .el-text-nowrap {
-//   white-space: nowrap;
-// }
-//
-// /*
-//  * 1. Make sure a max-width is set after which truncation can occur
-//  * 2. Prevent text from wrapping onto multiple lines, and truncate with an ellipsis
-//  * 3. Fix for table cells
-//  */
-//
-// .el-text-truncate {
-//   /* 1 */
-//   max-width: 100%;
-//   /* 2 */
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-//   white-space: nowrap;
-// }
-//
+
+/* Wrap modifiers
+ ========================================================================== */
+
+/*
+ * Prevent text from wrapping onto multiple lines
+ */
+
+.el-text--nowrap {
+  white-space: nowrap;
+}
+
+/*
+ * 1. Make sure a max-width is set after which truncation can occur
+ * 2. Prevent text from wrapping onto multiple lines, and truncate with an ellipsis
+ * 3. Fix for table cells
+ */
+
+.el-text--truncate {
+    /* 1 */
+    max-width: 100%;
+    /* 2 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 // /* 2 */
 // th.el-text-truncate,
 // td.el-text-truncate {

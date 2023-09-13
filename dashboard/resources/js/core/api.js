@@ -49,6 +49,10 @@ const responseInterceptorSuccess = function(response) {
 
 const responseInterceptorError = function(error) {
     console.log('[responseInterceptorError]', error);
+
+    if (error.config.state) {
+        error.config.state.isLoading = false;
+    }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     return Promise.reject(error);

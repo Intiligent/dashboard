@@ -3,19 +3,19 @@
 // https://github.com/sass/sass/blob/main/accepted/module-system.md#the-next-generation-sass-module-system-draft-6
 
 @forward '~element-plus/theme-chalk/src/common/var' with (
+    $avatar: (
+        'bg-color': '#FFFFFF',
+    ),
     $border-radius: (
         'base': 6px,
+    ),
+    $button-font-size: (
+        'large': 16px,
     ),
     $colors: (
         'primary': (
             'base': #188fff,
         ),
-    ),
-    $avatar: (
-        'bg-color': '#FFFFFF',
-    ),
-    $input-font-size: (
-        'large': 16px,
     ),
     $font-family: (
         '': "-apple-system, BlinkMacSystemFont, 'Open Sans', Arial, sans-serifsans-serif",
@@ -25,12 +25,12 @@
         'large': 26px,
         'extra-large': 32px,
     ),
+    $input-font-size: (
+        'large': 16px,
+    ),
     // $common-component-size: (
     //     'large': 48px,
     //     'default': 36px,
-    // ),
-    // $button-font-size: (
-    //     'large': 16px,
     // ),
     // $empty: (
     //     'padding': 20px 0,
@@ -258,6 +258,7 @@ body {
 .el-popper {
     --el-popover-border-radius: 6px;
     --el-popper-border-radius: 6px;
+    font-size: var(--el-font-size-small);
 }
 
 // ElIcon
@@ -266,4 +267,22 @@ body {
 }
 .el-icon--left {
     margin-right: 8px;
+}
+
+// ElDrawer
+.el-drawer {
+    margin: 20px;
+    height: calc(100% - 40px) !important;
+    border-radius: 8px;
+    .el-drawer__header {
+        color: var(--el-text-color-primary);
+        margin-bottom: 20px;
+    }
+    .el-drawer__title {
+        font-size: var(--el-font-size-large);
+        font-weight: bold;
+    }
+    .el-drawer__close-btn {
+        font-size: var(--el-font-size-large);
+    }
 }

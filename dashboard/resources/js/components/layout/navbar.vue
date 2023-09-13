@@ -1,16 +1,16 @@
 <template lang="html">
     <aside class="el-aside">
         <div class="" style="height: 70px; border-bottom: 1px solid var(--el-border-color-light);">
-            <a :href="route('dashboard.home')" class="el-height-1-1" style="display: block;">
-                <span class="el-grid el-grid-sm el-flex el-flex-middle el-height-inherit" style="padding: 5px 12px;">
+            <a :href="route('dashboard.home')" class="el-height-1-1 el-menu-item" style="display: block;">
+                <span class="el-grid el-grid-sm el-flex el-flex-middle el-height-inherit">
                     <span class="el-width-auto">
                         <span class="el-avatar el-avatar--circle" style="padding: 5px;">
                             <img src="/dashboard/img/logo-square.png" style="object-fit: cover;">
                         </span>
                     </span>
                     <span class="el-width-expand">
-                        <div class="el-text-truncate">{{ config.APP_NAME }}</div>
-                        <div class="el-text-truncate">{{ config.META_TITLE }}</div>
+                        <div class="el-text--truncate pl-logo--title">{{ config.APP_NAME }}</div>
+                        <div class="el-text--truncate pl-logo--description">{{ config.META_TITLE }}</div>
                     </span>
                 </span>
             </a>
@@ -97,5 +97,16 @@ export default {
 // ElAside
 .el-aside {
     background-color: #f7faff;
+}
+.pl-logo--title {
+    color: var(--el-text-color-primary);
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 24px;
+}
+.pl-logo--description {
+    color: var(--el-text-color-secondary);
+    font-size: 14px;
+    line-height: 18px;
 }
 </style>

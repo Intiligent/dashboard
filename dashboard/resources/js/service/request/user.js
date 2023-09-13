@@ -5,12 +5,14 @@ export function getUsers(payload, config = {}) {
     return api.get(window.route('api.dashboard.getUsers'), payload, config);
 }
 
-// export function postMenu(payload, config = {}) {
-//     return api.post(window.route('api.dashboard.postMenu'), payload, config);
-// }
+export function postUser(payload, config = {}) {
+    return api.post(window.route('api.dashboard.postUser'), payload, config);
+}
 
-// export function deleteMenu(payload, state = {}) {
-//     return api.delete(window.route('api.dashboard.deleteMenu'), payload, {
-//         state,
-//     });
-// }
+export function postUserAvatar(payload, config = {}) {
+    return api.post(window.route('api.dashboard.postUserAvatar'), payload, config);
+}
+
+export function deleteUser(payload, config = {}) {
+    return api.delete(window.route('api.dashboard.deleteUser'), payload, config);
+}

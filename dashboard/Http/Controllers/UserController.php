@@ -2,12 +2,11 @@
 
 namespace Dashboard\Http\Controllers;
 
-// use Meta;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-// use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 use Coderello\SharedData\Facades\SharedData;
+use Dashboard\Http\Requests\PostUserAvatarRequest;
 use App\Models\Role;
 use App\Models\User;
 
@@ -39,6 +38,7 @@ class UserController extends Controller
     public function showItem($id): View
     {
         $user = User::findOrNew($id);
+        $user->makeVisible(['created_at', 'updated_at']);
         // $user->assign_roles = $user->roles->pluck('id')->toArray();
         // $roles = Role::all();
         SharedData::put([
@@ -82,15 +82,14 @@ class UserController extends Controller
         $payload = $this->validate($request, [
             'name' => ['required', 'min:2'],
             'email' => ['required', 'email:rfc'],
-            'phone' => ['sometimes'],
-            'assign_roles' => ['sometimes', 'array'],
+            // 'assign_roles' => ['sometimes', 'array'],
             'password' => ['sometimes', 'nullable', 'required_without:id', 'min:6'],
         ]);
         $user = User::updateOrCreate(['id' => $request->get('id')], $payload);
-        if ($payload['assign_roles']) {
+        // if ($payload['assign_roles']) {
             // $roles = Role::whereIn('id', $payload['assign_roles'])->get()->pluck('name');
             // $user->assignRole($roles, 'dashboard');
-        }
+        // }
         if ($user->wasRecentlyCreated) {
             return $this->response([
                 ERR => Response::HTTP_CREATED,
@@ -100,6 +99,36 @@ class UserController extends Controller
         // event(new ArticleUpdated($user));
         return $this->response([
             MSG => __('dashboard::base.update'),
+        ]);
+    }
+
+    /**
+     * Upload user avatar
+     *
+     * @param PostUserAvatarRequest $request
+     * @return array
+     */
+    public function postUserAvatar(PostUserAvatarRequest $request): array
+    {
+        $file = $request->file('file');
+        $basename = $file->getClientOriginalName();
+        $directory = 'avatar';
+        // search the destination folder for the file name.
+        // if it already exists, add a unique hash (-s4d6de543)
+        if (file_exists('storage'.DIRECTORY_SEPARATOR.$directory.DIRECTORY_SEPARATOR.$basename)) {
+            $pathinfo = pathinfo($basename);
+            $basename = $pathinfo['filename'] . '-' . uniqid('') . '.' . $pathinfo['extension'];
+        }
+        $storedFileName = $file->storeAs($directory, $basename, 'public');
+        $pathFileName = '/storage'.DIRECTORY_SEPARATOR.$storedFileName;
+        User::whereId($request->get('id'))->update([
+            'avatar' => $pathFileName,
+        ]);
+        return $this->response([
+            MSG => 'Success upload file',
+            DATA => [
+                'path' => $pathFileName,
+            ]
         ]);
     }
 
