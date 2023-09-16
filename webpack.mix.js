@@ -28,6 +28,10 @@ mix.js('dashboard/resources/js/entry/menu/index.js', 'dashboard/js/menu.js').vue
 mix.js('dashboard/resources/js/entry/user-list/index.js', 'dashboard/js/user-list.js').vue();
 // user item
 mix.js('dashboard/resources/js/entry/user-item/index.js', 'dashboard/js/user-item.js').vue();
+// article list
+mix.js('dashboard/resources/js/entry/article-list/index.js', 'dashboard/js/article-list.js').vue();
+// article item
+mix.js('dashboard/resources/js/entry/article-item/index.js', 'dashboard/js/article-item.js').vue();
 
 mix.version();
 

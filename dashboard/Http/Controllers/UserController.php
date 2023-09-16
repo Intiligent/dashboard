@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Response;
 use Coderello\SharedData\Facades\SharedData;
+use Intervention\Image\Facades\Image;
 use Dashboard\Http\Requests\PostUserAvatarRequest;
 use App\Models\Role;
 use App\Models\User;
@@ -110,17 +111,25 @@ class UserController extends Controller
      */
     public function postUserAvatar(PostUserAvatarRequest $request): array
     {
-        $file = $request->file('file');
-        $basename = $file->getClientOriginalName();
         $directory = 'avatar';
+        $file = $request->file('file');
+        $extension = $file->getClientOriginalExtension();
+        $basename = substr(md5($directory.$request->get('id')), 0, 10).'.'.$extension;
+        // $basename = $file->getClientOriginalName();
+        $directoryPath = 'storage'.DIRECTORY_SEPARATOR.$directory.DIRECTORY_SEPARATOR;
         // search the destination folder for the file name.
         // if it already exists, add a unique hash (-s4d6de543)
-        if (file_exists('storage'.DIRECTORY_SEPARATOR.$directory.DIRECTORY_SEPARATOR.$basename)) {
-            $pathinfo = pathinfo($basename);
-            $basename = $pathinfo['filename'] . '-' . uniqid('') . '.' . $pathinfo['extension'];
-        }
-        $storedFileName = $file->storeAs($directory, $basename, 'public');
-        $pathFileName = '/storage'.DIRECTORY_SEPARATOR.$storedFileName;
+        // if (file_exists($directoryPath . $basename)) {
+        //     $pathinfo = pathinfo($basename);
+        //     $basename = $pathinfo['filename'] . '-' . uniqid('') . '.' . $pathinfo['extension'];
+        // }
+        $image = Image::make($file->path());
+        $image->resize(100, 100, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $storedFileName = $directoryPath.$basename;
+        $image->save($storedFileName);
+        $pathFileName = '/'.$storedFileName;
         User::whereId($request->get('id'))->update([
             'avatar' => $pathFileName,
         ]);

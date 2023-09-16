@@ -25,10 +25,10 @@ Route::as('dashboard.')->prefix('dashboard')->group(function() {
         // settings
         Route::get('settings', 'SettingsController@index')->name('settings');
         // article
-        // Route::group(['prefix' => 'article'], function() {
-        //     Route::get('/', 'ArticleController@showArticleList')->name('articleList');
-        //     Route::get('/{id}', 'ArticleController@showArticlePage')->name('article');
-        // });
+        Route::group(['prefix' => 'article'], function() {
+            Route::get('/', 'ArticleController@showArticleList')->name('articleList');
+            Route::get('/{id}', 'ArticleController@showArticlePage')->name('article');
+        });
         // user
         Route::group(['prefix' => 'user'], function() {
             Route::get('/', 'UserController@showList')->name('userList');

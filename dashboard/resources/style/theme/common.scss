@@ -2,6 +2,7 @@
 // https://css-tricks.com/introducing-sass-modules/
 // https://github.com/sass/sass/blob/main/accepted/module-system.md#the-next-generation-sass-module-system-draft-6
 
+@use '~element-plus/theme-chalk/src/mixins/function' as *;
 @forward '~element-plus/theme-chalk/src/common/var' with (
     $avatar: (
         'bg-color': '#FFFFFF',
@@ -28,10 +29,10 @@
     $input-font-size: (
         'large': 16px,
     ),
-    // $common-component-size: (
-    //     'large': 48px,
-    //     'default': 36px,
-    // ),
+    $common-component-size: (
+        'large': 40px,
+        // 'default': 36px,
+    ),
     // $empty: (
     //     'padding': 20px 0,
     // ),
@@ -62,8 +63,12 @@
         'padding-primary': 30px,
         'width': 520px,
     ),
+    $pagination: (
+        'font-size': getCssVar('font-size', 'base'),
+        'border-radius': getCssVar('border-radius', 'base'),
+    ),
     $popover: (
-        'border-radius': 6px,
+        'border-radius': getCssVar('border-radius', 'base'),
     ),
     $text-color: (
         'primary': #111,
@@ -284,5 +289,14 @@ body {
     }
     .el-drawer__close-btn {
         font-size: var(--el-font-size-large);
+    }
+}
+
+// ElPagination
+.el-pagination {
+    &.el-pagination--large {
+        --el-pagination-font-size: var(--el-font-size-medium);
+        --el-pagination-button-width: var(--el-component-size-large);
+        --el-pagination-button-height: var(--el-component-size-large);
     }
 }

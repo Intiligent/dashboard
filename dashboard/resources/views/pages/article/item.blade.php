@@ -3,10 +3,10 @@
 @section('content')
 
 <layout-base v-cloak>
-    <layout-user-item></layout-user-item>
+    <layout-article-item></layout-article-item>
 </layout-base>
 @endsection
 
 @section('js')
-<script type="text/javascript" src="{{ mix('dashboard/js/user-item.js') }}"></script>
+<script type="text/javascript" src="{{ mix('dashboard/js/article-item.js') }}"></script>
 @endsection

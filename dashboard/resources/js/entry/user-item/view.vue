@@ -82,9 +82,7 @@
             </el-input>
         </el-form-item>
         <el-form-item label="Created/Updated" v-if="form.id">
-            <span v-text="form.created_at"></span>
-            <span style="padding: 0 5px;">/</span>
-            <span v-text="form.updated_at"></span>
+            <pre style="margin: 0;" v-text="form.created_at + ' / ' + form.updated_at"></pre>
         </el-form-item>
         <el-form-item>
             <div class="el-width-1-1 el-text--right">
