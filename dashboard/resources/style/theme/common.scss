@@ -63,11 +63,17 @@
         'padding-primary': 30px,
         'width': 520px,
     ),
+    $notification: (
+        'width': 380px,
+    ),
     $pagination: (
         'font-size': getCssVar('font-size', 'base'),
         'border-radius': getCssVar('border-radius', 'base'),
     ),
     $popover: (
+        'border-radius': getCssVar('border-radius', 'base'),
+    ),
+    $tag: (
         'border-radius': getCssVar('border-radius', 'base'),
     ),
     $text-color: (
@@ -77,16 +83,13 @@
 );
 
 @use '../theme-chalk/var' as *;
-
-
-// @use '../theme-chalk/margin.scss';
 @use '~element-plus/theme-chalk/src/base';
-// @use '~element-plus/theme-chalk/src/reset';
 @use '../theme-chalk/reset';
 @use '../theme-chalk/height';
 @use '../theme-chalk/width';
 @use '../theme-chalk/grid';
 @use '../theme-chalk/flex';
+@use '../theme-chalk/margin';
 @use '../theme-chalk/typhography';
 @use '~element-plus/theme-chalk/src/text';
 @use '~element-plus/theme-chalk/src/icon';
@@ -255,6 +258,9 @@ body {
     &.el-tabs--left {
         .el-tabs__header.is-left {
             margin-right: 20px;
+        }
+        .el-tabs__item.is-left {
+            justify-content: flex-start;
         }
     }
 }

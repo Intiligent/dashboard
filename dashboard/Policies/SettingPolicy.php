@@ -22,13 +22,13 @@ class SettingPolicy
     }
 
     /**
-     * Edit setting item
+     * Modify setting item
      *
      * @param App\Models\User $user
      * @param Dashboard\Models\Setting $setting
      * @return bool|AuthorizationException
      */
-    public function put(User $user, Setting $setting)
+    public function post(User $user, Setting $setting)
     {
         if ($setting->is_system) {
             throw new AuthorizationException('Access denied to edit system preference');

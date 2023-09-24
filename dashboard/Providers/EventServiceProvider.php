@@ -22,12 +22,12 @@ class EventServiceProvider extends ServiceProvider
         'Dashboard\Events\MenuDeletedEvent' => [
             'Dashboard\Listeners\MenuDeletedListener',
         ],
-        // 'Dashboard\Events\SettingDeleted' => [
-        //     'Dashboard\Listeners\SettingDeletedHook',
-        // ],
-        // 'Dashboard\Events\SettingGroupUpdated' => [
-        //     'Dashboard\Listeners\SettingGroupUpdatedHook',
-        // ],
+        'Dashboard\Events\SettingDeletedEvent' => [
+            'Dashboard\Listeners\SettingDeletedListener',
+        ],
+        'Dashboard\Events\SettingUpdatedEvent' => [
+            'Dashboard\Listeners\SettingUpdatedListener',
+        ],
     ];
 
     /**

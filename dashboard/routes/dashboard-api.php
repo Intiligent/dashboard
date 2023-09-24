@@ -17,10 +17,10 @@ Route::prefix('api/dashboard')->as('api.dashboard.')->group(function() {
     // settings
     Route::group(['prefix' => 'setting'], function() {
         Route::post('item', 'SettingsController@postSetting')->name('postSetting');
-        Route::post('group', 'SettingsController@postSettingGroup')->name('postSettingGroup');
+        Route::post('file', 'SettingsController@postSettingUploadFile')->name('postSettingUploadFile');
         Route::put('form', 'SettingsController@putSettings')->name('putSettings');
-        Route::delete('item', 'SettingsController@deleteSetting')->name('deleteSetting');
-        Route::delete('group', 'SettingsController@deleteSettingGroup')->name('deleteSettingGroup');
+        Route::delete('delete-setting', 'SettingsController@deleteSetting')->name('deleteSetting');
+        Route::delete('delete-file', 'SettingsController@deleteSettingUploadFile')->name('deleteSettingUploadFile');
     });
     // menu
     Route::group(['prefix' => 'menu'], function() {

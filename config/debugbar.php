@@ -153,7 +153,7 @@ return [
      */
 
     'collectors' => [
-        'phpinfo'         => true,  // Php version
+        'phpinfo'         => false,  // Php version
         'messages'        => true,  // Messages
         'time'            => true,  // Time Datalogger
         'memory'          => true,  // Memory usage
@@ -173,7 +173,7 @@ return [
         'logs'            => true, // Add the latest log messages
         'files'           => false, // Show the included files
         'config'          => true, // Display config settings
-        'cache'           => true, // Display cache events
+        'cache'           => false, // Display cache events
         'models'          => true,  // Display models
         'livewire'        => false,  // Display Livewire (when available)
     ],

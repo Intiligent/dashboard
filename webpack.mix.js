@@ -19,9 +19,12 @@ mix.options({
 mix.setPublicPath('public');
 mix.extract(['vue', 'element-plus', 'axios']);
 mix.copy('dashboard/resources/fonts', 'public/dashboard/fonts');
-
+mix.copy('dashboard/resources/img', 'public/dashboard/img');
+// login
 mix.js('dashboard/resources/js/entry/login/index.js', 'dashboard/js/login.js');
 mix.sass('dashboard/resources/style/entry/login.scss', 'dashboard/style');
+// home
+mix.js('dashboard/resources/js/entry/home/index.js', 'dashboard/js/home.js').vue();
 // menu
 mix.js('dashboard/resources/js/entry/menu/index.js', 'dashboard/js/menu.js').vue();
 // user list
@@ -32,6 +35,8 @@ mix.js('dashboard/resources/js/entry/user-item/index.js', 'dashboard/js/user-ite
 mix.js('dashboard/resources/js/entry/article-list/index.js', 'dashboard/js/article-list.js').vue();
 // article item
 mix.js('dashboard/resources/js/entry/article-item/index.js', 'dashboard/js/article-item.js').vue();
+// settings
+mix.js('dashboard/resources/js/entry/settings/index.js', 'dashboard/js/settings.js').vue();
 
 mix.version();
 

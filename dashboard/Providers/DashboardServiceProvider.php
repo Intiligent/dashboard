@@ -4,7 +4,8 @@ namespace Dashboard\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Translation\Translator;
-// use Dashboard\Models\Setting;
+use Illuminate\Database\Eloquent\Builder;
+use Dashboard\Macros\BulkUpdateMacros;
 
 class DashboardServiceProvider extends ServiceProvider
 {
@@ -15,7 +16,9 @@ class DashboardServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if (!app()->configurationIsCached()) {
+            $this->mergeConfigFrom(__DIR__.'/../config/pulse.php', 'pulse');
+        }
     }
 
     /**
@@ -27,12 +30,11 @@ class DashboardServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(base_path('dashboard/resources/views'), 'dashboard');
         $this->loadTranslationsFrom(base_path('dashboard/resources/lang'), 'dashboard');
-
-        // try {
-        //     \DB::connection()->getPdo();
-        //     (new Setting)->loadSettings();
-        // } catch (\Exception $exception) {
-        //     //
-        // }
+        $this->loadMigrationsFrom(base_path('dashboard/database/migrations'));
+        
+        // setup macro
+        Builder::macro('bulkUpdate', function(array $values, $uniqueBy, array $updates) {
+            return (new BulkUpdateMacros($this, $values, $uniqueBy, $updates))->handle();
+        });
     }
 }

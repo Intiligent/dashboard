@@ -1,5 +1,10 @@
+import { h } from 'vue';
 import axios from 'axios';
-import { API_DEFAULT_TIMEOUT } from '@dashboard/config/constant';
+import {
+    API_DEFAULT_TIMEOUT,
+    CODE_EXCEPTION_ACCESS_DENIED,
+    CODE_EXCEPTION_VALIDATION,
+} from '@dashboard/config/constant';
 import { ElNotification } from 'element-plus';
 
 // allow use http client without Vue instance
@@ -53,6 +58,11 @@ const responseInterceptorError = function(error) {
     if (error.config.state) {
         error.config.state.isLoading = false;
     }
+    // apply attempt mode action by response http exception code
+    if (exceptionCodeHandler.hasOwnProperty(error.response.data.code)) {
+        exceptionCodeHandler[error.response.data.code](error);
+    }
+
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     return Promise.reject(error);
@@ -60,6 +70,32 @@ const responseInterceptorError = function(error) {
 
 // Add a response interceptor
 http.interceptors.response.use(responseInterceptorSuccess, responseInterceptorError);
+
+const exceptionCodeHandler = {
+    [CODE_EXCEPTION_VALIDATION]: (error) => {
+        const response = error.response.data;
+        const message = Object.values(response.errors).flat().map((item) => {
+            return `<div>${item}</div>`;
+        }).join('');
+        ElNotification({
+            title: 'Validation error',
+            message: message,
+            type: 'warning',
+            dangerouslyUseHTMLString: true,
+            duration: 6000,
+        });
+    },
+    [CODE_EXCEPTION_ACCESS_DENIED]: (error) => {
+        ElNotification({
+            title: 'Access denied',
+            message: error.response.data.message,
+            duration: 8000,
+            icon: h('i', {
+                class: 'el-icon-lock el-text--warning',
+            }),
+        });
+    },
+};
 
 const api = {
     get: function(url, payload, config = {}) {
