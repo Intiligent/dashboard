@@ -1223,6 +1223,7 @@ export default {
 
 <style lang="scss">
 @use '~element-plus/theme-chalk/src/autocomplete';
+@use '~element-plus/theme-chalk/src/scrollbar';
 
 .el-autocomplete-suggestion {
     li {

@@ -5,8 +5,6 @@ export function postMenu(payload, config = {}) {
     return api.post(window.route('api.dashboard.postMenu'), payload, config);
 }
 
-export function deleteMenu(payload, state = {}) {
-    return api.delete(window.route('api.dashboard.deleteMenu'), payload, {
-        state,
-    });
+export function deleteMenu(payload, config = {}) {
+    return api.delete(window.route('api.dashboard.deleteMenu'), payload, config);
 }

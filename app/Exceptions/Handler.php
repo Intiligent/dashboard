@@ -3,10 +3,22 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    const CODE_EXCEPTION_VALIDATION = 142201;
+    const CODE_EXCEPTION_CSRF = 140101;
+    const CODE_EXCEPTION_AUTHORIZATION = 140301;
+    const CODE_EXCEPTION_UNAUTHORIZED = 140302;
+    const CODE_EXCEPTION_ACCESS_DENIED = 140303;
+    const CODE_EXCEPTION_WITH_MESSAGE = 140305;
+    const CODE_EXCEPTION_UNKNOWN_ROUTE = 140401;
+
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -41,8 +53,53 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->reportable(function (Throwable $exception, Request $request) {
+            dump($request);
         });
+    }
+
+    /**
+     * Convert the given exception to an array.
+     *
+     * @param \Throwable $exception
+     * @return array
+     */
+    protected function convertExceptionToArray(Throwable $exception)
+    {
+        $response = [];
+        if ($exception instanceof AccessDeniedHttpException) {
+            $response['code'] = self::CODE_EXCEPTION_ACCESS_DENIED;
+        }
+        if (config('app.debug')) {
+            return [
+                'error' => $exception->getStatusCode(),
+                'message' => $exception->getMessage(),
+                'exception' => get_class($exception),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+                'trace' => collect($exception->getTrace())->map(fn ($trace) => Arr::except($trace, ['args']))->all(),
+            ] + $response;
+        }
+        return [
+            'error' => $exception->getStatusCode(),
+            'message' => $this->isHttpException($exception) ? $exception->getMessage() : 'Server Error',
+        ] + $response;
+    }
+
+    /**
+     * Convert a validation exception into a JSON response.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Illuminate\Validation\ValidationException $exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        return response()->json([
+            'code' => self::CODE_EXCEPTION_VALIDATION,
+            'error' => $exception->status,
+            'message' => $exception->getMessage(),
+            'errors' => $exception->errors(),
+        ], $exception->status);
     }
 }

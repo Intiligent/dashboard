@@ -169,7 +169,6 @@ import ElIconPicker from '@dashboard/components/icon-picker/index';
 import {
     ElButton,
     ElCascader,
-    ElIcon,
     ElInput,
     ElForm,
     ElFormItem,
@@ -191,7 +190,6 @@ export default {
     components: {
         ElButton,
         ElCascader,
-        ElIcon,
         ElIconPicker,
         ElInput,
         ElForm,

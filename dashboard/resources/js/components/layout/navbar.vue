@@ -5,11 +5,11 @@
                 <span class="el-grid el-grid-sm el-flex el-flex-middle el-height-inherit">
                     <span class="el-width-auto">
                         <span class="el-avatar el-avatar--circle" style="padding: 5px;">
-                            <img src="/dashboard/img/logo-square.png" style="object-fit: cover;">
+                            <img :src="config.LOGO_SQUARE || '/dashboard/img/logo-square.png'" style="object-fit: cover;">
                         </span>
                     </span>
                     <span class="el-width-expand">
-                        <div class="el-text--truncate pl-logo--title">{{ config.APP_NAME }}</div>
+                        <div class="el-text--truncate pl-logo--title">{{ config.PROJECT_NAME || 'App name' }}</div>
                         <div class="el-text--truncate pl-logo--description">{{ config.META_TITLE }}</div>
                     </span>
                 </span>

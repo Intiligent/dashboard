@@ -375,7 +375,7 @@ export default {
 
 .el-tabs__nav {
     &.is-left {
-        min-width: 200px;
+        min-width: 220px;
         .el-tabs__item {
             border-top-left-radius: getCssVar('border-radius', 'base');
             border-bottom-left-radius: getCssVar('border-radius', 'base');

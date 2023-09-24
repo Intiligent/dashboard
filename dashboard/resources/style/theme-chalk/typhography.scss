@@ -1,3 +1,5 @@
+@use '~element-plus/theme-chalk/src/common/var' as *;
+@use './var' as *;
 // @use 'sass:map';
 //
 // @use 'mixins/mixins' as *;
@@ -189,13 +191,13 @@
  ========================================================================== */
 
 .el-text--capitalize {
-  text-transform: capitalize !important;
+    text-transform: capitalize !important;
 }
 .el-text--uppercase {
-  text-transform: uppercase !important;
+    text-transform: uppercase !important;
 }
 .el-text--lowercase {
-  text-transform: lowercase !important;
+    text-transform: lowercase !important;
 }
 
 /* Color modifiers
@@ -209,22 +211,22 @@
     color: var(--el-text-color-disabled);
 }
 .el-text--primary {
-  color: var(--el-color-primary);
+    color: var(--el-color-primary);
 }
 .el-text--secondary {
-  color: var(--el-color-secondary);
+    color: var(--el-color-secondary);
 }
 .el-text--success {
-  color: var(--el-color-success);
+    color: var(--el-color-success);
 }
 .el-text--warning {
-  color: var(--el-color-warning);
+    color: var(--el-color-warning);
 }
 .el-text--danger {
-  color: var(--el-color-danger);
+    color: var(--el-color-danger);
 }
 .el-text--placeholder {
-  color: var(--el-text-color-placeholder);
+    color: var(--el-text-color-placeholder);
 }
 
 // /* Background modifier
@@ -269,87 +271,87 @@
     text-align: justify !important;
 }
 
-// /* Phone landscape */
-// @media (min-width: $xs) {
-//   .el-text-left\@xs {
-//     text-align: left !important;
-//   }
-//   .el-text-right\@xs {
-//     text-align: right !important;
-//   }
-//   .el-text-center\@xs {
-//     text-align: center !important;
-//   }
-// }
-//
-// /* Phone landscape and bigger */
-// @media (min-width: $sm) {
-//   .el-text-left\@sm {
-//     text-align: left !important;
-//   }
-//   .el-text-right\@sm {
-//     text-align: right !important;
-//   }
-//   .el-text-center\@sm {
-//     text-align: center !important;
-//   }
-// }
-//
-// /* Tablet landscape and bigger */
-// @media (min-width: $md) {
-//   .el-text-left\@md {
-//     text-align: left !important;
-//   }
-//   .el-text-right\@md {
-//     text-align: right !important;
-//   }
-//   .el-text-center\@md {
-//     text-align: center !important;
-//   }
-// }
-//
-// /* Desktop and bigger */
-// @media (min-width: $lg) {
-//   .el-text-left\@lg {
-//     text-align: left !important;
-//   }
-//   .el-text-right\@lg {
-//     text-align: right !important;
-//   }
-//   .el-text-center\@lg {
-//     text-align: center !important;
-//   }
-// }
-//
-// /* Large screen and bigger */
-// @media (min-width: $xl) {
-//   .el-text-left\@xl {
-//     text-align: left !important;
-//   }
-//   .el-text-right\@xl {
-//     text-align: right !important;
-//   }
-//   .el-text-center\@xl {
-//     text-align: center !important;
-//   }
-// }
-//
-// /*
-//  * Vertical
-//  */
-//
-// .el-text-top {
-//   vertical-align: top !important;
-// }
-// .el-text-middle {
-//   vertical-align: middle !important;
-// }
-// .el-text-bottom {
-//   vertical-align: bottom !important;
-// }
-// .el-text-baseline {
-//   vertical-align: baseline !important;
-// }
+/* Phone landscape */
+@media (min-width: $xs) {
+    .el-text--left\@xs {
+        text-align: left !important;
+    }
+    .el-text--right\@xs {
+        text-align: right !important;
+    }
+    .el-text--center\@xs {
+        text-align: center !important;
+    }
+}
+
+/* Phone landscape and bigger */
+@media (min-width: $sm) {
+    .el-text-left\@sm {
+        text-align: left !important;
+    }
+    .el-text-right\@sm {
+        text-align: right !important;
+    }
+    .el-text-center\@sm {
+        text-align: center !important;
+    }
+}
+
+/* Tablet landscape and bigger */
+@media (min-width: $md) {
+    .el-text-left\@md {
+        text-align: left !important;
+    }
+    .el-text-right\@md {
+        text-align: right !important;
+    }
+    .el-text-center\@md {
+        text-align: center !important;
+    }
+}
+
+/* Desktop and bigger */
+@media (min-width: $lg) {
+    .el-text-left\@lg {
+        text-align: left !important;
+    }
+    .el-text-right\@lg {
+        text-align: right !important;
+    }
+    .el-text-center\@lg {
+        text-align: center !important;
+    }
+}
+
+/* Large screen and bigger */
+@media (min-width: $xl) {
+    .el-text-left\@xl {
+        text-align: left !important;
+    }
+    .el-text-right\@xl {
+        text-align: right !important;
+    }
+    .el-text-center\@xl {
+        text-align: center !important;
+    }
+}
+
+/*
+ * Vertical
+ */
+
+.el-text--top {
+    vertical-align: top !important;
+}
+.el-text--middle {
+    vertical-align: middle !important;
+}
+.el-text--bottom {
+    vertical-align: bottom !important;
+}
+.el-text--baseline {
+    vertical-align: baseline !important;
+}
 
 /* Wrap modifiers
  ========================================================================== */
@@ -359,7 +361,7 @@
  */
 
 .el-text--nowrap {
-  white-space: nowrap;
+    white-space: nowrap;
 }
 
 /*
