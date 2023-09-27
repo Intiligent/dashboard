@@ -50,6 +50,8 @@
             class="el-width-1-1"
             size="large"
             placeholder="Select setting group"
+            fit-input-width
+            filterable 
         >
             <template #prefix>
                 <i class="el-icon-bookmarks"></i>
@@ -60,8 +62,15 @@
                 :value="group.id"
                 :label="group.title"
             >
-                <i class="el-icon--left" :class="group.icon"></i>
-                <span v-text="group.title"></span>
+                <div class="el-grid el-grid-sm el-flex-middle">
+                    <div class="el-width-auto">
+                        <i class="el-icon--left" :class="group.icon"></i>
+                    </div>
+                    <div class="el-width-expand">
+                        <div class="el-select-dropdown__title" v-text="group.title"></div>
+                        <div class="el-select-dropdown__subtitle" v-text="group.description"></div>
+                    </div>
+                </div>
             </el-option>
         </el-select>
     </el-form-item>
@@ -71,6 +80,7 @@
             class="el-width-1-1"
             size="large"
             placeholder="Select interface component"
+            fit-input-width
         >
             <template #prefix>
                 <i class="el-icon-equalizer3"></i>

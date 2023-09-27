@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('type')->default('input-text');
             $table->string('icon')->nullable();
+            $table->json('properties')->nullable();
             $table->boolean('active')->default(1);
             $table->integer('order')->default(1);
             $table->boolean('is_system')->default(0);

@@ -31,7 +31,7 @@ class SettingsSeeder extends Seeder
                     ],
                     [
                         'key' => 'META_TITLE',
-                        'value' => 'Project of your dream',
+                        'value' => 'Manage your data easy',
                         'title' => 'Meta title',
                         'description' => 'The title of the page in your browser that appears in search engine results',
                         'type' => 'textarea',
@@ -64,7 +64,7 @@ class SettingsSeeder extends Seeder
                 'children' => [
                     [
                         'key' => 'LOGO_BASE',
-                        'value' => '',
+                        'value' => '/storage/settings/logo-base.png',
                         'title' => 'Logo',
                         'description' => 'Logo in original format',
                         'type' => 'file',
@@ -72,7 +72,7 @@ class SettingsSeeder extends Seeder
                     ],
                     [
                         'key' => 'LOGO_SQUARE',
-                        'value' => '',
+                        'value' => '/storage/settings/logo-square.png',
                         'title' => 'Logo square',
                         'description' => 'Logo with aspect ratio (1:1)',
                         'type' => 'file',
@@ -92,11 +92,13 @@ class SettingsSeeder extends Seeder
                         'title' => 'Content block view',
                         'description' => 'How to display content block for admin panel. (fixed size, full width)',
                         'type' => 'radio-group',
-                        // 'data' => [
-                        //     ['value' => 'fix', 'label' => 'Fixed size'],
-                        //     ['value' => 'wide', 'label' => 'Wide'],
-                        //     ['value' => 'full', 'label' => 'Full width'],
-                        // ],
+                        'properties' => [
+                            'data' => [
+                                ['value' => 'fix', 'label' => 'Fixed size'],
+                                ['value' => 'wide', 'label' => 'Wide'],
+                                ['value' => 'full', 'label' => 'Full width'],
+                            ],
+                        ],
                         'is_system' => true,
                     ],
                     [
@@ -105,10 +107,12 @@ class SettingsSeeder extends Seeder
                         'title' => 'Displaying the screen width',
                         'description' => 'Allows you to control the size of the viewing window and page scale',
                         'type' => 'radio-group',
-                        // 'data' => [
-                        //     ['value' => '-', 'label' => 'Origin view'],
-                        //     ['value' => 'initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width', 'label' => 'Responsible view'],
-                        // ],
+                        'properties' => [
+                            'data' => [
+                                ['value' => '-', 'label' => 'Origin view'],
+                                ['value' => 'initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width', 'label' => 'Responsible view'],
+                            ],
+                        ],
                         'is_system' => true,
                     ],
                 ]

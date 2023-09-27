@@ -135,11 +135,16 @@ export default {
                 });
             }
             if (attrs.model.type === 'radio-group') {
+                const rows = attrs.model.properties.data ?? [];
                 return h(ElRadioGroup, {}, {
                     default: () => {
-                        return [0, 1, 2].map((index) => {
+                        return rows.map((row) => {
                             return h(ElRadioButton, {
-                                label: 'item-' + index,
+                                label: row.value,
+                            }, {
+                                default: () => {
+                                    return row.label;
+                                },
                             });
                         });
                     },

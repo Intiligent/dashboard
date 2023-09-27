@@ -1,7 +1,10 @@
 <template lang="html">
-    <section class="el-container el-height-1-1">
+    <section
+        class="el-container el-height-1-1"
+        :class="{'el-container--expand': config.LAYOUT_BOX_SIZE === 'full'}"
+    >
         <layout-navbar></layout-navbar>
-        <section class="el-container is-vertical">
+        <section class="el-width-1-1 is-vertical">
             <layout-header></layout-header>
             <main class="el-main" style="padding: 20px 30px 60px;">
                 <slot></slot>
@@ -23,6 +26,7 @@ export default {
 
     setup() {
         const collapseMenu = ref(null);
+        const config = readonly(window.app.config);
         const state = ref({
             isLoading: false,
         });
@@ -30,14 +34,14 @@ export default {
         const user = readonly(window.app.user);
 
         provide('collapseMenu', collapseMenu);
-        provide('config', readonly(window.app.config));
+        provide('config', config);
         provide('state', state);
         provide('route', window.route);
         provide('searchQuery', searchQuery);
         provide('user', user);
 
         return {
-            //
+            config,
         };
     },
 }

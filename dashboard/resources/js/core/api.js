@@ -3,9 +3,10 @@ import axios from 'axios';
 import {
     API_DEFAULT_TIMEOUT,
     CODE_EXCEPTION_ACCESS_DENIED,
+    CODE_EXCEPTION_UNAUTHORIZED,
     CODE_EXCEPTION_VALIDATION,
 } from '@dashboard/config/constant';
-import { ElNotification } from 'element-plus';
+import { ElMessageBox, ElNotification, ElResult } from 'element-plus';
 
 // allow use http client without Vue instance
 export const http = axios.create({
@@ -93,6 +94,27 @@ const exceptionCodeHandler = {
             icon: h('i', {
                 class: 'el-icon-lock el-text--warning',
             }),
+        });
+    },
+    [CODE_EXCEPTION_UNAUTHORIZED]: (error) => {
+        ElMessageBox({
+            message: h(ElResult, {
+                title: 'Unauthorized Access',
+                subTitle: 'You need to login. Refresh page for sign in.',
+            }, {
+                icon: () => {
+                    return h('img', {
+                        src: '/dashboard/img/icons/unauthorized.png',
+                    });
+                },
+            }),
+            showCancelButton: true,
+            confirmButtonText: 'Refresh',
+            callback: (action, instance) => {
+                if (action === 'confirm') {
+                    window.location.reload();
+                }
+            },
         });
     },
 };

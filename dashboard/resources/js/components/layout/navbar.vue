@@ -95,8 +95,9 @@ export default {
 @use '~element-plus/theme-chalk/src/menu';
 
 // ElAside
-.el-aside {
-    background-color: #f7faff;
+aside.el-aside {
+    background-color: #f4f6f9;
+    --el-aside-width: 280px;
 }
 .pl-logo--title {
     color: var(--el-text-color-primary);

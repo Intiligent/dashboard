@@ -4,7 +4,7 @@
     @include('dashboard::components.head')
 </head>
 <body>
-    <div id="root" class="el-height-1-1 container-expand-{{ Cookie::get('LAYOUT_BOX_SIZE') }}">
+    <div id="root" class="el-height-1-1">
         @yield('content')
 
         <!-- <section class="el-container el-height-1-1">

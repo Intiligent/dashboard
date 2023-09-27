@@ -5,7 +5,9 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Throwable;
 
@@ -13,8 +15,8 @@ class Handler extends ExceptionHandler
 {
     const CODE_EXCEPTION_VALIDATION = 142201;
     const CODE_EXCEPTION_CSRF = 140101;
+    const CODE_EXCEPTION_UNAUTHORIZED = 140102;
     const CODE_EXCEPTION_AUTHORIZATION = 140301;
-    const CODE_EXCEPTION_UNAUTHORIZED = 140302;
     const CODE_EXCEPTION_ACCESS_DENIED = 140303;
     const CODE_EXCEPTION_WITH_MESSAGE = 140305;
     const CODE_EXCEPTION_UNKNOWN_ROUTE = 140401;
@@ -101,5 +103,23 @@ class Handler extends ExceptionHandler
             'message' => $exception->getMessage(),
             'errors' => $exception->errors(),
         ], $exception->status);
+    }
+
+    /**
+     * Convert an authentication exception into a response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $this->shouldReturnJson($request, $exception)
+            ? response()->json([
+                'error' => Response::HTTP_UNAUTHORIZED,
+                'code' => self::CODE_EXCEPTION_UNAUTHORIZED,
+                'message' => $exception->getMessage(),
+            ], Response::HTTP_UNAUTHORIZED)
+            : redirect()->guest($exception->redirectTo() ?? route('login'));
     }
 }

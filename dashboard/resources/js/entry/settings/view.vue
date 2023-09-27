@@ -10,7 +10,12 @@
         </div>
     </div>
 
-    <el-tabs v-model="currentGroup" tab-position="left" style="margin-top: 30px;">
+    <el-tabs
+        v-model="currentGroup"
+        tab-position="left"
+        style="margin-top: 30px;"
+        v-if="tree.length"
+    >
         <el-tab-pane
             v-for="group, index in tree"
             :label="group.title"
@@ -23,7 +28,7 @@
             </template>
             <h2 class="el-text--bold el-margin-sm-bottom" v-text="group.title"></h2>
             <div class="el-text--muted" v-text="group.description"></div>
-            <div class="el-grid el-margin el-margin-sm-top">
+            <div class="el-grid el-margin-sm-top">
                 <div class="" v-if="group.children && group.children.length">
                     <el-link type="primary" @click.prevent="onSettingItemAdd(group)">
                         <i class="el-icon-plus22 el-icon--left"></i>Add setting
@@ -35,9 +40,13 @@
                     </el-link>
                 </div>
             </div>
-            <form @submit.prevent="onSubmit(group)" v-if="group.children && group.children.length">
+            <form
+                class="el-margin-md"
+                @submit.prevent="onSubmit(group)"
+                v-if="group.children && group.children.length"
+            >
                 <section class="el-margin" v-for="setting in group.children" :key="setting.id">
-                    <div class="el-grid el-grid-sm el-flex-middle el-margin-xs">
+                    <div class="el-grid el-grid-sm el-flex-middle el-margin-sm">
                         <div class="el-text--bold" v-text="setting.title"></div>
                         <div class="el-width-expand">
                             <el-tooltip content="Copy to clipboard" placement="top">
@@ -57,12 +66,16 @@
                                 type="primary"
                                 class="el-float--right"
                                 @click.prevent="onSettingItemModify(setting)"
-                                v-if="!setting.is_system1"
+                                v-if="!setting.is_system"
                             >Edit</el-link>
                         </div>
                     </div>
                     <component-interface :model="setting"></component-interface>
-                    <div class="el-margin-xs-top el-text--muted el-text--small" v-text="setting.description" v-if="setting.description"></div>
+                    <div
+                        class="el-margin-sm-top el-text--muted el-text--small"
+                        v-text="setting.description"
+                        v-if="setting.description"
+                    ></div>
                 </section>
                 <div class="el-text--right">
                     <el-button
@@ -87,10 +100,11 @@
             </el-empty>
         </el-tab-pane>
     </el-tabs>
+    <el-empty v-else description="No settings group. Add your first group."></el-empty>
 </template>
 
 <script>
-import { h, inject, ref } from 'vue';
+import { computed, h, inject, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Clipboard from 'clipboard';
 import ComponentInterface from './components/interface';
@@ -129,8 +143,15 @@ export default {
 
     setup() {
         const route = useRoute();
-        const currentTabName = route.hash ? route.hash.replace(/^#/, '') : window.app.settings[0].code;
-        const currentGroup = ref(currentTabName);
+        const currentTabName = computed(() => {
+            if (route.hash) {
+                return route.hash.replace(/^#/, '');
+            }
+            if (window.app.settings.length) {
+                return window.app.settings[0].key.toLowerCase();
+            }
+        });
+        const currentGroup = ref(currentTabName.value);
         const routes = window.app.routes;
         const router = useRouter();
         const state = inject('state');
@@ -234,8 +255,8 @@ export default {
                             throw new Error(`Group with id=${model.id} not found`);
                         }
                         tree.value.splice(groupIndex, 1);
+                        currentGroup.value = tree.value[0].key.toLowerCase();
                     }
-                    currentGroup.value = tree.value[0].key.toLowerCase();
                     return true;
                 }
             } catch (error) {

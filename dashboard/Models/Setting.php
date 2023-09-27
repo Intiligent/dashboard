@@ -41,4 +41,13 @@ class Setting extends Model
         '_lft',
         '_rgt',
     ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'properties' => 'array',
+    ];
 }
