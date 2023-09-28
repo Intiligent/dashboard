@@ -4,11 +4,12 @@ namespace Dashboard\Http\Controllers;
 
 // use Meta;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Coderello\SharedData\Facades\SharedData;
 // use Dashboard\Events\ArticleUpdated;
-use Dashboard\Rules\Slug;
+use Dashboard\Http\Requests\GetArticlesRequest;
+use Dashboard\Http\Requests\PostArticleRequest;
 use App\Models\Article;
 use App\Models\Language;
 
@@ -17,15 +18,17 @@ class ArticleController extends Controller
     /**
      * Show article list
      *
-     * @param Illuminate\Http\Request $request
+     * @param $request
      * @return Illuminate\Support\Facades\View
      */
-    public function showArticleList(Request $request)
+    public function showArticleList(GetArticlesRequest $request)
     {
         $collection = $this->getArticles($request);
+        $languages = Language::where('active', true)->get();
         // Meta::set('title', 'Article page');
         SharedData::put([
             'collection' => $collection[DATA],
+            'languages' => $languages,
         ]);
         return view('dashboard::pages.article.list');
     }
@@ -53,12 +56,19 @@ class ArticleController extends Controller
      * @param Illuminate\Http\Request $request
      * @return array
      */
-    public function getArticles(Request $request)
+    public function getArticles(GetArticlesRequest $request)
     {
         $collection = Article::query()
-            ->select('id', 'title', 'slug', 'text', 'active', 'created_at')
-            // ->applySort($request)
+            ->select('id', 'lang_id', 'title', 'slug', 'text', 'active', 'created_at')
+            ->with('language')
+            ->applyFilters($request)
+            ->applySort($request)
             ->paginate();
+
+        $collection->getCollection()->transform(function($row, $key) {
+            $row->text = Str::limit(strip_tags($row->text), 200);
+            return $row;
+        });
 
         return $this->response([DATA => $collection]);
     }
@@ -66,24 +76,12 @@ class ArticleController extends Controller
     /**
      * Modify article item
      *
-     * @param Illuminate\Http\Request $request
+     * @param Dashboard\Http\Requests\PostArticleRequest $request
      * @return array
      */
-    public function postArticle(Request $request)
+    public function postArticle(PostArticleRequest $request)
     {
-        $payload = $this->validate($request, [
-            'lang_id' => ['required'],
-            'title' => ['sometimes', 'required', 'min:2'],
-            'slug' => [
-                'sometimes',
-                'required',
-                'min:2',
-                new Slug,
-                Rule::unique('articles')->ignore($request->get('id')),
-            ],
-            'text' => ['sometimes'],
-            'active' => ['required_with:id', 'boolean'],
-        ]);
+        $payload = $request->validated();
         $model = Article::updateOrCreate(['id' => $request->get('id') ?: null], $payload);
         if ($model->wasRecentlyCreated) {
             return $this->response([

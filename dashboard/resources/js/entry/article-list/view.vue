@@ -7,9 +7,11 @@
             <span class="el-text--muted" v-text="'(' + collection.total + ')'"></span>
         </div>
         <div class="">
-            <el-button @click="filterDrawer = true">
-                <i class="el-icon-filter4 el-icon--left"></i>Filter
-            </el-button>
+            <el-badge class="el-margin-right" :value="activeFilters">
+                <el-button @click="filterDrawer = true">
+                    <i class="el-icon-filter4 el-icon--left"></i>Filter
+                </el-button>
+            </el-badge>
             <el-button
                 type="primary"
                 tag="a"
@@ -33,18 +35,34 @@
                         class="el-text--truncate"
                     ></el-link>
                 </div>
-                <div class="" v-text="row.slug">
-
+                <div class="el-grid el-text--muted">
+                    <div class="">
+                        <i class="el-icon-calendar2 el-icon--left"></i>
+                        <span title="Created at" v-text="row.created_at"></span>
+                    </div>
+                    <div class="">
+                        <i class="el-icon-link el-icon--left"></i>
+                        <span title="Slug" v-text="row.slug"></span>
+                    </div>
+                    <div class="">
+                        <span title="Language" v-text="row.language.icon"></span>
+                    </div>
                 </div>
                 <div class="" v-text="row.text"></div>
             </template>
         </el-table-column>
-        <el-table-column prop="active" width="40">
+        <el-table-column prop="active" width="65">
             <template #default="{row}">
-                <span v-text="row.active"></span>
+                <el-switch
+                    v-model="row.active"
+                    style="--el-switch-on-color: #13ce66;"
+                    :active-value="1"
+                    :inactive-value="0"
+                    :loading="isItemActiveLoading[row.id]"
+                    :before-change="() => onItemActiveChange(row)"
+                ></el-switch>
             </template>
         </el-table-column>
-        <el-table-column prop="created_at" label="Created at" width="170" />
         <template #empty>
             <el-empty></el-empty>
         </template>
@@ -62,91 +80,59 @@
         v-model:current-page="collection.current_page"
     ></el-pagination>
 
-    <el-drawer
-        title="Filter articles"
-        size="360px"
+    <pl-filter
         v-model="filterDrawer"
-    >
-        <el-form id="form-fliter" label-position="top">
-            <!-- <el-form-item label="Name">
-                <el-input
-                    name="name"
-                    size="large"
-                    placeholder="Input user name"
-                    v-model="form.name"
-                >
-                    <template #prefix>
-                        <i class="el-icon-users2"></i>
-                    </template>
-                </el-input>
-            </el-form-item>
-            <el-form-item label="Email">
-                <el-input size="large" placeholder="Input user email" name="email" v-model="form.email">
-                    <template #prefix>
-                        <i class="el-icon-envelop2"></i>
-                    </template>
-                </el-input>
-            </el-form-item> -->
-        </el-form>
-        <template #footer>
-            <el-button
-                native-type="submit"
-                size="large"
-                form="form-fliter"
-                type="primary"
-            >
-                <i class="el-icon-paperplane el-icon--left"></i>Submit
-            </el-button>
-        </template>
-    </el-drawer>
+        :languages="languages"
+        @submit="onFilter"
+    ></pl-filter>
 </template>
 
 <script>
-import { inject, reactive, ref } from 'vue';
+import { computed, inject, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-// import ModalMenuItem from '@dashboard/components/modal/modal.menu-item.vue';
+import PlFilter from './components/filter.vue';
 import {
+    ElBadge,
     ElButton,
-    ElButtonGroup,
-    ElDatePicker,
-    ElDrawer,
     ElDropdown,
     ElDropdownItem,
     ElDropdownMenu,
     ElEmpty,
-    ElForm,
-    ElFormItem,
-    ElInput,
     ElLink,
     ElPagination,
+    ElSwitch,
     ElTable,
     ElTableColumn,
 } from 'element-plus';
-import { getArticles } from '@dashboard/service/request/article';
-//
+import {
+    getArticles,
+    postArticle,
+} from '@dashboard/service/request/article';
+
 export default {
     components: {
+        ElBadge,
         ElButton,
-        ElButtonGroup,
-        ElDrawer,
         ElDropdown,
         ElDropdownItem,
         ElDropdownMenu,
         ElEmpty,
-        ElForm,
-        ElFormItem,
-        ElInput,
         ElLink,
         ElPagination,
+        ElSwitch,
         ElTable,
         ElTableColumn,
+        PlFilter,
     },
 
-    inject: ['route', 'state'],
+    inject: ['route'],
 
     watch: {
         'collection.current_page': function(value) {
-            const payload = { page: value };
+            const payload = {
+                filterModel: this.filterModel,
+                page: value,
+            };
             getArticles(payload, {
                 state: this.state,
             }).then((response) => {
@@ -161,20 +147,64 @@ export default {
 
     setup() {
         const collection = ref(window.app.collection);
+        const languages = ref(window.app.languages);
         const filterDrawer = ref(false);
+        const filterModel = ref({});
+        const isItemActiveLoading = ref({});
         const router = useRouter();
         const form = reactive({
             title: null,
             slug: null,
             created_at: null,
         });
+        const state = inject('state');
+
+        const activeFilters = computed(() => {
+            return Object.values(filterModel.value).filter((value) => {
+                if (Array.isArray(value) && !value.length) {
+                    return false;
+                }
+                return value;
+            }).length;
+        });
+
+        const onItemActiveChange = async function(model) {
+            isItemActiveLoading.value[model.id] = true;
+            try {
+                const payload = { id: model.id, active: !model.active };
+                const response = await postArticle(payload);
+                if (response.error === 200) {
+                    return true;
+                }
+            } finally {
+                delete isItemActiveLoading.value[model.id];
+            }
+        };
+
+        const onFilter = async function(model) {
+            const payload = { filterModel: model };
+            const response = await getArticles(payload, {
+                state: state.value,
+            });
+            if (response.error === 200) {
+                collection.value = response.data;
+            }
+            filterModel.value = model;
+        };
 
         return {
+            activeFilters,
+            onItemActiveChange,
             collection,
             filterDrawer,
+            filterModel,
             form,
+            isItemActiveLoading,
+            languages,
+            onFilter,
             route,
             router,
+            state,
         };
     },
 }
@@ -182,11 +212,10 @@ export default {
 
 <style lang="scss">
 @use '../../../style/theme/common';
-@use '~element-plus/theme-chalk/src/drawer';
+@use '~element-plus/theme-chalk/src/badge';
 @use '~element-plus/theme-chalk/src/table';
 @use '~element-plus/theme-chalk/src/link';
 @use '~element-plus/theme-chalk/src/pagination';
 @use '~element-plus/theme-chalk/src/empty';
-
-@use '~element-plus/theme-chalk/src/form';
+@use '~element-plus/theme-chalk/src/switch';
 </style>

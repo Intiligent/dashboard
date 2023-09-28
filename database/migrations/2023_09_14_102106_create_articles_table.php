@@ -23,6 +23,7 @@ return new class extends Migration
 
             $table->index(['slug']);
             $table->foreign('lang_id')->references('id')->on('languages');
+            $table->fullText(['title', 'text']);
         });
     }
 
@@ -31,6 +32,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('articles', function($table) {
+            $table->dropFullText(['title', 'body']);
+        });
+
         Schema::dropIfExists('articles');
     }
 };

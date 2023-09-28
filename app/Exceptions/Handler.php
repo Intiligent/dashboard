@@ -55,8 +55,8 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $exception, Request $request) {
-            dump($request);
+        $this->reportable(function (Throwable $exception) {
+            // dump($exception);
         });
     }
 
@@ -74,7 +74,7 @@ class Handler extends ExceptionHandler
         }
         if (config('app.debug')) {
             return [
-                'error' => $exception->getStatusCode(),
+                // 'error' => $exception->getStatusCode(),
                 'message' => $exception->getMessage(),
                 'exception' => get_class($exception),
                 'file' => $exception->getFile(),

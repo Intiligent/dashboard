@@ -21,5 +21,20 @@ class Language extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'code', 'icon'];
+    protected $fillable = [
+        'name',
+        'code',
+        'icon',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'active',
+    ];
 }
