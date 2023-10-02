@@ -59,9 +59,9 @@
                 </template>
             </el-input>
         </el-form-item>
-        <el-form-item label="Text" prop="text">
+        <div class="el-form-item">
             <el-input type="textarea" size="large" placeholder="Input article text" name="text" v-model="form.text"></el-input>
-        </el-form-item>
+        </div>
         <el-form-item label="Created/Updated" v-if="form.id">
             <span v-text="form.created_at"></span>
             <span style="padding: 0 5px;">/</span>

@@ -56,14 +56,16 @@
                     </div>
                     <template #dropdown>
                         <el-dropdown-menu>
-                            <el-dropdown-item command="a">Action name with long name</el-dropdown-item>
-                            <el-dropdown-item command="b" class="el-dropdown--link">
-                                <a href="{{ route('dashboard.user', ['id' => auth('dashboard')->id()]) }}">My profile</a>
+                            <el-dropdown-item class="el-dropdown--link">
+                                <a :href="route('dashboard.user', {id: user.id})">
+                                    <i class="el-icon-user"></i>My profile
+                                </a>
                             </el-dropdown-item>
-                            <el-dropdown-item command="c">Action 3</el-dropdown-item>
-                            <el-dropdown-item command="d" disabled>Action 4</el-dropdown-item>
-                            <el-dropdown-item command="e" divided>
-                                <a href="{{ route('dashboard.logout') }}"><i class="el-icon-exit"></i>Logout</a>
+                            <el-dropdown-item command="d" disabled>Action with long name</el-dropdown-item>
+                            <el-dropdown-item class="el-dropdown--link" divided>
+                                <a :href="route('dashboard.logout')">
+                                    <i class="el-icon-exit"></i>Logout
+                                </a>
                             </el-dropdown-item>
                         </el-dropdown-menu>
                     </template>
@@ -95,7 +97,7 @@ export default {
         ElInput,
     },
 
-    inject: ['collapseMenu', 'state', 'user'],
+    inject: ['collapseMenu', 'route', 'state', 'user'],
 
     setup() {
         const currentRoute = useRoute();

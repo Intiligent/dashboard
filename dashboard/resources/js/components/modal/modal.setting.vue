@@ -14,6 +14,7 @@
     <el-form-item label="Key:" prop="key" for="setting.key" required>
         <el-input
             size="large"
+            name="key"
             ref="settingKeyRef"
             placeholder="Fill setting key (unique)"
             v-model="innerModel.key"
@@ -27,6 +28,7 @@
     <el-form-item label="Title:" prop="title" for="setting.title" required>
         <el-input
             size="large"
+            name="title"
             placeholder="Fill setting title"
             v-model="innerModel.title"
             clearable
@@ -51,7 +53,7 @@
             size="large"
             placeholder="Select setting group"
             fit-input-width
-            filterable 
+            filterable
         >
             <template #prefix>
                 <i class="el-icon-bookmarks"></i>
@@ -234,7 +236,13 @@ export default {
         });
 
         const onSubmit = async (formEl) => {
-            const validate = await formEl.validate((valid, fields) => valid);
+            const validate = await formEl.validate((valid, fields) => {
+                if (!valid) {
+                    const firstName = Object.keys(fields)[0];
+                    formRef.value.$el.elements[firstName].focus();
+                }
+                return valid;
+            });
             if (!validate) {
                 return;
             }
