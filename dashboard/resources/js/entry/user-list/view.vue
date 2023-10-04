@@ -7,7 +7,7 @@
             <span class="el-text--muted" v-text="'(' + collection.total + ')'"></span>
         </div>
         <div class="">
-            <el-button>
+            <el-button @click="filterDrawer = true">
                 <i class="el-icon-filter4 el-icon--left"></i>Filter
             </el-button>
             <el-button
@@ -21,7 +21,7 @@
     </div>
 
     <el-table :data="collection.data" style="width: 100%; padding-top: 20px;">
-        <el-table-column prop="id" label="ID" width="50" />
+        <el-table-column prop="id" label="ID" width="52" />
         <el-table-column prop="avatar" width="36">
             <template #default="{row}">
                 <el-avatar size="small" :src="row.avatar" style="vertical-align: bottom;" />
@@ -39,14 +39,14 @@
             </template>
         </el-table-column>
         <el-table-column prop="email" label="Email" />
-        <el-table-column prop="created_at" label="Created at" width="170" />
+        <el-table-column prop="created_at" label="Created at" width="172" />
         <template #empty>
             <el-empty></el-empty>
         </template>
     </el-table>
 
     <el-pagination
-        class="el-flex-center"
+        class="el-flex-center el-pagination--large"
         style="padding-top: 30px;"
         background
         hide-on-single-page
@@ -56,16 +56,17 @@
         :disabled="state.isLoading"
         v-model:current-page="collection.current_page"
     ></el-pagination>
+
+    <pl-filter v-model="filterDrawer" @submit="onFilter"></pl-filter>
 </template>
 
 <script>
-import { inject, ref } from 'vue';
+import { inject, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-// import ModalMenuItem from '@dashboard/components/modal/modal.menu-item.vue';
+import PlFilter from './components/filter.vue';
 import {
     ElAvatar,
     ElButton,
-    ElButtonGroup,
     ElDropdown,
     ElDropdownItem,
     ElDropdownMenu,
@@ -76,12 +77,11 @@ import {
     ElTableColumn,
 } from 'element-plus';
 import { getUsers } from '@dashboard/service/request/user';
-//
+
 export default {
     components: {
         ElAvatar,
         ElButton,
-        ElButtonGroup,
         ElDropdown,
         ElDropdownItem,
         ElDropdownMenu,
@@ -90,9 +90,10 @@ export default {
         ElPagination,
         ElTable,
         ElTableColumn,
+        PlFilter,
     },
 
-    inject: ['route', 'state'],
+    inject: ['route'],
 
     watch: {
         'collection.current_page': function(value) {
@@ -111,12 +112,30 @@ export default {
 
     setup() {
         const collection = ref(window.app.collection.data);
+        const filterDrawer = ref(false);
+        const filterModel = ref({});
         const router = useRouter();
+        const state = inject('state');
+
+        const onFilter = async function(model) {
+            const payload = { filterModel: model };
+            const response = await getUsers(payload, {
+                state: state.value,
+            });
+            if (response.error === 200) {
+                collection.value = response.data;
+            }
+            filterModel.value = model;
+        };
 
         return {
             collection,
+            filterDrawer,
+            filterModel,
+            onFilter,
             route,
             router,
+            state,
         };
     },
 }
@@ -125,8 +144,12 @@ export default {
 <style lang="scss">
 @use '../../../style/theme/common';
 @use '~element-plus/theme-chalk/src/avatar';
+@use '~element-plus/theme-chalk/src/drawer';
 @use '~element-plus/theme-chalk/src/table';
 @use '~element-plus/theme-chalk/src/link';
 @use '~element-plus/theme-chalk/src/pagination';
 @use '~element-plus/theme-chalk/src/empty';
+
+@use '~element-plus/theme-chalk/src/form';
+@use '~element-plus/theme-chalk/src/date-picker';
 </style>

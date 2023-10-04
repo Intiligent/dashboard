@@ -17,11 +17,12 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $email = fake()->unique()->companyEmail();
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'email' => fake()->unique()->companyEmail(),
             'email_verified_at' => now(),
-            'avatar' => 'https://www.gravatar.com/avatar/' . md5(strtolower(trim(fake()->unique()->safeEmail()))) . '?d=identicon',
+            'avatar' => 'https://www.gravatar.com/avatar/' . md5(strtolower($email)) . '?d=identicon',
             'password' => 'password', // password
             'remember_token' => Str::random(10),
         ];
