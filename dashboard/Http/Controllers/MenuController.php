@@ -61,41 +61,10 @@ class MenuController extends Controller
                 $parent = Menu::where('id', $request->get('parent_id'))->first();
                 $parent->appendNode($model);
             }
+            $model->makeVisible(['code']);
             return $this->response([
                 ERR => Response::HTTP_CREATED,
                 DATA => $model,
-                MSG => __('dashboard::base.create'),
-            ]);
-        }
-        return $this->response([
-            MSG => __('dashboard::base.update'),
-        ]);
-    }
-
-    /**
-     * Modify menu group.
-     * Change group activity.
-     *
-     * @param Illuminate\Http\Request $request
-     * @return array Rest response
-     */
-    public function postMenuGroup(Request $request)
-    {
-        $payload = $this->validate($request, [
-            'name' => ['required_without:id', 'min:2'],
-            'code' => [
-                'sometimes',
-                'required_with:name',
-                Rule::unique('menu_items')->ignore($request->get('id')),
-            ],
-            'active' => ['sometimes', 'required_with:id', 'boolean'],
-        ]);
-        $group = Menu::updateOrCreate(['id' => $request->get('id')], $payload);
-        if ($group->wasRecentlyCreated) {
-            $group->makeVisible(['code'])->makeHidden(['url', 'parent_id']);
-            return $this->response([
-                ERR => Response::HTTP_CREATED,
-                DATA => $group,
                 MSG => __('dashboard::base.create'),
             ]);
         }

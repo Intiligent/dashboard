@@ -24,7 +24,7 @@ class PostSettingRequest extends FormRequest
      */
     public function rules(): array
     {
-        $availableComponents = ['input-text', 'textarea', 'input-number', 'file'];
+        $availableComponents = ['input-text', 'textarea', 'input-number', 'file', 'switch'];
         return [
             'key' => ['required', 'min:2', Rule::unique('settings')->ignore($this->get('id'))],
             'title' => ['required', 'min:2'],

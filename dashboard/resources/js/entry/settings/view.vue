@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { computed, h, inject, ref } from 'vue';
+import { computed, h, inject, nextTick, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Clipboard from 'clipboard';
 import ComponentInterface from './components/interface';
@@ -193,7 +193,11 @@ export default {
                     tree: tree.value,
                     onCreate: function(data) {
                         if (isRoot(data)) {
-                            return tree.value.push(data);
+                            tree.value.push(data);
+                            nextTick(() => {
+                                currentGroup.value = data.key.toLowerCase();
+                            });
+                            return;
                         }
                         const parent = tree.value.find((group) => {
                             return group.id === data.parent_id;

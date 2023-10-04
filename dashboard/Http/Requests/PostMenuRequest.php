@@ -27,7 +27,7 @@ class PostMenuRequest extends FormRequest
             'name' => ['required_without:id', 'min:2'],
             'parent_id' => ['sometimes', 'nullable', 'numeric'],
             'type' => ['sometimes', 'required', "in:$types"],
-            'value' => ['sometimes', 'required_with:type'],
+            'value' => ['sometimes', 'required_with:parent_id'],
             'active' => ['sometimes', 'required_with:id', 'boolean'],
             'attribute' => ['sometimes'],
             'icon' => ['sometimes'],

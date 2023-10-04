@@ -30,8 +30,12 @@ class MenuDeletedListener
     public function handle(MenuDeletedEvent $event)
     {
         if ($event->group) {
-            $value = Menu::getMenuByCode($event->group->code);
-            Cache::put('navigation-menu-' . $event->group->code, $value);
+            if ($event->group->parent_id) {
+                $value = Menu::getMenuByCode($event->group->code);
+                Cache::put('navigation-menu-' . $event->group->code, $value);
+            } else {
+                Cache::forget('navigation-menu-' . $event->group->code);
+            }
         }
     }
 }

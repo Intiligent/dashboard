@@ -25,7 +25,6 @@ Route::prefix('api/dashboard')->as('api.dashboard.')->group(function() {
     // menu
     Route::group(['prefix' => 'menu'], function() {
         Route::post('item', 'MenuController@postMenu')->name('postMenu');
-        Route::post('group', 'MenuController@postMenuGroup')->name('postMenuGroup');
         Route::put('order', 'MenuController@putMenuOrder')->name('putMenuOrder');
         Route::delete('item', 'MenuController@deleteMenu')->name('deleteMenu');
         Route::delete('group', 'MenuController@deleteMenuGroup')->name('deleteMenuGroup');

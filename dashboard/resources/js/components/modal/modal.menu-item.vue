@@ -16,6 +16,7 @@
             size="large"
             ref="menuTitleRef"
             id="menu.title"
+            name="title"
             placeholder="Fill menu title"
             v-model="innerModel.name"
             clearable
@@ -47,6 +48,7 @@
         <el-input
             v-if="innerModel.type === TYPE_URI"
             ref="typeuriRef"
+            name="value"
             size="large"
             placeholder="Input link"
             v-model="innerModel.value"
@@ -59,6 +61,7 @@
         <el-select
             v-if="innerModel.type === TYPE_ROUTE"
             ref="typerouteRef"
+            name="value"
             v-model="innerModel.value"
             class="el-width-1-1"
             size="large"
@@ -82,6 +85,7 @@
         <el-input
             v-if="innerModel.type === TYPE_ARTICLE"
             ref="typearticleRef"
+            name="value"
             placeholder="Select article page"
             size="large"
             v-model="innerModel.value"
@@ -268,7 +272,13 @@ export default {
         });
 
         const onSubmit = async (formEl) => {
-            const validate = await formEl.validate((valid, fields) => valid);
+            const validate = await formEl.validate((valid, fields) => {
+                if (!valid) {
+                    const firstName = Object.keys(fields)[0];
+                    formRef.value.$el.elements[firstName].focus();
+                }
+                return valid;
+            });
             if (!validate) {
                 return;
             }

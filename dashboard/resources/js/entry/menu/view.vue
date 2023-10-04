@@ -1,7 +1,15 @@
 <template lang="html">
-    <div class="el-grid">
+    <div class="el-grid el-grid-sm">
         <div class="el-width-expand">
             <h2 class="el-text--bold">Menu</h2>
+        </div>
+        <div class="">
+            <el-button type="primary" @click="addMenuItem">
+                <template #icon>
+                    <i class="el-icon-plus2"></i>
+                </template>
+                Add menu item
+            </el-button>
         </div>
         <div class="">
             <el-dropdown
@@ -15,14 +23,11 @@
                 </el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item command="addMenuGroup">
-                            <i class="el-icon-folder-plus4 el-icon--left"></i>Add group
-                        </el-dropdown-item>
                         <el-dropdown-item command="editGroup">
                             <i class="el-icon-pencil6 el-icon--left"></i>Edit group
                         </el-dropdown-item>
-                        <el-dropdown-item command="addMenuItem">
-                            <i class="el-icon-plus2 el-icon--left"></i>Add menu item
+                        <el-dropdown-item command="addMenuGroup">
+                            <i class="el-icon-folder-plus el-icon--left"></i>Add menu group
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
@@ -58,7 +63,14 @@
                             </el-link>
                         </div>
                         <div>
-                            <span class="el-text--muted" v-text="data.value"></span>
+                            <el-link
+                                :href="data.value === '#' ? '' : data.url"
+                                target="_blank"
+                                @click.stop=""
+                            >
+                                <i class="el-icon-new-tab2 el-icon--left" v-if="data.value !== '#'"></i>
+                                {{ data.value }}
+                            </el-link>
                         </div>
                         <div class="">
                             <el-tooltip content="Add child menu" placement="top">
@@ -94,10 +106,12 @@
                 </template>
                 <template #empty>
                     <el-empty :description="'No menu items for ' + group.name">
-                        <el-button
-                            type="primary"
-                            @click="addMenuItem"
-                        ><i class="el-icon-plus2 el-icon--left"></i> Add new menu item</el-button>
+                        <el-button @click="addMenuItem">
+                            <template #icon>
+                                <i class="el-icon-plus2"></i>
+                            </template>
+                            Add new menu item
+                        </el-button>
                     </el-empty>
                 </template>
             </el-tree>
@@ -112,8 +126,9 @@
 </template>
 
 <script>
-import { h, inject, ref } from 'vue';
+import { computed, h, inject, nextTick, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { isEmpty } from 'lodash';
 import ModalMenuItem from '@dashboard/components/modal/modal.menu-item.vue';
 import {
     ElButton,
@@ -155,25 +170,45 @@ export default {
 
     watch: {
         currentMenuGroup: function(value) {
-            this.router.push({ path: location.pathname, hash: '#' + value });
-        },
-        searchQuery: function(value) {
-            for (const tree of this.treeRef) {
-                tree.filter(value);
-            }
+            this.router.push({
+                path: location.pathname,
+                hash: '#' + value.toLowerCase(),
+            });
         },
     },
 
     setup() {
         const route = useRoute();
-        const currentTabName = route.hash ? route.hash.replace(/^#/, '') : window.app.tree[0].code;
-        const currentMenuGroup = ref(currentTabName);
+        const currentTabName = computed(() => {
+            if (route.hash) {
+                return route.hash.replace(/^#/, '');
+            }
+            if (window.app.tree.length) {
+                return window.app.tree[0].code.toLowerCase();
+            }
+        });
+        const currentMenuGroup = ref(currentTabName.value);
+        const currentMenuGroupIndex = computed(() => {
+            return tree.value.findIndex((group) => {
+                return group.code === currentMenuGroup.value;
+            });
+        });
         const isItemActiveLoading = ref({});
         const routes = window.app.routes;
         const router = useRouter();
         const searchQuery = inject('searchQuery');
         const tree = ref(window.app.tree);
         const treeRef = ref(null);
+        const currentTreeRef = computed(() => {
+            if (!treeRef.value) {
+                return {};
+            }
+            return treeRef.value[currentMenuGroupIndex.value];
+        });
+
+        watch([searchQuery, currentTreeRef], ([newQuery, newTreeRef]) => {
+            newTreeRef.filter(newQuery);
+        });
 
         const handleMenuCommand = (command) => {
             if (command === 'addMenuItem') {
@@ -225,13 +260,23 @@ export default {
                     routes,
                     tree: tree.value,
                     onCreate: function(data) {
-                        if (isRoot(data)) {
-                            return tree.value.push(data);
+                        const parentNode = currentTreeRef.value.getNode(data.parent_id);
+                        if (parentNode) {
+                            currentTreeRef.value.append(data, parentNode);
+                        } else if (!parentNode && data.parent_id) {
+                            const parent = tree.value.find((group) => {
+                                return group.id === data.parent_id;
+                            });
+                            if (!parent.children) {
+                                parent.children = [];
+                            }
+                            parent.children.push(data);
+                        } else if (!data.parent_id) {
+                            tree.value.push(data);
+                            nextTick(() => {
+                                currentMenuGroup.value = data.code.toLowerCase();
+                            });
                         }
-                        if (!node.children) {
-                            node.children = [];
-                        }
-                        node.children.push(data);
                     },
                     onUpdate: function(data) {
                         Object.assign(model, data)
@@ -264,11 +309,15 @@ export default {
             try {
                 const response = await deleteMenu(payload);
                 if (response.error === 200) {
-                    const parent = node.parent;
-                    const children = parent.data.children || parent.data;
-                    const index = children.findIndex((item) => item.id === model.id);
-                    children.splice(index, 1);
-                    tree.value = [...tree.value];
+                    if (isEmpty(node) && !model.parent_id) {
+                        nextTick(() => {
+                            currentMenuGroup.value = tree.value.length && tree.value[0].code;
+                        });
+                        const index = tree.value.indexOf(model);
+                        index >= 0 && tree.value.splice(index, 1);
+                    } else {
+                        currentTreeRef.value.remove(model);
+                    }
                     return true;
                 }
             } catch (error) {
@@ -299,10 +348,6 @@ export default {
             } finally {
                 delete isItemActiveLoading.value[model.id];
             }
-        };
-
-        const onMenuItemDelete = (model) => {
-            console.log('[model1]', model);
         };
 
         const onNodeFilter = (value, data) => {
@@ -341,13 +386,15 @@ export default {
         return {
             allowTreeDrop,
             allowTreeDrag,
+            addMenuGroup,
             addMenuItem,
             currentMenuGroup,
+            currentMenuGroupIndex,
+            currentTreeRef,
             handleMenuCommand,
             isItemActiveLoading,
             onChildMenuItemAdd,
             onMenuItemActiveChange,
-            onMenuItemDelete,
             onMenuItemModify,
             onNodeDrop,
             onNodeFilter,

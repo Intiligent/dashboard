@@ -172,6 +172,11 @@ const interfaceComponents = [
         title: 'File upload',
         icon: 'el-icon-file-upload',
     },
+    {
+        name: 'switch',
+        title: 'Switch',
+        icon: 'el-icon-checkbox-checked2',
+    },
 ];
 
 export default {
