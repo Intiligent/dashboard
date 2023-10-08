@@ -4,6 +4,7 @@ namespace Dashboard\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Dashboard\Http\View\Composers\ErrorComposer;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -24,8 +25,9 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('dashboard::components.header', 'Dashboard\Http\View\Composers\HeaderComposer');
-        View::composer('dashboard::components.navbar', 'Dashboard\Http\View\Composers\NavbarComposer');
+        View::composer('dashboard::errors.*', ErrorComposer::class);
+        // View::composer('dashboard::components.navbar', 'Dashboard\Http\View\Composers\NavbarComposer');
+        // View::composer('dashboard::components.navbar', 'Dashboard\Http\View\Composers\NavbarComposer');
 
         // // Using Closure based composers...
         // View::composer('dashboard', function ($view) {

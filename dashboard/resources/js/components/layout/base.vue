@@ -1,7 +1,7 @@
 <template lang="html">
     <section
         class="el-container el-height-1-1"
-        :class="{'el-container--expand': config.LAYOUT_BOX_SIZE === 'full'}"
+        :class="classContainer"
     >
         <layout-navbar></layout-navbar>
         <section class="el-width-1-1 is-vertical">
@@ -15,6 +15,7 @@
 
 <script>
 import { computed, provide, reactive, readonly, ref } from 'vue';
+import store from 'store';
 import LayoutHeader from '@dashboard/components/layout/header';
 import LayoutNavbar from '@dashboard/components/layout/navbar';
 
@@ -25,13 +26,22 @@ export default {
     },
 
     setup() {
-        const collapseMenu = ref(null);
+        const collapseMenuInitState = store.get('collapseMenu', false);
+        const collapseMenu = ref(collapseMenuInitState);
         const config = readonly(window.app.config);
         const state = ref({
             isLoading: false,
         });
         const searchQuery = ref(null);
         const user = readonly(window.app.user);
+        const classContainer = computed(() => {
+            if (config.LAYOUT_BOX_SIZE === 'full') {
+                return 'el-container--expand';
+            }
+            if (config.LAYOUT_BOX_SIZE === 'wide') {
+                return 'el-container--wide';
+            }
+        });
 
         provide('collapseMenu', collapseMenu);
         provide('config', config);
@@ -41,6 +51,7 @@ export default {
         provide('user', user);
 
         return {
+            classContainer,
             config,
         };
     },

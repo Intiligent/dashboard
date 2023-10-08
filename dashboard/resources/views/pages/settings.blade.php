@@ -1,7 +1,6 @@
 @extends('dashboard::layouts.default')
 
 @section('content')
-
 <layout-base v-cloak>
     <layout-settings></layout-settings>
 </layout-base>

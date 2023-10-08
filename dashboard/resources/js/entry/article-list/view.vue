@@ -4,7 +4,13 @@
             <h2 class="el-text--bold">Articles</h2>
         </div>
         <div class="el-width-expand">
-            <span class="el-text--muted" v-text="'(' + collection.total + ')'"></span>
+            <el-tag
+                size="small"
+                type="danger"
+                effect="dark"
+                v-text="collection.total"
+                style="vertical-align: -5px;"
+            ></el-tag>
         </div>
         <div class="">
             <el-badge class="el-margin-right" :value="activeFilters">
@@ -17,7 +23,7 @@
                 tag="a"
                 :href="route('dashboard.article', {id: 'new'})"
             >
-                <i class="el-icon-plus el-icon--left"></i>Add new article
+                <i class="el-icon-file-plus2 el-icon--left"></i>Add new article
             </el-button>
         </div>
     </div>
@@ -103,6 +109,7 @@ import {
     ElSwitch,
     ElTable,
     ElTableColumn,
+    ElTag,
 } from 'element-plus';
 import {
     getArticles,
@@ -122,6 +129,7 @@ export default {
         ElSwitch,
         ElTable,
         ElTableColumn,
+        ElTag,
         PlFilter,
     },
 
@@ -218,4 +226,5 @@ export default {
 @use '~element-plus/theme-chalk/src/pagination';
 @use '~element-plus/theme-chalk/src/empty';
 @use '~element-plus/theme-chalk/src/switch';
+@use '~element-plus/theme-chalk/src/tag';
 </style>

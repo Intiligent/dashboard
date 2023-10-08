@@ -9,6 +9,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -57,6 +58,18 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $exception) {
             // dump($exception);
+        });
+
+        $this->renderable(function (NotFoundHttpException $exception, Request $request) {
+            if (auth()->guard('dashboard')->check() && $request->is('dashboard', 'dashboard/*')) {
+                return response()->view('dashboard::errors.404', [], Response::HTTP_NOT_FOUND);
+            }
+            // return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
+            // if ($request->is('api/*')) {
+            //     return response()->json([
+            //         'message' => 'Record not found.'
+            //     ], 404);
+            // }
         });
     }
 

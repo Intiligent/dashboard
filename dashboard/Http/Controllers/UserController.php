@@ -4,9 +4,12 @@ namespace Dashboard\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\Response;
 use Coderello\SharedData\Facades\SharedData;
 use Intervention\Image\Facades\Image;
+use Dashboard\Http\Requests\DeleteUserAvatarRequest;
+use Dashboard\Http\Requests\PostUserRequest;
 use Dashboard\Http\Requests\PostUserAvatarRequest;
 use App\Models\Role;
 use App\Models\User;
@@ -56,7 +59,6 @@ class UserController extends Controller
      */
     public function getUsers(Request $request): array
     {
-        sleep(2);
         $collection = User::query()
             // ->with('roles:id,name')
             ->select('id', 'name', 'email', 'avatar', 'created_at')
@@ -72,21 +74,15 @@ class UserController extends Controller
     }
 
     /**
-     * Create/update user
+     * Modify user
      *
-     * @param Illuminate\Http\Request $request
+     * @param PostUserRequest $request
      * @return array
      */
-    public function postUser(Request $request): array
+    public function postUser(PostUserRequest $request): array
     {
-        // todo form request
-        $payload = $this->validate($request, [
-            'name' => ['required', 'min:2'],
-            'email' => ['required', 'email:rfc'],
-            // 'assign_roles' => ['sometimes', 'array'],
-            'password' => ['sometimes', 'nullable', 'required_without:id', 'min:6'],
-        ]);
-        $user = User::updateOrCreate(['id' => $request->get('id')], $payload);
+        $payload = $request->validated();
+        $user = User::updateOrCreate(['id' => $request->id], $payload);
         // if ($payload['assign_roles']) {
             // $roles = Role::whereIn('id', $payload['assign_roles'])->get()->pluck('name');
             // $user->assignRole($roles, 'dashboard');
@@ -142,20 +138,21 @@ class UserController extends Controller
     }
 
     /**
-     * Delete user
+     * Delete avatar
      *
-     * @param Request $request
+     * @param DeleteUserAvatarRequest $request
      * @return array
      */
-    public function deleteArticle(Request $request): array
+    public function deleteAvatar(DeleteUserAvatarRequest $request): array
     {
-        // add form request with policy
-        // $this->validate($request, [
-        //     'id' => ['required', 'exists:articles'],
-        // ]);
-        // Article::destroy($request->get('id'));
-        // return $this->response([
-        //     MSG => 'Article success delete',
-        // ]);
+        $model = User::findOrFail($request->id);
+        if (File::exists(ltrim($model->avatar, '/'))) {
+            File::delete(ltrim($model->avatar, '/'));
+        }
+        $model->avatar = null;
+        $model->save();
+        return $this->response([
+            MSG => 'User avatar was success deleted',
+        ]);
     }
 }

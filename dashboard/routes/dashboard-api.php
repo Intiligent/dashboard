@@ -34,6 +34,7 @@ Route::prefix('api/dashboard')->as('api.dashboard.')->group(function() {
         Route::post('item', 'UserController@postUser')->name('postUser');
         Route::post('avatar', 'UserController@postUserAvatar')->name('postUserAvatar');
         Route::get('fetch', 'UserController@getUsers')->name('getUsers');
+        Route::delete('deleteAvatar', 'UserController@deleteAvatar')->name('deleteAvatar');
     });
     // acl role
     Route::group(['prefix' => 'role'], function() {

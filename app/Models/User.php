@@ -92,16 +92,23 @@ class User extends Authenticatable
      */
     public function scopeApplySort($query, Request $request)
     {
-        $direction = $request->get('direction', '');
-        if (!in_array($direction, ['asc', 'desc', ''])) {
-            $direction = 'asc';
-        }
-        $request->whenFilled('sort', function($columnName) use ($query, $direction) {
-            if ($direction && in_array($columnName, $this->sortable)) {
-                $query->orderBy($columnName, $direction);
+        $request->whenFilled('sortModel', function($sortModel) use ($query) {
+            foreach ($sortModel as ['colId' => $columnName, 'sort' => $direction]) {
+                if ($direction && in_array($columnName, $this->sortable)) {
+                    $query->orderBy($columnName, $direction);
+                }
             }
         });
-        if ($request->missing('sort')) {
+        // $direction = $request->get('direction', '');
+        // if (!in_array($direction, ['asc', 'desc', ''])) {
+        //     $direction = 'asc';
+        // }
+        // $request->whenFilled('sort', function($columnName) use ($query, $direction) {
+        //     if ($direction && in_array($columnName, $this->sortable)) {
+        //         $query->orderBy($columnName, $direction);
+        //     }
+        // });
+        if ($request->missing('sortModel')) {
             $query->latest('id');
         }
         return $query;
@@ -120,6 +127,19 @@ class User extends Authenticatable
                 ->orWhere('name', 'LIKE', "%$q%")
                 ->orWhere('email', 'LIKE', "%$q%");
         });
+
+        $request->whenFilled('filterModel', function($filterModel) use ($query) {
+            if (array_key_exists('name', $filterModel)) {
+                $query->where('name', 'LIKE', "%".$filterModel['name']."%");
+            }
+            if (array_key_exists('email', $filterModel) && $filterModel['email']) {
+                $query->where('email', 'LIKE', "%".$filterModel['email']."%");
+            }
+            if (array_key_exists('created_at', $filterModel)) {
+                $query->whereBetween('created_at', $filterModel['created_at']);
+            }
+        });
+
         return $query;
     }
 }

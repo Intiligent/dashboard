@@ -9,7 +9,7 @@
                     plain
                     @click="collapseMenu = !collapseMenu"
                 >
-                    <i class="el-icon-menu7"></i>
+                    <i :class="collapseMenu ? 'el-icon-cross2' : 'el-icon-menu7'"></i>
                 </el-button>
             </div>
             <div class="el-width-expand">
@@ -42,7 +42,7 @@
                 >
                     <div class="el-dropdown-link">
                         <div class="el-grid el-grid-xs el-flex-middle">
-                            <div class="el-text-right">
+                            <div class="el-text--right">
                                 <div class="el-text--bold" style="line-height: 20px;" v-text="user.name"></div>
                                 <div class="el-text--small el-text--placeholder" style="line-height: 18px;" v-text="user.email"></div>
                             </div>
@@ -76,8 +76,9 @@
 </template>
 
 <script>
-import { inject, ref } from 'vue';
+import { inject, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import store from 'store';
 import {
     ElAvatar,
     ElButton,
@@ -97,15 +98,21 @@ export default {
         ElInput,
     },
 
-    inject: ['collapseMenu', 'route', 'state', 'user'],
+    inject: ['route', 'state', 'user'],
 
     setup() {
+        const collapseMenu = inject('collapseMenu');
         const currentRoute = useRoute();
         const searchQuery = inject('searchQuery');
         if (currentRoute.query.q) {
             searchQuery.value = currentRoute.query.q;
         }
+        watch(collapseMenu, (value) => {
+            store.set('collapseMenu', value);
+        });
+
         return {
+            collapseMenu,
             searchQuery,
         };
     },

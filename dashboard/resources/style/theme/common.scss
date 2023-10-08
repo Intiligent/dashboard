@@ -23,7 +23,7 @@
     ),
     $font-size: (
         'base': 15px,
-        'large': 26px,
+        'large': 28px,
         'extra-large': 32px,
     ),
     $input-font-size: (
@@ -54,6 +54,7 @@
         'bg-color': transparent,
         'border-color': transparent,
         'item-height': 46px,
+        'icon-width': 30px,
     ),
     $message: (
         'close-size': 22px,
@@ -155,6 +156,9 @@ body {
 .el-container--expand {
     max-width: 100%;
 }
+.el-container--wide {
+    max-width: 1600px;
+}
 
 // ElMenu
 .el-menu {
@@ -162,6 +166,24 @@ body {
     min-height: 100%;
     .el-menu-item [class^=el-icon] {
         font-size: 16px;
+    }
+    &.el-menu--collapse {
+        .el-menu-item [class^=el-icon] {
+            margin-right: auto;
+        }
+        .el-sub-menu__title {
+            display: block;
+            padding-right: 15px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            max-width: 100%;
+        }
+    }
+    .el-menu-item-group__title {
+        padding-right: 12px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 100%;
     }
 }
 

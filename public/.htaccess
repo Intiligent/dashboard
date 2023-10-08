@@ -15,7 +15,9 @@
     RewriteRule ^ %1 [L,R=301]
 
     # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # The url rewrite is probably skipped because the directory exists,
+    # and it tries to directory-list folder, but prohibited to do so
+    #RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>

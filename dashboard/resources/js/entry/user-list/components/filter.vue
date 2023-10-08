@@ -114,4 +114,9 @@ export default {
 </script>
 
 <style lang="scss">
+@use '../../../../style/theme/common';
+
+@use '~element-plus/theme-chalk/src/drawer';
+@use '~element-plus/theme-chalk/src/form';
+@use '~element-plus/theme-chalk/src/date-picker';
 </style>

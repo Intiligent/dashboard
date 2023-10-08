@@ -39,6 +39,7 @@
                             :on-change="handleAvatarChange"
                             :on-exceed="handleAvatarExceed"
                         >
+                            <i class="el-icon-cancel-circle2 button-delete-circle" title="Delete" @click.stop="onAvatarDelete" v-if="form.avatar"></i>
                             <el-avatar size="large" :src="form.avatar" />
                         </el-upload>
                     </el-tooltip>
@@ -53,7 +54,7 @@
             <el-input
                 name="name"
                 size="large"
-                placeholder="Input user name"
+                placeholder="John Doe"
                 v-model="form.name"
             >
                 <template #prefix>
@@ -73,7 +74,7 @@
                 size="large"
                 type="password"
                 name="password"
-                placeholder="Input user password"
+                placeholder="Mega secret password"
                 v-model="form.password"
             >
                 <template #prefix>
@@ -115,7 +116,11 @@ import {
     ElTooltip,
     ElUpload,
 } from 'element-plus';
-import { postUser, postUserAvatar } from '@dashboard/service/request/user';
+import {
+    postUser,
+    postUserAvatar,
+    deleteAvatar,
+} from '@dashboard/service/request/user';
 
 export default {
     components: {
@@ -188,12 +193,24 @@ export default {
 
         const onSubmit = function() {
             const payload = form;
-            console.log('payload', payload);
             return postUser(payload, {
                 state: state.value,
                 notify: true,
             }).then((response) => {
                 console.log('[postUser response]', response);
+            });
+        };
+
+        const onAvatarDelete = function() {
+            if (!confirm('Are you sure you want delete avatar?')) {
+                return;
+            }
+            const payload = { id: model.id };
+            return deleteAvatar(payload, {
+                state: state.value,
+                notify: true,
+            }).then((response) => {
+                console.log('[deleteAvatar response]', response);
             });
         };
 
@@ -205,6 +222,7 @@ export default {
             handleAvatarSuccess,
             handleAvatarExceed,
             model,
+            onAvatarDelete,
             onSubmit,
             postUserAvatarRequest,
             state,
@@ -235,5 +253,26 @@ export default {
     font-size: 16px;
     line-height: 24px;
     color: var(--el-text-color-secondary);
+}
+.el-upload {
+    position: relative;
+    .button-delete-circle {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        font-size: 20px;
+        color: var(--el-text-color-secondary);
+        background-color: #fff;
+        border-radius: 10px;
+        display: none;
+        transition: all 0.2s ease-out;
+        &:hover {
+            color: var(--el-text-color-primary);
+            transition: all 0.2s ease-out;
+        }
+    }
+    &:hover .button-delete-circle {
+        display: block;
+    }
 }
 </style>

@@ -1,14 +1,14 @@
 <template lang="html">
-    <aside class="el-aside">
+    <aside class="el-aside" :class="{'el-aside--collapse': collapseMenu}">
         <div class="" style="height: 70px; border-bottom: 1px solid var(--el-border-color-light);">
-            <a :href="route('dashboard.home')" class="el-height-1-1 el-menu-item" style="display: block;">
+            <a :href="route('dashboard.home')" class="el-height-1-1 el-menu-item sidebar-logo" style="display: block;">
                 <span class="el-grid el-grid-sm el-flex el-flex-middle el-height-inherit">
                     <span class="el-width-auto">
                         <span class="el-avatar el-avatar--circle" style="padding: 5px;">
                             <img :src="config.LOGO_SQUARE || '/dashboard/img/logo-square.png'" style="object-fit: cover;">
                         </span>
                     </span>
-                    <span class="el-width-expand">
+                    <span class="el-width-expand" v-show="!collapseMenu">
                         <div class="el-text--truncate pl-logo--title">{{ config.PROJECT_NAME || 'App name' }}</div>
                         <div class="el-text--truncate pl-logo--description">{{ config.META_TITLE }}</div>
                     </span>
@@ -20,7 +20,7 @@
             <!-- <el-menu-item index="22-1">Dashboard</el-menu-item> -->
             <el-menu-item-group>
                 <template #title>Content</template>
-                <el-menu-item index="22-1">
+                <el-menu-item index="dashboard.article" :route="{path: '/dashboard/article'}">
                     <i class="el-icon-bookmark"></i>
                     <template #title>Article pages</template>
                 </el-menu-item>
@@ -31,11 +31,11 @@
             </el-menu-item-group>
             <el-menu-item-group>
                 <template #title>System</template>
-                <el-menu-item index="22-1">
+                <el-menu-item index="dashboard.menu" route="/dashboard/menu">
                     <i class="el-icon-list-unordered"></i>
                     <template #title>Menu</template>
                 </el-menu-item>
-                <el-menu-item index="22-2">
+                <el-menu-item index="/dashboard/user">
                     <i class="el-icon-users2"></i>
                     <template #title>Users</template>
                 </el-menu-item>
@@ -48,7 +48,7 @@
                         <el-menu-item index="2-2">Option 2</el-menu-item>
                     </el-menu-item-group>
                 </el-sub-menu>
-                <el-menu-item route="setting" index="22-2">
+                <el-menu-item route="settings" index="22-2">
                     <i class="el-icon-cog"></i>
                     <template #title>Settings</template>
                 </el-menu-item>
@@ -96,8 +96,18 @@ export default {
 
 // ElAside
 aside.el-aside {
+    transition: all 0.5s ease-out;
     background-color: #f4f6f9;
     --el-aside-width: 280px;
+    &.el-aside--collapse {
+        --el-aside-width: 70px;
+        transition: all 0.5s ease-out;
+        .sidebar-logo {
+            padding-left: 15px;
+            padding-right: 15px;
+            transition: all 0.5s ease-out;
+        }
+    }
 }
 .pl-logo--title {
     color: var(--el-text-color-primary);

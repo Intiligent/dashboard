@@ -37,6 +37,8 @@ mix.js('dashboard/resources/js/entry/article-list/index.js', 'dashboard/js/artic
 mix.js('dashboard/resources/js/entry/article-item/index.js', 'dashboard/js/article-item.js').vue();
 // settings
 mix.js('dashboard/resources/js/entry/settings/index.js', 'dashboard/js/settings.js').vue();
+// errors
+mix.js('dashboard/resources/js/entry/error/index.js', 'dashboard/js/error.js').vue();
 
 mix.version();
 
