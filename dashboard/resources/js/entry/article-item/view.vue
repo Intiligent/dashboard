@@ -60,7 +60,11 @@
             </el-input>
         </el-form-item>
         <div class="el-form-item">
-            <el-input type="textarea" size="large" placeholder="Input article text" name="text" v-model="form.text"></el-input>
+            <ckeditor
+                :editor="editor"
+                v-model="form.text"
+                :config="editorConfig"
+            ></ckeditor>
         </div>
         <el-form-item label="Created/Updated" v-if="form.id">
             <span v-text="form.created_at"></span>
@@ -89,6 +93,11 @@
 
 <script>
 import { computed, inject, reactive, readonly, ref } from 'vue';
+import CKEditor from '@ckeditor/ckeditor5-vue';
+import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
+import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 import {
     ElButton,
     ElForm,
@@ -107,11 +116,88 @@ export default {
         ElInput,
         ElOption,
         ElSelect,
+
+        ckeditor: CKEditor.component,
     },
 
     inject: ['route'],
 
     setup() {
+        const editor = ClassicEditor;
+        const editorConfig = ref({
+            // ckfinder: {
+            //     uploadUrl: 'https://page.com/api/uploadckeditor'
+            // },
+            // plugins: [
+            //     Bold,
+            //     Italic,
+            //     SourceEditing,
+            // ],
+            // toolbar: {
+            //     items: [
+                    // 'sourceEditing',
+                    // 'alignment',
+                    // 'heading',
+                    // '|',
+                    // 'bold',
+                    // 'italic',
+                    // 'link',
+                    // 'bulletedList',
+                    // 'numberedList',
+                    // '|',
+                    // 'outdent',
+                    // 'indent',
+                    // '|',
+                    // 'imageUpload',
+                    // 'blockQuote',
+                    // 'insertTable',
+                    // 'mediaEmbed',
+                    // 'undo',
+                    // 'redo',
+                    //
+                    // 'heading',
+        			// '|',
+        			// 'bold',
+        			// 'italic',
+        			// 'link',
+        			// 'bulletedList',
+        			// 'numberedList',
+        			// '|',
+        			// 'outdent',
+        			// 'indent',
+        			// '|',
+        			// 'imageUpload',
+        			// 'blockQuote',
+        			// 'insertTable',
+        			// 'mediaEmbed',
+        			// 'undo',
+        			// 'redo',
+        			// 'codeBlock',
+        			// 'alignment',
+        			// 'CKFinder',
+        			// 'code',
+        			// 'fontBackgroundColor',
+        			// 'fontColor',
+        			// 'fontFamily',
+        			// 'fontSize',
+        			// 'highlight',
+        			// 'horizontalLine',
+        			// '-',
+        			// 'htmlEmbed',
+        			// 'imageInsert',
+        			// 'removeFormat',
+        			// 'specialCharacters',
+        			// 'restrictedEditingException',
+        			// 'strikethrough',
+        			// 'subscript',
+        			// 'superscript',
+        			// 'textPartLanguage',
+        			// 'todoList',
+        			// 'underline',
+        			// 'sourceEditing',
+            //     ],
+            // },
+        });
         const languages = readonly(window.app.languages);
         const model = window.app.model;
         const form = reactive(Object.assign({
@@ -133,6 +219,8 @@ export default {
         };
 
         return {
+            editor,
+            editorConfig,
             form,
             languages,
             model,
