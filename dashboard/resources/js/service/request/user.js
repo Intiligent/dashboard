@@ -16,3 +16,7 @@ export function postUserAvatar(payload, config = {}) {
 export function deleteUser(payload, config = {}) {
     return api.delete(window.route('api.dashboard.deleteUser'), payload, config);
 }
+
+export function deleteAvatar(payload, config = {}) {
+    return api.delete(window.route('api.dashboard.deleteAvatar'), payload, config);
+}

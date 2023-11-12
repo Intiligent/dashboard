@@ -35,8 +35,8 @@ Route::as('dashboard.')->prefix('dashboard')->group(function() {
             Route::get('/{id}', 'UserController@showItem')->name('user');
         });
         // acl role
-        Route::group(['prefix' => 'roles'], function() {
-            Route::get('/', 'RoleController@index')->name('roles');
+        Route::group(['prefix' => 'role'], function() {
+            Route::get('/', 'RoleController@index')->name('roleList');
             Route::get('/{item}', 'RoleController@item')->name('role');
         });
         // acl permission

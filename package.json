@@ -11,6 +11,11 @@
         "production": "mix --production"
     },
     "dependencies": {
+        "@ckeditor/ckeditor5-basic-styles": "^39.0.2",
+        "@ckeditor/ckeditor5-build-classic": "^39.0.2",
+        "@ckeditor/ckeditor5-editor-classic": "^39.0.2",
+        "@ckeditor/ckeditor5-source-editing": "^39.0.2",
+        "@ckeditor/ckeditor5-vue": "^5.1.0",
         "axios": "^1.1.2",
         "clipboard": "^2.0.11",
         "element-plus": "^2.3.9",
