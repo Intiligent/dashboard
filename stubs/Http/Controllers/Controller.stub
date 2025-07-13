@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }}\Http\Controllers;
+
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Arr;
+
+class Controller extends BaseController
+{
+    use AuthorizesRequests, ValidatesRequests;
+
+    /**
+     * Returns REST response
+     *
+     * @param array|integer $error Error Code or array of params
+     * @param array|null $params Array of additional params
+     * @return array
+     */
+    protected function response($params = array())
+    {
+        $response = Arr::only($params, [ERR, CODE, MSG, DATA]);
+
+        if (!isset($response[ERR])) {
+            $response[ERR] = Response::HTTP_OK;
+        }
+
+        return $response;
+    }
+}

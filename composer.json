@@ -1,0 +1,60 @@
+{
+    "name": "viart/dashboard",
+    "description": "Dashboard for Laravel app",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "homepage": "https://github.com/Intiligent/dashboard",
+    "support": {
+        "issues": "https://github.com/Intiligent/dashboard/issues",
+        "email": "vitaliy.artyukh@gmail.com"
+    },
+    "keywords": [
+        "dashboard",
+        "dashboard-panel",
+        "laravel-dashboard",
+        "cms",
+        "admin"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Viart\\Dashboard\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Viart\\dashboard\\tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vitaliy Artyukh",
+            "email": "vitaliy.artyukh@gmail.com"
+        }
+    ],
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Viart\\Dashboard\\DashboardServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "kalnoy/nestedset": "^6.0",
+        "laravel/ui": "^4.6"
+    },
+    "require-dev": {
+        "illuminate/console": "^12.0",
+        "illuminate/filesystem": "^12.0",
+        "illuminate/support": "^12.0"
+    }
+}

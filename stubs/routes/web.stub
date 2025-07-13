@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use {{ namespace }}\Http\Controllers\HomeController;
+use {{ namespace }}\Http\Controllers\Auth\LoginController;
+
+Route::as('{{ name }}.')->group(function () {
+    Route::group([], function () {
+        Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+        Route::get('logout', [LoginController::class, 'logout'])->name('logout');
+        Route::post('login', [LoginController::class, 'login']);
+    });
+    Route::group(['middleware' => ['auth:{{ name }}']], function () {
+        // menu
+        // Route::get('menu', 'MenuController@index')->name('menu');
+        // // settings
+        // Route::get('settings', 'SettingsController@index')->name('settings');
+        // // article
+        // Route::group(['prefix' => 'article'], function() {
+        //     Route::get('/', 'ArticleController@showArticleList')->name('articleList');
+        //     Route::get('/{id}', 'ArticleController@showArticlePage')->name('article');
+        // });
+        // // user
+        // Route::group(['prefix' => 'user'], function() {
+        //     Route::get('/', 'UserController@showList')->name('userList');
+        //     Route::get('/{id}', 'UserController@showItem')->name('user');
+        // });
+        // // acl role
+        // Route::group(['prefix' => 'role'], function() {
+        //     Route::get('/', 'RoleController@index')->name('roleList');
+        //     Route::get('/{item}', 'RoleController@item')->name('role');
+        // });
+        // // acl permission
+        // Route::group(['prefix' => 'permissions'], function() {
+        //     Route::get('/', 'PermissionController@index')->name('permissions');
+        //     Route::get('/{item}', 'PermissionController@item')->name('permission');
+        // });
+        // home page
+        Route::get('/', [HomeController::class, 'index'])->name('home');
+    });
+});

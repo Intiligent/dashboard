@@ -1,0 +1,95 @@
+@extends('{{ name }}::layouts.base')
+
+@section('style')
+@vite(['resources/style/entries/login.scss'], '{{ name }}')
+@endsection
+
+@section('content')
+<div class="el-grid el-child-width-1-2 el-height-1-1">
+    <div class="el-flex el-flex-center el-flex-middle" style="background-color: var(--el-color-primary);">
+        <div class="">
+            <div class="">
+                <img style="max-width: 280px;" src="/assets/images/logo-full.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="el-flex el-flex-center el-flex-middle">
+        <section class="el-card" style="max-width: 320px; width: 100%;">
+            <form method="post">
+                <h2>Dashboard Sign In</h2>
+                <div class="">Dont have an account? <a class="el-text-bold" href="#">Sign up</a></div>
+                <div class="el-margin">
+                    <div class="el-input el-input--large el-input--prefix">
+                        <div class="el-input__wrapper">
+                            <span class="el-input__prefix"><span class="el-input__prefix-inner"><svg width="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M32,56H224a0,0,0,0,1,0,0V192a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V56A0,0,0,0,1,32,56Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="224 56 128 144 32 56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg></span></span>
+                            <input
+                                class="el-input__inner"
+                                type="email"
+                                name="email"
+                                autocomplete="off"
+                                placeholder="Email address"
+                                required
+                            />
+                        </div>
+                    </div>
+                    @error('email')
+                        <span class="invalid-feedback" role="alert">
+                            {{ $message }}
+                        </span>
+                    @enderror
+                </div>
+
+                <div class="el-margin">
+                    <div class="el-input el-input--large el-input--prefix">
+                        <div class="el-input__wrapper">
+                            <span class="el-input__prefix"><span class="el-input__prefix-inner"><svg width="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M93.17,122.83A71.68,71.68,0,0,1,88,95.91c0-38.58,31.08-70.64,69.64-71.87A72,72,0,0,1,232,98.36C230.73,136.92,198.67,168,160.09,168a71.68,71.68,0,0,1-26.92-5.17h0L120,176H96v24H72v24H40a8,8,0,0,1-8-8V187.31a8,8,0,0,1,2.34-5.65l58.83-58.83Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="180" cy="76" r="12"/></svg></span></span>
+                            <input
+                                class="el-input__inner"
+                                type="password"
+                                name="password"
+                                autocomplete="off"
+                                placeholder="Password"
+                                required
+                            />
+                        </div>
+                    </div>
+                    @error('password')
+                        <span class="invalid-feedback" role="alert">
+                            {{ $message }}
+                        </span>
+                    @enderror
+                </div>
+                <div class="el-margin">
+                    <a class="el-text-bold" href="#">Forgot the password?</a>
+                </div>
+                <div class="el-margin">
+                    @csrf
+                    <button
+                        class="el-button el-button--primary el-button--large el-width-1-1"
+                        type="primary"
+                        size="large"
+                        native-type="submit"
+                    >
+                        <i class="el-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><line x1="24" y1="128" x2="136" y2="128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="96 88 136 128 96 168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><polyline points="136 40 200 40 200 216 136 216" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+                        </i>
+                        <span>Sign In</span>
+                    </button>
+                </div>
+                <div class="el-divider el-divider--horizontal" role="separator" style="--el-border-style: solid;">
+                    <div class="el-divider__text is-center">or</div>
+                </div>
+                <div class="el-margin-top">
+                    <a
+                        href="#"
+                        class="el-button el-button--large el-width-1-1"
+                    >
+                        <svg style="margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/><path d="M1 1h22v22H1z" fill="none"/></svg>
+                        Login with Google
+                    </a>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+@endsection

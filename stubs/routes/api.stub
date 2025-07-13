@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+// use {{ namespace }}\Http\Controllers\DictionaryController;
+
+Route::as('{{ name }}.')->group(function () {
+    Route::group(['middleware' => []], function () {
+        // menu
+        // Route::get('menu', 'MenuController@index')->name('menu');
+        // // settings
+        // Route::get('settings', 'SettingsController@index')->name('settings');
+        // // article
+        // Route::group(['prefix' => 'article'], function() {
+        //     Route::get('/', 'ArticleController@showArticleList')->name('articleList');
+        //     Route::get('/{id}', 'ArticleController@showArticlePage')->name('article');
+        // });
+        // // user
+        // Route::group(['prefix' => 'user'], function() {
+        //     Route::get('/', 'UserController@showList')->name('userList');
+        //     Route::get('/{id}', 'UserController@showItem')->name('user');
+        // });
+        // // acl role
+        // Route::group(['prefix' => 'role'], function() {
+        //     Route::get('/', 'RoleController@index')->name('roleList');
+        //     Route::get('/{item}', 'RoleController@item')->name('role');
+        // });
+        // // acl permission
+        // Route::group(['prefix' => 'permissions'], function() {
+        //     Route::get('/', 'PermissionController@index')->name('permissions');
+        //     Route::get('/{item}', 'PermissionController@item')->name('permission');
+        // });
+        // Route::group(['prefix' => 'data'], function () {
+        //     Route::get('dictionaries', [DictionaryController::class, 'getDictionaries'])->name('getDictionaries');
+        // });
+    });
+});

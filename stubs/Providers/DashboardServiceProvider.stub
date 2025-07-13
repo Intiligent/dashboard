@@ -1,0 +1,40 @@
+<?php
+
+namespace {{ namespace }}\Providers;
+
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
+
+class DashboardServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot(): void
+    {
+        Route::middleware('web')
+            ->prefix('{{ name }}')
+            ->group(base_path('{{ name }}/routes/web.php'));
+
+        Route::middleware('api')
+            ->prefix('api/{{ name }}')
+            ->name('api.')
+            ->group(base_path('{{ name }}/routes/api.php'));
+
+        $this->loadViewsFrom(base_path('{{ name }}/resources/views'), '{{ name }}');
+        $this->loadMigrationsFrom(base_path('{{ name }}/database/migrations'));
+        // $this->loadTranslationsFrom(base_path('{{ name }}/resources/lang'), '{{ name }}');
+    }
+}
