@@ -4,6 +4,7 @@ namespace Viart\Dashboard\Console;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -99,31 +100,40 @@ class DashboardInstall extends Command
         $this->publishStubs();
         $this->addRequireConstant();
 
-        // try {
-        //     \DB::connection()->getPdo();
-        // } catch (\Exception $exception) {
-        //     $this->error("Could not connect to the database. Please check your configuration. error: " . $exception->getMessage());
-        //     return;
-        // }
+        $this->newLine();
+        $this->newLine();
+        (new Process(['composer', 'dump-autoload', '--optimize']))
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            });
+        (new Process(['php', 'artisan', 'optimize']))
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            });
         
-        // // $this->call('cache:clear');
-        // $this->call('config:cache');
-        // $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
-
-        $this->newLine();
-        $this->newLine();
-        $this->commandRun(['composer', 'dump-autoload', '--optimize'], base_path());
-        $this->call('optimize');
+        $connection = null;
         if ($this->confirm('Do you wish to call migrations?', true)) {
-            $this->call('migrate');
+            try {
+                $connection = DB::connection()->getPdo();
+                (new Process(['php', 'artisan', 'migrate']))
+                    ->setTimeout(null)
+                    ->run(function ($type, $output) {
+                        $this->output->write($output);
+                    });
+            } catch (Exception $exception) {
+                $this->error("Could not connect to the database. Please check your configuration. Error: " . $exception->getMessage());
+            }
         }
-        if ($this->confirm('Do you wish to seed database?', true)) {
-            // $this->call('db:seed', [
-            //     '--class' => 'Dashboard\\Database\\Seeders\\DashboardSeeder',
-            // ]);
-            $this->commandRun(['php', 'artisan', 'db:seed', '--class=Dashboard\\Database\\Seeders\\DashboardSeeder', ]);
+        if ($connection && $this->confirm('Do you wish to seed database?', true)) {
+            (new Process(['php', 'artisan', 'db:seed', '--class=Dashboard\\Database\\Seeders\\DashboardSeeder']))
+                ->setTimeout(null)
+                ->run(function ($type, $output) {
+                    $this->output->write($output);
+                });
         }
-        if ($this->confirm('Create new superadmin user for dashboard?', true)) {
+        if ($connection && $this->confirm('Create new superadmin user for dashboard?', true)) {
             $name = $this->askWithValidation('name', 'Input user name', ['required']);
             $email = $this->askWithValidation('email', 'Input user email', ['required', 'email', 'unique:users,email']);
             $password = $this->askWithValidation('name', 'Input user password', ['required', 'min:6'], 'secret');
@@ -140,8 +150,8 @@ class DashboardInstall extends Command
             $this->commandRun(['npm', 'run', 'build'], base_path($this->name));
         }
         $this->newLine()->info('Dashboard scaffolding installed successfully');
-        $this->info('Run "npm run dev" for build script files and then go ahead to dashboard');
         $this->info('If you dont have a local server please call "php artisan serve" for serve project.');
+        $this->info('Go ahead: ' . route($this->name . '.login'));
     }
 
     protected function updateRootComposer(): bool
@@ -340,6 +350,7 @@ HTACCESS;
             File::copy(__DIR__ . '/../package.json', base_path("$this->name/package.json")) && $this->line(" ⊢ Published: " . base_path("$this->name/package.json"));
             File::copy(__DIR__ . '/../.gitignore', base_path("$this->name/.gitignore")) && $this->line(" ⊢ Published: " . base_path("$this->name/.gitignore"));
             File::copy(__DIR__ . '/../vite.config.js', base_path("$this->name/vite.config.js")) && $this->line(" ⊢ Published: " . base_path("$this->name/vite.config.js"));
+            File::ensureDirectoryExists(public_path($this->name));
             File::copy(__DIR__ . '/../favicon.ico', public_path("$this->name/favicon.ico")) && $this->line(" ⊢ Published: " . public_path("$this->name/favicon.ico"));
             File::copyDirectory(__DIR__.'/../resources', base_path("$this->name/resources")) && $this->line(" ⊢ Published: " . base_path("$this->name/resources"));
             File::copyDirectory(__DIR__.'/../../database', base_path("$this->name/database")) && $this->line(" ⊢ Published: " . base_path("$this->name/database"));
