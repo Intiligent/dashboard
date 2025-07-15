@@ -1,0 +1,20 @@
+@extends('{{ name }}::layouts.default')
+
+@section('style')
+@vite(['resources/style/entries/home.scss'], '{{ name }}')
+@endsection
+
+@section('content')
+<div class="el-container el-container-sm">
+    <h2>Home Dashboard</h2>
+</div>
+@endsection
+
+@section('script')
+<script>
+window.app = Object.assign(window.app, {!! json_encode([
+    //
+]) !!});
+</script>
+@vite(['resources/js/entries/home/index.js'], '{{ name }}')
+@endsection

@@ -2,9 +2,13 @@
 
 namespace Viart\Dashboard\Console;
 
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Dotenv\Dotenv;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use DOMDocument;
@@ -44,17 +48,12 @@ class DashboardInstall extends Command
         '/stubs/Http/Controllers/HomeController.stub' => '/Http/Controllers/HomeController.php',
         '/stubs/Providers/DashboardServiceProvider.stub' => '/Providers/DashboardServiceProvider.php',
         '/stubs/resources/views/auth/login.stub' => '/resources/views/auth/login.blade.php',
+        '/stubs/resources/views/layouts/base.stub' => '/resources/views/layouts/base.blade.php',
+        '/stubs/resources/views/layouts/default.stub' => '/resources/views/layouts/default.blade.php',
+        '/stubs/resources/views/home/index.stub' => '/resources/views/home/index.blade.php',
         '/stubs/routes/api.stub' => '/routes/api.php',
         '/stubs/routes/web.stub' => '/routes/web.php',
     ];
-
-    protected function providers(): array
-    {
-        return [
-            ucfirst($this->name) . '\Providers\DashboardServiceProvider::class',
-            // ucfirst($this->name) . '\Providers\ViewServiceProvider::class',
-        ];
-    }
 
     /**
      * Node modules dependencies
@@ -93,14 +92,12 @@ class DashboardInstall extends Command
         $this->registerServiceProviders();
         $this->registerGuards();
         $this->addHtaccessRule();
-        $this->addRequireConstant();
         $this->addPhpUnitTestSuite();
+        $this->addDotEnvExampleProperties();
         // $this->addDatabaseSeeder();
+        $this->copyResources();
         $this->publishStubs();
-        // $this->copyResources();
-        // $this->packageInstall();
-
-        //
+        $this->addRequireConstant();
 
         // try {
         //     \DB::connection()->getPdo();
@@ -108,70 +105,42 @@ class DashboardInstall extends Command
         //     $this->error("Could not connect to the database. Please check your configuration. error: " . $exception->getMessage());
         //     return;
         // }
-        // $this->clearCache();
-        // $this->addMiddlewareSessionGroup() && $this->line('✔ Add middleware session group');
-        // $this->updateAuthenticateMiddleware() && $this->line('✔ Update Authenticate middleware');
-        // $this->updateRedirectIfAuthenticatedMiddleware() && $this->line('✔ Update RedirectIfAuthenticated middleware');
         
         // // $this->call('cache:clear');
         // $this->call('config:cache');
         // $this->comment('Please execute the "php artisan migrate && npm install && npm run watch" command to build your assets.');
-        // if ($this->confirm('Do you wish to call migrations?', true)) {
-        //     $this->call('migrate');
-        // }
-        // if ($this->confirm('Do you wish to seed database?', true)) {
-        //     $this->call('db:seed');
-        // }
-        // if ($this->confirm('Create new superadmin user for dashboard?', true)) {
-        //     $name = $this->askWithValidation('name', 'Input user name', ['required']);
-        //     $email = $this->askWithValidation('email', 'Input user email', ['required', 'email', 'unique:users,email']);
-        //     $password = $this->askWithValidation('name', 'Input user password', ['required', 'min:6'], 'secret');
-        //     $user = User::create([
-        //         'name' => $name,
-        //         'email' => $email,
-        //         'password' => $password,
-        //     ]);
-        //     $user->assignRole(['superadmin', 'admin'], 'dashboard');
-        //     $user && $this->line("✔ Create new user: $email");
-        // }
-        // if ($this->confirm('Do you wish to install node modules?', true)) {
-        //     (new Process(['npm', 'install'], base_path()))
-        //         ->setTimeout(null)
-        //         ->run(function ($type, $output) {
-        //             $this->output->write($output);
-        //         });
-        // }
-        // $this->info('Dashboard scaffolding installed successfully');
-        // $this->info('Run "npm run watch" for build script files and then go ahead => ' . route('dashboard.home'));
-        // $this->info('If you dont have a local server please call "php artisan serve" for serve project.');
 
-        //
-
-
-        // $this->line('-✔ Copy config files');
-        // $this->line('-✔ Add database seeder');
-        // $this->line('-✔ Add phpunit testsuite');
-        // $this->line('-✔ Add middleware session group');
-        // $this->line('-✔ Update Authenticate middleware');
-        // $this->line('-✔ Update RedirectIfAuthenticated middleware');
-
-        // $this->commandRun(['composer', 'dump-autoload'], base_path($this->name)); // '--optimize'
-        // $this->call('optimize');
-        // $this->commandRun(['php', 'artisan', 'optimize']);
-        // if ($this->confirm('Do you wish to call migrations?', true)) {
-        //     $this->call('migrate');
-        // }
-        // if ($this->confirm('Do you wish to seed database?', true)) {
-        //     $this->call('db:seed', [
-        //         '--class' => 'Dashboard\\Database\\Seeders\\DashboardSeeder',
-        //     ]);
-        // }
-        // $this->commandRun(['php', 'artisan', 'migrate']);
-        // $this->call('optimize');
-        // $this->call('migrate');
-
+        $this->newLine();
+        $this->newLine();
+        $this->commandRun(['composer', 'dump-autoload', '--optimize'], base_path());
+        $this->call('optimize');
+        if ($this->confirm('Do you wish to call migrations?', true)) {
+            $this->call('migrate');
+        }
+        if ($this->confirm('Do you wish to seed database?', true)) {
+            // $this->call('db:seed', [
+            //     '--class' => 'Dashboard\\Database\\Seeders\\DashboardSeeder',
+            // ]);
+            $this->commandRun(['php', 'artisan', 'db:seed', '--class=Dashboard\\Database\\Seeders\\DashboardSeeder', ]);
+        }
+        if ($this->confirm('Create new superadmin user for dashboard?', true)) {
+            $name = $this->askWithValidation('name', 'Input user name', ['required']);
+            $email = $this->askWithValidation('email', 'Input user email', ['required', 'email', 'unique:users,email']);
+            $password = $this->askWithValidation('name', 'Input user password', ['required', 'min:6'], 'secret');
+            $user = User::create([
+                'name' => $name,
+                'email' => $email,
+                'password' => $password,
+            ]);
+            // $user->assignRole(['superadmin', 'admin'], 'dashboard');
+            $user && $this->line("<fg=green>✓</> Create new user: $email");
+        }
+        if ($this->confirm('Do you wish to install node modules?', true)) {            
+            $this->commandRun(['npm', 'install'], base_path($this->name));
+            $this->commandRun(['npm', 'run', 'build'], base_path($this->name));
+        }
         $this->newLine()->info('Dashboard scaffolding installed successfully');
-        $this->info('Run "npm run watch" for build script files and then go ahead => dashboard.home');
+        $this->info('Run "npm run dev" for build script files and then go ahead to dashboard');
         $this->info('If you dont have a local server please call "php artisan serve" for serve project.');
     }
 
@@ -200,52 +169,62 @@ class DashboardInstall extends Command
 
     protected function registerServiceProviders(): bool
     {
-        $filePath = base_path('bootstrap/providers.php');
-
-        if (!File::exists($filePath)) {
-            $this->line('<fg=red>✕</> Register service providers. File not found: ' . $filePath);
+        $provider = ucfirst($this->name) . '\Providers\DashboardServiceProvider';
+        if (!method_exists(ServiceProvider::class, 'addProviderToBootstrapFile')) {
+            $this->line('<fg=red>✕</> Fail register service providers. Add manually: ' . $provider);
             return false;
         }
+        ServiceProvider::addProviderToBootstrapFile($provider);
+        $this->line('<fg=green>✓</> Register service providers.');
 
-        try {
-            $contents = File::get($filePath);
-            $insertions = [];
+        return true;
 
-            foreach ($this->providers() as $provider) {
-                if (strpos($contents, $provider) === false) {
-                    $insertions[] = "    $provider,";
-                    $this->line("<fg=blue>+</> Add new service provider: $provider");
-                } else {
-                    $this->line("<fg=yellow>ℹ</> Provider already exists: $provider");
-                }
-            }
+        // $filePath = base_path('bootstrap/providers.php');
 
-            if (empty($insertions)) {
-                $this->line('<fg=green>✓</> Register service providers.');
-                return true;
-            }
+        // if (!File::exists($filePath)) {
+        //     $this->line('<fg=red>✕</> Register service providers. File not found: ' . $filePath);
+        //     return false;
+        // }
 
-            $contents = preg_replace_callback('/(return\s*\[\s*)(.*?)(\s*];)/s', function ($matches) use ($insertions) {
-                $lines = explode('\n', rtrim($matches[2]));
+        // try {
+        //     $contents = File::get($filePath);
+        //     $insertions = [];
 
-                // check on semicolum at the last line
-                $lastLineIndex = count($lines) - 1;
-                if (!str_ends_with(trim($lines[$lastLineIndex]), ',')) {
-                    $lines[$lastLineIndex] .= ',';
-                }
+        //     foreach ($this->providers() as $provider) {
+        //         if (strpos($contents, $provider) === false) {
+        //             $insertions[] = "    $provider,";
+        //             $this->line("<fg=blue>+</> Add new service provider: $provider");
+        //         } else {
+        //             $this->line("<fg=yellow>ℹ</> Provider already exists: $provider");
+        //         }
+        //     }
 
-                $lines = array_merge($lines, $insertions);
+        //     if (empty($insertions)) {
+        //         $this->line('<fg=green>✓</> Register service providers.');
+        //         return true;
+        //     }
 
-                return $matches[1] . implode("\n", $lines) . $matches[3];
-            }, $contents);
+        //     $contents = preg_replace_callback('/(return\s*\[\s*)(.*?)(\s*];)/s', function ($matches) use ($insertions) {
+        //         $lines = explode('\n', rtrim($matches[2]));
 
-            File::put($filePath, $contents);    
-            $this->line('<fg=green>✓</> Register service providers.');        
-            return true;
-        } catch (Exception $exception) {
-            $this->line('<fg=red>✕</> Register service providers. ' . $exception->getMessage());
-            return false;
-        }
+        //         // check on semicolum at the last line
+        //         $lastLineIndex = count($lines) - 1;
+        //         if (!str_ends_with(trim($lines[$lastLineIndex]), ',')) {
+        //             $lines[$lastLineIndex] .= ',';
+        //         }
+
+        //         $lines = array_merge($lines, $insertions);
+
+        //         return $matches[1] . implode("\n", $lines) . $matches[3];
+        //     }, $contents);
+
+        //     File::put($filePath, $contents);    
+        //     $this->line('<fg=green>✓</> Register service providers.');        
+        //     return true;
+        // } catch (Exception $exception) {
+        //     $this->line('<fg=red>✕</> Register service providers. ' . $exception->getMessage());
+        //     return false;
+        // }
     }
 
     protected function addHtaccessRule(): bool
@@ -269,7 +248,7 @@ class DashboardInstall extends Command
 HTACCESS;
 
             if (strpos($contents, "RewriteCond %{REQUEST_URI} ^/$this->name") !== false) {
-                $this->line("<fg=yellow>ℹ</> Rule for /$this->name in .htaccess already exists");
+                $this->line("<fg=green>✓</> Rule for /$this->name in .htaccess already exists");
                 return true;
             }
 
@@ -328,7 +307,7 @@ HTACCESS;
             $contents = File::get($filePath);
 
             if (config("auth.guards.$this->name")) {
-                $this->line("<fg=yellow>ℹ</> Guard '$this->name' already exists");
+                $this->line("<fg=green>✓</> Guard '$this->name' already exists");
                 return true;
             }
 
@@ -356,10 +335,14 @@ HTACCESS;
     protected function copyResources(): bool
     {
         try {
+            File::ensureDirectoryExists(base_path($this->name));
             File::copy(__DIR__ . '/../constants.php', base_path('bootstrap/constants.php')) && $this->line(" ⊢ Published: " . base_path('bootstrap/constants.php'));
             File::copy(__DIR__ . '/../package.json', base_path("$this->name/package.json")) && $this->line(" ⊢ Published: " . base_path("$this->name/package.json"));
             File::copy(__DIR__ . '/../.gitignore', base_path("$this->name/.gitignore")) && $this->line(" ⊢ Published: " . base_path("$this->name/.gitignore"));
-            File::copyDirectory(__DIR__.'/../../database', base_path("$this->name/database"));
+            File::copy(__DIR__ . '/../vite.config.js', base_path("$this->name/vite.config.js")) && $this->line(" ⊢ Published: " . base_path("$this->name/vite.config.js"));
+            File::copy(__DIR__ . '/../favicon.ico', public_path("$this->name/favicon.ico")) && $this->line(" ⊢ Published: " . public_path("$this->name/favicon.ico"));
+            File::copyDirectory(__DIR__.'/../resources', base_path("$this->name/resources")) && $this->line(" ⊢ Published: " . base_path("$this->name/resources"));
+            File::copyDirectory(__DIR__.'/../../database', base_path("$this->name/database")) && $this->line(" ⊢ Published: " . base_path("$this->name/database"));
             $this->line("<fg=green>✓</> Copy resources");
 
             return true;
@@ -374,7 +357,7 @@ HTACCESS;
     {
         try {
             foreach ($this->views as $stub => $destination) {
-                $stubPath = __DIR__ . '/../../' . $stub;
+                $stubPath = __DIR__ . '/../../' . ltrim($stub, '/');
                 $outputPath = base_path($this->name . $destination);
 
                 if (!File::exists($stubPath)) {
@@ -404,7 +387,7 @@ HTACCESS;
         }
     }
 
-    public function addPhpunitTestsuite()
+    protected function addPhpunitTestsuite()
     {
         $filePath = base_path('phpunit.xml');
 
@@ -418,23 +401,77 @@ HTACCESS;
             $document->preserveWhiteSpace = false;
             $document->formatOutput = true;
             $document->load($filePath);
+            $suites = [
+                'FeatureDashboard' => "./$this->name/tests/Feature",
+                'UnitDashboard' => "./$this->name/tests/Unit",
+            ];
             $testsuites = $document->getElementsByTagName('testsuites')->item(0);
-            $nodeFeature = $document->createDocumentFragment();
-            $nodeFeature->appendXML('<testsuite name="FeatureDashboard"><directory suffix="Test.php">./' . $this->name . '/tests/Feature</directory></testsuite>');
-            $testsuites->appendChild($nodeFeature);
-            $nodeUnit = $document->createDocumentFragment();
-            $nodeUnit->appendXML('<testsuite name="UnitDashboard"><directory suffix="Test.php">./' . $this->name . '/tests/Unit</directory></testsuite>');
-            $testsuites->appendChild($nodeUnit);
-            $content = preg_replace_callback('/^( +)</m', function($a) {
-                return str_repeat(' ', intval(strlen($a[1]) / 2) * 4).'<';
-            }, $document->saveXML());
-            File::put($filePath, $content);
-            $this->line("<fg=green>✓</> Add phpunit testsuite");
+            $currentNames = array_map(function ($node) {
+                return $node->getAttribute('name');
+            }, iterator_to_array($testsuites->getElementsByTagName('testsuite')));
+            $newItem = false;
+            
+            foreach ($suites as $name => $directory) {
+                if (!in_array($name, $currentNames)) {
+                    $nodeFeature = $document->createDocumentFragment();
+                    $nodeFeature->appendXML('<testsuite name="'.$name.'"><directory suffix="Test.php">'.$directory.'</directory></testsuite>');
+                    $testsuites->appendChild($nodeFeature);
+                    $newItem = true;
+                }
+            }
+
+            if ($newItem) {
+                $content = preg_replace_callback('/^( +)</m', function($a) {
+                    return str_repeat(' ', intval(strlen($a[1]) / 2) * 4).'<';
+                }, $document->saveXML());
+                File::put($filePath, $content);
+                $this->line("<fg=green>✓</> Add phpunit testsuite");
+            } else {
+                $this->line("<fg=green>✓</> Add phpunit testsuite. Already exist");
+            }
 
             return true;
         } catch (Exception $exception) {
             $this->line('<fg=red>✕</> Add phpunit testsuite. ' . $exception->getMessage());
 
+            return false;
+        }
+    }
+
+    protected function addDotEnvExampleProperties(): bool
+    {
+        $filePath = base_path('.env.example');
+
+        if (!File::exists($filePath)) {
+            $this->line("<fg=red>✕</> Add .env.example properties. File $filePath not found");
+            return false;
+        }
+
+        try {
+            $vars = File::get($filePath);
+            $dotenv = Dotenv::parse($vars);
+            $properties = [
+                'VITE_SERVER_HOST' => '',
+                'VITE_SERVER_HMR_HOST' => '${VITE_SERVER_HOST}',
+                'VITE_SERVER_PORT' => '',
+                'VITE_SERVER_HTTPS_KEY' => '',
+                'VITE_SERVER_HTTPS_CERT' => '',
+            ];
+            $missing = array_diff_key($properties, $dotenv);
+            if (empty($missing)) {
+                $this->line("<fg=green>✓</> Add .env.example properties. Already exist");
+                return true;
+            }
+
+            $envString = implode(PHP_EOL, array_map(function ($key, $value) {
+                return "$key=$value";
+            }, array_keys($missing), $missing));
+            File::append($filePath, PHP_EOL . $envString . PHP_EOL);
+            $this->line("<fg=green>✓</> Add .env.example properties");
+
+            return true;
+        } catch (Exception $exception) {
+            $this->line('<fg=red>✕</> Add phpunit testsuite. ' . $exception->getMessage());
             return false;
         }
     }
@@ -491,21 +528,38 @@ HTACCESS;
         }
     }
 
+    /**
+     * Command line input value with validation
+     *
+     * @param string $name [field name]
+     * @param string $message [ask message]
+     * @param array  $rules [validation rules]
+     * @param string $type [ask|secret]
+     * @return string [input value]
+     */
+    protected function askWithValidation(string $name, string $message, array $rules = [], string $type = 'ask')
+    {
+        $answer = $this->$type($message);
+        $validator = Validator::make([$name => $answer], [$name => $rules]);
+        if ($validator->passes()) {
+            return $answer;
+        }
+        foreach ($validator->errors()->all() as $error) {
+            $this->error($error);
+        }
+        return $this->askWithValidation($name, $message, $rules, $type);
+    }
+
     protected function commandRun(array $command, ?string $directory = null)
     {
         $process = new Process($command, $directory);
 
         try {
-            $process->mustRun(function ($type, $buffer) {
+            $process->setTimeout(null)->mustRun(function ($type, $buffer) {
                 $this->output->write($buffer);
             });
         } catch (ProcessFailedException $e) {
             $this->error($e->getMessage());
         }
-    }
-
-    protected function packageInstall()
-    {
-        $this->commandRun(['npm', 'install'], base_path($this->name));
     }
 }

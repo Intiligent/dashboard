@@ -1,0 +1,89 @@
+@use 'element-plus/theme-chalk/src/common/var' as *;
+@use 'element-plus/theme-chalk/src/mixins/mixins' as *;
+
+html {
+    height: 100%;
+}
+body {
+    font-family: getCssVar('font-family');
+    font-weight: 400;
+    font-size: getCssVar('font-size', 'base');
+    color: getCssVar('text-color', 'primary');
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    margin: 0;
+    padding: 0;
+    height: inherit;
+}
+
+input, textarea, button {
+    font-family: inherit;
+}
+
+a {
+    color: getCssVar('color', 'primary');
+    text-decoration: none;
+    &:focus, &:hover {
+        color: getCssVar('color-primary', 'light-3');
+        text-decoration: underline;
+    }
+    &:active {
+        color: getCssVar('color-primary', 'dark-2');
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    // color: getCssVar('text-color', 'regular');
+    font-weight: inherit;
+    &:first-child {
+        margin-top: 0;
+    }
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+h1 {
+    font-size: getCssVar('font-size', 'extra-large');
+    font-weight: 800;
+}
+
+h2 {
+    font-size: getCssVar('font-size', 'large');
+    font-weight: 800;
+}
+
+h3 {
+    font-size: getCssVar('font-size', 'medium');
+    font-weight: 700;
+}
+
+h4, h5, h6, p {
+    font-size: inherit;
+}
+
+p {
+    line-height: 1.8;
+    &:first-child {
+        margin-top: 0;
+    }
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+sub, sup {
+    font-size: calc(getCssVar('font-size', 'small') - 2px);
+}
+
+small {
+    font-size: calc(getCssVar('font-size', 'base') - 2px);
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid getCssVar('border-color', 'lighter');
+}

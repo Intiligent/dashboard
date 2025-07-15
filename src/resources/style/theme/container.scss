@@ -1,0 +1,108 @@
+@use 'element-plus/theme-chalk/src/common/var' as *;
+@use 'variables';
+
+.el-container {
+    display: flow-root;
+    /* 1 */
+    box-sizing: content-box;
+    max-width: variables.$container-default;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: variables.$container-padding-horizontal;
+    padding-right: variables.$container-padding-horizontal;
+}
+/* Phone landscape and bigger */
+@media (min-width: variables.$xs) {
+    .el-container {
+        padding-left: variables.$container-padding-horizontal-xs;
+        padding-right: variables.$container-padding-horizontal-xs;
+    }
+}
+
+/* Phone landscape and bigger */
+@media (min-width: $sm) {
+    .el-container {
+        padding-left: variables.$container-padding-horizontal-sm;
+        padding-right: variables.$container-padding-horizontal-sm;
+    }
+}
+
+/* Tablet landscape and bigger */
+@media (min-width: $md) {
+    .el-container {
+        padding-left: variables.$container-padding-horizontal;
+        padding-right: variables.$container-padding-horizontal;
+    }
+}
+
+/*
+ * Remove margin from the last-child
+ */
+
+.el-container > :last-child {
+    margin-bottom: 0;
+}
+
+/*
+ * Remove padding from nested containers
+ */
+
+.el-container .el-container.el-container-collapse {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.el-container-expand-collapse {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+}
+
+/* Size modifier
+ ========================================================================== */
+
+.el-container-xs {
+    max-width: variables.$container-xs;
+}
+.el-container-sm {
+    max-width: variables.$container-sm;
+}
+.el-container-md {
+    max-width: variables.$container-md;
+}
+.el-container-lg {
+    max-width: variables.$container-lg;
+}
+.el-container-xl {
+    max-width: variables.$container-xl;
+}
+.el-container-expand {
+    max-width: none;
+}
+
+/* Expand modifier
+ ========================================================================== */
+
+/*
+ * Expand one side only
+ */
+
+.el-container-expand-left {
+    margin-left: 0;
+}
+.el-container-expand-right {
+    margin-right: 0;
+}
+
+/* Space modifier
+ ========================================================================== */
+
+.el-container-space-xs {
+    padding-left: variables.$container-padding-horizontal-xs;
+    padding-right: variables.$container-padding-horizontal-xs;
+}
+
+.el-container-space-sm {
+    padding-left: variables.$container-padding-horizontal-sm;
+    padding-right: variables.$container-padding-horizontal-sm;
+}

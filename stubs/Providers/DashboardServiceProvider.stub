@@ -2,6 +2,8 @@
 
 namespace {{ namespace }}\Providers;
 
+use Illuminate\Auth\Middleware\Authenticate;
+use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,6 +26,15 @@ class DashboardServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->setupRoutes();
+        $this->setupAuthRedirects();
+        $this->loadViewsFrom(base_path('{{ name }}/resources/views'), '{{ name }}');
+        $this->loadMigrationsFrom(base_path('{{ name }}/database/migrations'));
+        // $this->loadTranslationsFrom(base_path('{{ name }}/resources/lang'), '{{ name }}');
+    }
+
+    protected function setupRoutes(): void
+    {
         Route::middleware('web')
             ->prefix('{{ name }}')
             ->group(base_path('{{ name }}/routes/web.php'));
@@ -32,9 +43,19 @@ class DashboardServiceProvider extends ServiceProvider
             ->prefix('api/{{ name }}')
             ->name('api.')
             ->group(base_path('{{ name }}/routes/api.php'));
+    }
 
-        $this->loadViewsFrom(base_path('{{ name }}/resources/views'), '{{ name }}');
-        $this->loadMigrationsFrom(base_path('{{ name }}/database/migrations'));
-        // $this->loadTranslationsFrom(base_path('{{ name }}/resources/lang'), '{{ name }}');
+    protected function setupAuthRedirects()
+    {
+        Authenticate::redirectUsing(function ($request) {
+            if ($request->is('{{ name }}*')) {
+                return route('{{ name }}.login');
+            }
+        });
+        RedirectIfAuthenticated::redirectUsing(function ($request) {
+            if ($request->is('{{ name }}*')) {
+                return route('{{ name }}.home');
+            }
+        });
     }
 }

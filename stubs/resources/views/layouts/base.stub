@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        @include('{{ name }}::components.head')
+        @yield('style')
+    </head>
+    <body>
+        <div id="root" class="el-height-1-1">
+            <main class="el-height-1-1" style="padding: 0;">
+                @yield('content')
+            </main>
+        </div>
+        @yield('script')
+    </body>
+</html>

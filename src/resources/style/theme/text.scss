@@ -1,0 +1,266 @@
+// @import "common/var";
+//
+// /* Add margin if adjacent element */
+// * + h1, * + .el-h1,
+// * + h2, * + .el-h2,
+// * + h3, * + .el-h3,
+// * + h4, * + .el-h4,
+// * + h5, * + .el-h5,
+// * + h6, * + .el-h6 { margin-top: $--margin-default; }
+//
+// /*
+//  * Sizes
+//  */
+//
+// h1, .el-h1 {
+//     font-size: $--h1-font-size;
+//     line-height: $--h1-line-height;
+// }
+//
+// h2, .el-h2 {
+//     font-size: $--h2-font-size;
+//     line-height: $--h2-line-height;
+// }
+//
+// h3, .el-h3 {
+//     font-size: $--h3-font-size;
+//     line-height: $--h3-line-height;
+// }
+//
+// h4, .el-h4 {
+//     font-size: $--h4-font-size;
+//     line-height: $--h4-line-height;
+// }
+//
+// h5, .el-h5 {
+//     font-size: $--h5-font-size;
+//     line-height: $--h5-line-height;
+// }
+//
+// h6, .el-h6 {
+//     font-size: $--h6-font-size;
+//     line-height: $--h6-line-height;
+// }
+//
+// /* Tablet landscape and bigger */
+// @media (min-width: $--md) {
+//
+//     h1, .el-h1 { font-size: $--h1-font-size-md; }
+//     h2, .el-h2 { font-size: $--h2-font-size-md; }
+//
+// }
+//
+// .el-text-meta {
+//     font-size: $--text-meta-font-size;
+//     line-height: $--text-meta-line-height;
+//     color: $--text-meta-color;
+// }
+//
+// /* Headings
+//  ========================================================================== */
+// h1, .el-h1,
+// h2, .el-h2,
+// h3, .el-h3,
+// h4, .el-h4,
+// h5, .el-h5,
+// h6, .el-h6 {
+//     // color: $--heading-color;
+//     font-weight: inherit;
+//
+// 	&:first-child {
+// 		margin-top: 0;
+// 	}
+//
+// 	&:last-child {
+// 		margin-bottom: 0;
+// 	}
+// }
+
+/* Size modifiers
+ ========================================================================== */
+
+.el-text-sm {
+    font-size: var(--el-font-size-small);
+    // line-height: $--text-small-line-height;
+}
+
+// .el-text-lg {
+//     font-size: $--text-large-font-size;
+//     line-height: $--text-large-line-height;
+// }
+//
+// .el-text-default {
+//     font-size: $--size-base;
+//     line-height: $--font-line-height-primary;
+// }
+
+/* Weight modifier
+ ========================================================================== */
+
+.el-text-light { font-weight: 300; }
+.el-text-normal { font-weight: 400; }
+.el-text-bold { font-weight: 600; }
+
+.el-text-lighter { font-weight: lighter; }
+.el-text-bolder { font-weight: bolder; }
+
+/* Style modifier
+ ========================================================================== */
+
+.el-text-italic { font-style: italic; }
+
+/* Transform modifier
+ ========================================================================== */
+
+.el-text-capitalize { text-transform: capitalize !important; }
+.el-text-uppercase { text-transform: uppercase !important; }
+.el-text-lowercase { text-transform: lowercase !important; }
+
+// /* Color modifiers
+//  ========================================================================== */
+//
+.el-text-white { color: var(--el-color-white); }
+.el-text-muted { color: var(--el-text-color-placeholder); }
+// .el-text-emphasis { color: $--text-emphasis-color !important; }
+// .el-text-primary { color: $--text-primary-color !important; }
+.el-text-secondary { color: var(--el-text-color-secondary); }
+.el-text-success { color: var(--el-color-success); }
+.el-text-warning { color: var(--el-color-warning); }
+.el-text-danger { color: var(--el-color-danger); }
+//
+// /* Background modifier
+//  ========================================================================== */
+//
+// /*
+//  * 1. The background clips to the foreground text. Works in Chrome, Firefox, Safari, Edge and Opera
+//  *    Default color is set to transparent
+//  * 2. Container fits the text
+//  * 3. Fallback color for IE11
+//  */
+//
+// .el-text-background {
+//     /* 1 */
+//     -webkit-background-clip: text;
+//     /* 2 */
+//     display: inline-block;
+//     /* 3 */
+//     color: $--color-primary !important;
+// }
+//
+// @supports (-webkit-background-clip: text) {
+//
+//     .el-text-background {
+//         background-color: $--color-primary;
+//         color: transparent !important;
+//     }
+//
+// }
+
+/* Alignment modifiers
+ ========================================================================== */
+
+.el-text-left { text-align: left !important; }
+.el-text-right { text-align: right !important; }
+.el-text-center { text-align: center !important; }
+.el-text-justify { text-align: justify !important; }
+
+// /* Phone landscape */
+// @media (min-width: $--xs) {
+//
+//     .el-text-left\@xs { text-align: left !important; }
+//     .el-text-right\@xs { text-align: right !important; }
+//     .el-text-center\@xs { text-align: center !important; }
+//
+// }
+//
+// /* Phone landscape and bigger */
+// @media (min-width: $--sm) {
+//
+//     .el-text-left\@sm { text-align: left !important; }
+//     .el-text-right\@sm { text-align: right !important; }
+//     .el-text-center\@sm { text-align: center !important; }
+//
+// }
+//
+// /* Tablet landscape and bigger */
+// @media (min-width: $--md) {
+//
+//     .el-text-left\@md { text-align: left !important; }
+//     .el-text-right\@md { text-align: right !important; }
+//     .el-text-center\@md { text-align: center !important; }
+//
+// }
+//
+// /* Desktop and bigger */
+// @media (min-width: $--lg) {
+//
+//     .el-text-left\@lg { text-align: left !important; }
+//     .el-text-right\@lg { text-align: right !important; }
+//     .el-text-center\@lg { text-align: center !important; }
+//
+// }
+//
+// /* Large screen and bigger */
+// @media (min-width: $--xl) {
+//
+//     .el-text-left\@xl { text-align: left !important; }
+//     .el-text-right\@xl { text-align: right !important; }
+//     .el-text-center\@xl { text-align: center !important; }
+//
+// }
+//
+// /*
+//  * Vertical
+//  */
+//
+// .el-text-top { vertical-align: top !important; }
+// .el-text-middle { vertical-align: middle !important; }
+// .el-text-bottom { vertical-align: bottom !important; }
+// .el-text-baseline { vertical-align: baseline !important; }
+
+/* Wrap modifiers
+ ========================================================================== */
+
+/*
+ * Prevent text from wrapping onto multiple lines
+ */
+
+.el-text-nowrap { white-space: nowrap; }
+
+/*
+ * 1. Make sure a max-width is set after which truncation can occur
+ * 2. Prevent text from wrapping onto multiple lines, and truncate with an ellipsis
+ * 3. Fix for table cells
+ */
+
+.el-text-truncate {
+    /* 1 */
+    max-width: 100%;
+    /* 2 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 2 */
+th.el-text-truncate,
+td.el-text-truncate { max-width: 0; }
+
+/*
+ * 1. Wrap long words onto the next line and break them if they are too long to fit
+ * 2. Legacy `word-wrap` as fallback for `overflow-wrap`
+ * 3. Fix `overflow-wrap` which doesn't work with table cells in Chrome, Opera, IE11 and Edge
+ *    Must use `break-all` to support IE11 and Edge
+ * Note: Not using `hyphens: auto;` because it hyphenates text even if not needed
+ */
+
+.el-text-break {
+    /* 1 */
+    overflow-wrap: break-word;
+    /* 2 */
+    word-wrap: break-word;
+}
+
+/* 3 */
+th.el-text-break,
+td.el-text-break { word-break: break-all; }

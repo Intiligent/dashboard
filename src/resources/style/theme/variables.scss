@@ -1,0 +1,46 @@
+// colors
+$input-text-color-active: #124ec6;
+// break point
+$xs: 360px !default;
+$sm: 640px !default;
+$md: 960px !default;
+$lg: 1320px !default;
+$xl: 1600px !default;
+$xxl: 1920px !default;
+
+// width
+$width-xs: 100px !default;
+$width-sm: 150px !default;
+$width-md: 320px !default;
+$width-lg: 450px !default;
+$width-xl: 600px !default;
+$width-xxl: 750px !default;
+
+// Horisontal space. Used in grid, column, container, align, card, padding
+$gutter-default: 20px !default;
+$gutter-xs: 5px !default;
+$gutter-sm: 10px !default;
+$gutter-md: 30px !default;
+$gutter-lg: 40px !default;
+$gutter-xl: 60px !default;
+
+// Spacings: Used in margin, section, list
+$margin-default: 20px !default;
+$margin-xs: 5px !default;
+$margin-sm: 10px !default;
+$margin-md: 40px !default;
+$margin-lg: 60px !default;
+$margin-xl: 120px !default;
+
+// container width
+$container-default: $lg;
+$container-xs: $xs;
+$container-sm: $sm;
+$container-md: $md;
+$container-lg: $lg;
+$container-xl: $xl;
+
+// container space
+$container-padding-horizontal: $gutter-default !default;
+$container-padding-horizontal-xs: $gutter-xs !default;
+$container-padding-horizontal-sm: $gutter-sm !default;

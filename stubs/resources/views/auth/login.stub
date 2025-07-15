@@ -9,7 +9,7 @@
     <div class="el-flex el-flex-center el-flex-middle" style="background-color: var(--el-color-primary);">
         <div class="">
             <div class="">
-                <img style="max-width: 280px;" src="/assets/images/logo-full.png" alt="">
+                <img style="max-width: 280px;" src="/assets/images/logo-square.png" alt="">
             </div>
         </div>
     </div>

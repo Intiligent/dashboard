@@ -1,0 +1,161 @@
+
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+    $border-radius: (
+        'base': 5px,
+    ),
+    $button-font-size: (
+        'large': 16px,
+    ),
+    $card: (
+        'border-radius': 8px,
+    ),
+    $colors: (
+        'primary': (
+            // 'base': #0d6efd,
+            'base': #002d6a,
+        ),
+        'success': (
+            'base': #198754,
+        ),
+        'warning': (
+            'base': #e29a2e,
+        ),
+        'danger': (
+            'base': #FF5300,
+        ),
+    ),
+    $empty: (
+        'padding': 20px 0,
+    ),
+    $input-font-size: (
+        'large': 20px,
+        'small': 13px,
+    ),
+    $input-padding-horizontal: (
+        'default': 11px,
+    ),
+    $font-size: (
+        'base': 15px,
+        'medium': 20px,
+        'large': 26px,
+        'extra-large': 28px,
+    ),
+    $font-family: (
+        '': "-apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serifsans-serif",
+    ),
+    $message: (
+        'close-size': 22px,
+    ),
+    $messagebox: (
+        'border-radius': 8px,
+        'font-weight': bold,
+        'width': 480px,
+        'padding-primary': 24px,
+    ),
+    $menu: (
+        'active-color': #9cffc8,
+        'bg-color': transparent,
+        'item-height': 46px,
+        'sub-item-height': 40px,
+        'text-color': #FFFFFF,
+        'hover-text-color': #FFFFFF,
+        'border-color': none,
+        'item-font-size': 16px,
+        'horizontal-height': auto,
+        'base-level-padding': none,
+        'hover-bg-color': #0c4084,
+    ),
+    $pagination: (
+        'border-radius': 4px,
+        'button-width': 36px,
+        'button-height': 36px,
+    ),
+    $result: (
+        'padding': 20px 30px,
+    ),
+    $select-option: (
+        'height': auto,
+    ),
+    $select-dropdown: (
+        'padding': 6px,
+        'empty-padding': 30px 0,
+    ),
+    $select-item-gap: (
+        'default': 4px,
+    ),
+    $text-color: (
+        'secondary': #6c7576,
+    ),
+    $popover: (
+        'padding': 12px 15px,
+    ),
+);
+// @use '../theme/variable.scss';
+@use 'element-plus/theme-chalk/src/var';
+@use 'element-plus/theme-chalk/src/mixins/function' as *;
+@use 'element-plus/theme-chalk/src/common/transition';
+@use '../theme/reset.scss';
+@use '../theme/container.scss';
+@use '../theme/text.scss';
+@use '../theme/grid.scss';
+@use '../theme/width.scss';
+@use '../theme/flex.scss';
+// @use '~element-plus/theme-chalk/src/height.scss';
+// @use '../theme/margin.scss';
+// @use '~element-plus/theme-chalk/src/position.scss';
+// @use '~element-plus/theme-chalk/src/utility.scss';
+// @use '~element-plus/theme-chalk/src/tag.scss';
+// @use '~element-plus/theme-chalk/src/avatar.scss';
+// @use '~element-plus/theme-chalk/src/drawer.scss';
+// @use '~element-plus/theme-chalk/src/menu.scss';
+@use 'element-plus/theme-chalk/src/icon.scss';
+// @use '~style/theme/icons.scss';
+// @use '~element-plus/theme-chalk/src/overlay.scss';
+// @use '~element-plus/theme-chalk/src/message-box.scss';
+// @use '~element-plus/theme-chalk/src/button.scss';
+// @use '~element-plus/theme-chalk/src/notification.scss';
+
+// :root {
+//     //
+// }
+
+[hidden],
+[v-cloak] {
+    display: none;
+}
+
+#root {
+    min-height: 100%;
+}
+
+// ElButton
+.el-button {
+    &.is-narrow {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+
+// ElDropdown
+.el-select-dropdown {
+    .el-select-dropdown__item {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        border-radius: var(--el-border-radius-base);
+    }
+}
+
+// ElSelect
+// .el-select {
+    // .el-select__wrapper {
+    //     gap: 10px;
+    // }
+// }
+// .el-select__prefix {
+//     margin-left: -2px;
+// }
+// .el-select-dropdown__subtitle {
+//     font-size: var(--el-font-size-small);
+//     color: var(--el-text-color-placeholder);
+//     white-space: normal;
+// }

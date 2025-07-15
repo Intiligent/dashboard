@@ -1,0 +1,88 @@
+// @use 'common/var' as *;
+
+[class*='el-height'] {
+  box-sizing: border-box;
+}
+
+/*
+ * Only works if parent element has a height set
+ */
+
+.el-height-1-1 {
+  height: 100%;
+}
+.el-height-1-2 {
+  height: 50%;
+}
+
+.el-height-1-3 {
+  height: 33.33%;
+}
+.el-height-2-3 {
+  height: 66.66%;
+}
+
+.el-height-1-4 {
+  height: 25%;
+}
+.el-height-2-4 {
+  height: 50%;
+}
+.el-height-3-4 {
+  height: 75%;
+}
+
+.el-height-inherit {
+  height: inherit;
+}
+
+/*
+ * Useful to create image teasers
+ */
+
+.el-height-viewport {
+  min-height: 100vh;
+}
+
+/*
+ * Pixel
+ * Useful for `overflow: auto`
+ */
+
+// .el-height-xs {
+//   height: $height-xs;
+// }
+// .el-height-sm {
+//   height: $height-sm;
+// }
+// .el-height-md {
+//   height: $height-md;
+// }
+// .el-height-lg {
+//   height: $height-lg;
+// }
+// .el-height-xl {
+//   height: $height-xl;
+// }
+// .el-height-xxl {
+//   height: $height-xxl;
+// }
+//
+// .el-height-max-xs {
+//   max-height: $height-xs;
+// }
+// .el-height-max-sm {
+//   max-height: $height-sm;
+// }
+// .el-height-max-md {
+//   max-height: $height-md;
+// }
+// .el-height-max-lg {
+//   max-height: $height-lg;
+// }
+// .el-height-max-xl {
+//   max-height: $height-xl;
+// }
+// .el-height-max-xxl {
+//   max-height: $height-xxl;
+// }
