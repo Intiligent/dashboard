@@ -5,9 +5,7 @@
 @endsection
 
 @section('content')
-<div class="el-container el-container-sm">
-    <h2>Home Dashboard</h2>
-</div>
+<layout-view v-cloak></layout-view>
 @endsection
 
 @section('script')

@@ -1,10 +1,11 @@
+'use strict';
+
 import { createApp } from 'vue';
-import { get } from 'lodash';
+import LayoutView from './view';
 
 const app = createApp({
-    setup() {
-        get('r', {r: 123});
-        console.log('setup home dashboard');
+    components: {
+        LayoutView,
     },
 });
 

@@ -151,7 +151,7 @@ class DashboardInstall extends Command
         }
         $this->newLine()->info('Dashboard scaffolding installed successfully');
         $this->info('If you dont have a local server please call "php artisan serve" for serve project.');
-        $this->info('Go ahead: ' . route($this->name . '.login'));
+        $this->info('Go ahead: ' . url($this->name));
     }
 
     protected function updateRootComposer(): bool
@@ -351,7 +351,7 @@ HTACCESS;
             File::copy(__DIR__ . '/../.gitignore', base_path("$this->name/.gitignore")) && $this->line(" ⊢ Published: " . base_path("$this->name/.gitignore"));
             File::copy(__DIR__ . '/../vite.config.js', base_path("$this->name/vite.config.js")) && $this->line(" ⊢ Published: " . base_path("$this->name/vite.config.js"));
             File::ensureDirectoryExists(public_path($this->name));
-            File::copy(__DIR__ . '/../favicon.ico', public_path("$this->name/favicon.ico")) && $this->line(" ⊢ Published: " . public_path("$this->name/favicon.ico"));
+            File::copy(__DIR__ . '/../favicon.ico', public_path($this->name.'/favicon.ico')) && $this->line(" ⊢ Published: " . public_path("$this->name/favicon.ico"));
             File::copyDirectory(__DIR__.'/../resources', base_path("$this->name/resources")) && $this->line(" ⊢ Published: " . base_path("$this->name/resources"));
             File::copyDirectory(__DIR__.'/../../database', base_path("$this->name/database")) && $this->line(" ⊢ Published: " . base_path("$this->name/database"));
             $this->line("<fg=green>✓</> Copy resources");

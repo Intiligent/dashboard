@@ -5,6 +5,9 @@ import laravel from 'laravel-vite-plugin';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import path from 'path';
 import { readFileSync } from 'fs';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
 function makeServerOptions() {
     const serverOptions = {
@@ -26,6 +29,7 @@ function makeServerOptions() {
 export default defineConfig({
     server: makeServerOptions(),
     plugins: [
+        vue(),
         laravel({
             input: [
                 // 'resources/js/entries/units/index.js',
@@ -47,7 +51,12 @@ export default defineConfig({
                 },
             ],
         }),
-        vue(),
+        AutoImport({
+            resolvers: [ElementPlusResolver()],
+        }),
+        Components({
+            resolvers: [ElementPlusResolver()],
+        }),
         // compression({
         //     algorithm: 'gzip',
         //     ext: '.gz',
@@ -82,9 +91,9 @@ export default defineConfig({
         },
     },
     resolve: {
+        extensions: ['.js', '.ts', '.vue'],
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
-            '@': path.resolve(__dirname, 'resources/js'),
         },
     },
     envDir: path.resolve(__dirname, '..'),
